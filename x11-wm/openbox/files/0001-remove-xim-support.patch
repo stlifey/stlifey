@@ -1,0 +1,95 @@
+From 0ea09fc48d63d94559c1fdc8bf8bfa3f67c4b0c0 Mon Sep 17 00:00:00 2001
+From: stlifey <stlifey@gmail.com>
+Date: Thu, 17 May 2012 18:00:15 +0800
+Subject: [PATCH 1/2] remove xim support
+
+---
+ obt/keyboard.c |   58 --------------------------------------------------------
+ 1 files changed, 0 insertions(+), 58 deletions(-)
+
+diff --git a/obt/keyboard.c b/obt/keyboard.c
+index ef2678b..536e162 100644
+--- a/obt/keyboard.c
++++ b/obt/keyboard.c
+@@ -42,7 +42,6 @@ struct _ObtIC
+ #define nth_mask(n) (1 << n)
+ 
+ static void set_modkey_mask(guchar mask, KeySym sym);
+-static void xim_init(void);
+ void obt_keyboard_shutdown();
+ void obt_keyboard_context_renew(ObtIC *ic);
+ 
+@@ -70,8 +69,6 @@ void obt_keyboard_reload(void)
+     if (started) obt_keyboard_shutdown(); /* free stuff */
+     started = TRUE;
+ 
+-    xim_init();
+-
+     /* reset the keys to not be bound to any masks */
+     for (i = 0; i < OBT_KEYBOARD_NUM_MODKEYS; ++i)
+         modkeys_keys[i] = 0;
+@@ -135,61 +132,6 @@ void obt_keyboard_shutdown(void)
+     started = FALSE;
+ }
+ 
+-void xim_init(void)
+-{
+-    GSList *it;
+-    gchar *aname, *aclass;
+-
+-    aname = g_strdup(g_get_prgname());
+-    if (!aname) aname = g_strdup("obt");
+-
+-    aclass = g_strdup(aname);
+-    if (g_ascii_islower(aclass[0]))
+-        aclass[0] = g_ascii_toupper(aclass[0]);
+-
+-    xim = XOpenIM(obt_display, NULL, aname, aclass);
+-
+-    if (!xim)
+-        g_message("Failed to open an Input Method");
+-    else {
+-        XIMStyles *xim_styles = NULL;
+-        char *r;
+-
+-        /* get the input method styles */
+-        r = XGetIMValues(xim, XNQueryInputStyle, &xim_styles, NULL);
+-        if (r || !xim_styles)
+-            g_message("Input Method does not support any styles");
+-        if (xim_styles) {
+-            int i;
+-
+-            /* find a style that doesnt need preedit or status */
+-            for (i = 0; i < xim_styles->count_styles; ++i) {
+-                if (xim_styles->supported_styles[i] == 
+-                    (XIMPreeditNothing | XIMStatusNothing))
+-                {
+-                    xim_style = xim_styles->supported_styles[i];
+-                    break;
+-                }
+-            }
+-            XFree(xim_styles);
+-        }
+-
+-        if (!xim_style) {
+-            g_message("Input Method does not support a usable style");
+-
+-            XCloseIM(xim);
+-            xim = NULL;
+-        }
+-    }
+-
+-    /* any existing contexts need to be recreated for the new input method */
+-    for (it = xic_all; it; it = g_slist_next(it))
+-        obt_keyboard_context_renew(it->data);
+-
+-    g_free(aclass);
+-    g_free(aname);
+-}
+-
+ ObtModkeysKey obt_keyboard_keyevent_to_modkey(XEvent *e)
+ {
+     KeySym sym;
+-- 
+1.7.8.6
+

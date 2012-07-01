@@ -1,0 +1,42 @@
+From 5625f1c223eb5e7282683f9f793166cd5fe5340b Mon Sep 17 00:00:00 2001
+From: stlifey <stlifey@gmail.com>
+Date: Thu, 17 May 2012 18:04:11 +0800
+Subject: [PATCH 2/2] clean up autostart script
+
+---
+ data/autostart/openbox-autostart.in |   16 ----------------
+ 1 files changed, 0 insertions(+), 16 deletions(-)
+
+diff --git a/data/autostart/openbox-autostart.in b/data/autostart/openbox-autostart.in
+index 063c635..5832eb7 100755
+--- a/data/autostart/openbox-autostart.in
++++ b/data/autostart/openbox-autostart.in
+@@ -1,16 +1,5 @@
+ #!/bin/sh
+ 
+-# Set a background color
+-BG=""
+-if which hsetroot >/dev/null; then
+-  BG=hsetroot
+-elif which esetroot >/dev/null; then
+-  BG=esetroot
+-elif which xsetroot >/dev/null; then
+-  BG=xsetroot
+-fi
+-test -z $BG || $BG -solid "#303030"
+-
+ GLOBALAUTOSTART="@rcdir@/autostart"
+ AUTOSTART="${XDG_CONFIG_HOME:-"$HOME/.config"}/openbox/autostart"
+ 
+@@ -27,8 +16,3 @@ if test -f $AUTOSTART; then
+ elif test -f $AUTOSTART.sh; then
+     sh $AUTOSTART.sh
+ fi
+-
+-# Run the XDG autostart stuff.  These are found in /etc/xdg/autostart and
+-# in $HOME/.config/autostart.  This requires PyXDG to be installed.
+-# See openbox-xdg-autostart --help for more details.
+-@libexecdir@/openbox-xdg-autostart "$@"
+-- 
+1.7.8.6
+
