@@ -12,10 +12,14 @@ SRC_URI="ftp://ftp.archlinux.org/other/${PN}/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="~amd64 ~x86"
 IUSE="curl debug doc gpg test"
 
 COMMON_DEPEND="app-arch/libarchive
+	app-arch/lrzip
+	app-arch/p7zip
+	app-arch/rpm
+	app-arch/zip
 	dev-libs/openssl
 	dev-libs/yajl
 	virtual/libiconv
@@ -42,6 +46,15 @@ src_prepare() {
 	# Remove a line that adds -Werror in ./configure when --enable-debug
 	# is passed:
 	sed -i -e '/-Werror/d' configure.ac || die "-Werror"
+
+	# autopoint is unwilling to replace m4/gettext.m4 with the correct
+	# version even though it'll gladly replace */po/Makefile.in.in,
+	# creating an inconsistency between gettext m4 macros and
+	# Makefile.in.in. Also, AM_MKINSTALLDIRS apparently doesn't exist
+	# anymore, so we need newer gettext macros. #420469
+	rm m4/gettext.m4 || die
+	sed -i -e '/AM_GNU_GETTEXT_VERSION/s/0\.13\.1/0.18.1/' configure.ac || die
+
 	eautoreconf
 }
 

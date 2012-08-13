@@ -18,12 +18,10 @@ BASE_VERSION="$(get_version_component_range 1-2)"
 MAIN_VERSION="$(get_version_component_range 1).0"
 FULL_VERSION="${BASE_VERSION}.0"
 
-ck_version="2"
+ck_version="3"
 ck_url="http://ck.kolivas.org/patches"
-ck_src="${ck_url}/${MAIN_VERSION}/${BASE_VERSION}/${BASE_VERSION}-ck${ck_version}/patch-${BASE_VERSION}-ck${ck_version}.bz2
-	${ck_url}/bfs/test/bfs423-424.patch"
-use ck && CK_PATCHES="${DISTDIR}/patch-${BASE_VERSION}-ck${ck_version}.bz2
-	${DISTDIR}/bfs423-424.patch"
+ck_src="${ck_url}/${MAIN_VERSION}/${BASE_VERSION}/${BASE_VERSION}-ck${ck_version}/patch-${BASE_VERSION}-ck${ck_version}.bz2"
+use ck && CK_PATCHES="${DISTDIR}/patch-${BASE_VERSION}-ck${ck_version}.bz2"
 
 bfq_version="v3r4"
 bfq_url="http://algo.ing.unimo.it/people/paolo/disk_sched"
@@ -37,14 +35,14 @@ fbcondecor_url="http://dev.gentoo.org/~mpagano/genpatches"
 fbcondecor_src="${fbcondecor_url}/trunk/${BASE_VERSION}/4200_fbcondecor-${fbcondecor_version}.patch"
 use fbcondecor && FBCONDECOR_PATCHES="${DISTDIR}/4200_fbcondecor-${fbcondecor_version}.patch"
 
-uksm_version="0.1.1.2"
+uksm_version="0.1.2"
 uksm_url="http://kerneldedup.org"
-uksm_src="${uksm_url}/download/uksm/${uksm_version}/uksm-${uksm_version}-for-v${BASE_VERSION}.ge.2.patch"
-use uksm && UKSM_PATCHES="${DISTDIR}/uksm-${uksm_version}-for-v${BASE_VERSION}.ge.2.patch"
+uksm_src="${uksm_url}/download/uksm/${uksm_version}/uksm-${uksm_version}-for-v${BASE_VERSION}.ge.6.patch"
+use uksm && UKSM_PATCHES="${DISTDIR}/uksm-${uksm_version}-for-v${BASE_VERSION}.ge.6.patch"
 
-IUSE="+ck bfq fbcondecor +uksm +urwlocks"
+IUSE="+ck bfq fbcondecor +uksm"
 DESCRIPTION="Full sources for the Linux kernel including: ck, bfq and other patches"
-HOMEPAGE="http://www.kernel.org ${ck_url} ${bfq_url} ${fbcondecor_url} ${uksm_src} ${urwlocks_src}"
+HOMEPAGE="http://www.kernel.org ${ck_url} ${bfq_url} ${fbcondecor_url} ${uksm_src}"
 SRC_URI="${KERNEL_URI} ${ARCH_URI}
 	ck?		( ${ck_src} )
 	bfq?		( ${bfq_src} )
@@ -58,7 +56,7 @@ KV_FULL="${PVR}-ck"
 SLOT="${PV}"
 S="${WORKDIR}/linux-${KV_FULL}"
 
-UNIPATCH_LIST="${CK_PATCHES} ${BFQ_PATCHES} ${FBCONDECOR_PATCHES} ${UKSM_PATCHES} ${URWLOCKS_PATCHES}
+UNIPATCH_LIST="${CK_PATCHES} ${BFQ_PATCHES} ${FBCONDECOR_PATCHES} ${UKSM_PATCHES}
 	${FILESDIR}/enable-scsi-wait-scan-symbol.patch"
 UNIPATCH_STRICTORDER="yes"
 
