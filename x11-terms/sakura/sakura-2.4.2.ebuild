@@ -25,7 +25,8 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 "
 
-PATCHES=( "${FILESDIR}"/${P}-cflags.patch )
+PATCHES=( "${FILESDIR}"/${P}-cflags.patch \
+	"${FILESDIR}"/${P}-remove-icon-file.patch )
 
 DOCS=( AUTHORS INSTALL )
 
