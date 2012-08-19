@@ -38,6 +38,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/${PN}-gnome-session-3.4.9.patch
 	epatch "${FILESDIR}"/0001-remove-xim-support.patch
 	epatch "${FILESDIR}"/0002-clean-up-autostart-script.patch
+	epatch "${FILESDIR}"/${P/_p*/}-gtk34.patch
 	sed -i -e "s:-O0 -ggdb ::" "${S}"/m4/openbox.m4 || die
 	eautopoint
 	eautoreconf
