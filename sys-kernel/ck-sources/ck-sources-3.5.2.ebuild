@@ -18,12 +18,12 @@ BASE_VERSION="$(get_version_component_range 1-2)"
 MAIN_VERSION="$(get_version_component_range 1).0"
 FULL_VERSION="${BASE_VERSION}.0"
 
-ck_version="3"
+ck_version="1"
 ck_url="http://ck.kolivas.org/patches"
 ck_src="${ck_url}/${MAIN_VERSION}/${BASE_VERSION}/${BASE_VERSION}-ck${ck_version}/patch-${BASE_VERSION}-ck${ck_version}.bz2"
 use ck && CK_PATCHES="${DISTDIR}/patch-${BASE_VERSION}-ck${ck_version}.bz2"
 
-bfq_version="v3r4"
+bfq_version="v4"
 bfq_url="http://algo.ing.unimo.it/people/paolo/disk_sched"
 bfq_src="${bfq_url}/patches/${FULL_VERSION}-${bfq_version}/0001-block-cgroups-kconfig-build-bits-for-BFQ-${bfq_version}-${BASE_VERSION}.patch
 	${bfq_url}/patches/${FULL_VERSION}-${bfq_version}/0002-block-introduce-the-BFQ-${bfq_version}-I-O-sched-for-${BASE_VERSION}.patch"
@@ -37,8 +37,8 @@ use fbcondecor && FBCONDECOR_PATCHES="${DISTDIR}/4200_fbcondecor-${fbcondecor_ve
 
 uksm_version="0.1.2"
 uksm_url="http://kerneldedup.org"
-uksm_src="${uksm_url}/download/uksm/${uksm_version}/uksm-${uksm_version}-for-v${BASE_VERSION}.ge.6.patch"
-use uksm && UKSM_PATCHES="${DISTDIR}/uksm-${uksm_version}-for-v${BASE_VERSION}.ge.6.patch"
+uksm_src="${uksm_url}/download/uksm/${uksm_version}/uksm-${uksm_version}-for-v${BASE_VERSION}.patch"
+use uksm && UKSM_PATCHES="${DISTDIR}/uksm-${uksm_version}-for-v${BASE_VERSION}.patch"
 
 IUSE="+ck bfq fbcondecor +uksm"
 DESCRIPTION="Full sources for the Linux kernel including: ck, bfq and other patches"
