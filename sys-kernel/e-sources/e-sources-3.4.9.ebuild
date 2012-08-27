@@ -52,7 +52,7 @@ SRC_URI="${KERNEL_URI} ${ARCH_URI}
 KEYWORDS="~amd64 ~x86"
 RDEPEND=">=sys-devel/gcc-4.5"
 
-KV_FULL="${PVR}-ck"
+KV_FULL="${PVR}-e"
 SLOT="${BASE_VERSION}"
 S="${WORKDIR}/linux-${KV_FULL}"
 

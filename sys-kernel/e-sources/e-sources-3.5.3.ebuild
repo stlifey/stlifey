@@ -52,12 +52,12 @@ SRC_URI="${KERNEL_URI} ${ARCH_URI}
 KEYWORDS="~amd64 ~x86"
 RDEPEND=">=sys-devel/gcc-4.5"
 
-KV_FULL="${PVR}-ck"
+KV_FULL="${PVR}-e"
 SLOT="${BASE_VERSION}"
 S="${WORKDIR}/linux-${KV_FULL}"
 
 UNIPATCH_LIST="${CK_PATCHES} ${BFQ_PATCHES} ${FBCONDECOR_PATCHES} ${UKSM_PATCHES}
-	${FILESDIR}/enable-scsi-wait-scan-symbol.patch"
+	${FILESDIR}/enable-scsi-wait-scan-symbol.patch ${FILESDIR}/alsa-powersave-fix.patch"
 UNIPATCH_STRICTORDER="yes"
 
 src_unpack() {
