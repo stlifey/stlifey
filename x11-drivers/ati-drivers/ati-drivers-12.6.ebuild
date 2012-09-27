@@ -11,7 +11,7 @@ HOMEPAGE="http://www.amd.com"
 MY_V=( $(get_version_components) )
 SRC_URI="http://www2.ati.com/drivers/legacy/amd-driver-installer-12.6-legacy-x86.x86_64.zip"
 FOLDER_PREFIX="common/"
-IUSE="debug +modules multilib qt4 static-libs"
+IUSE="debug modules multilib qt4 static-libs"
 
 LICENSE="AMD GPL-2 QPL-1.0 as-is"
 KEYWORDS="~amd64 ~x86"
