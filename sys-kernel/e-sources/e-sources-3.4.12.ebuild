@@ -21,7 +21,8 @@ FULL_VERSION="${BASE_VERSION}.0"
 ck_version="3"
 ck_url="http://ck.kolivas.org/patches"
 ck_src="${ck_url}/${MAIN_VERSION}/${BASE_VERSION}/${BASE_VERSION}-ck${ck_version}/patch-${BASE_VERSION}-ck${ck_version}.bz2"
-use ck && CK_PATCHES="${DISTDIR}/patch-${BASE_VERSION}-ck${ck_version}.bz2"
+use ck && CK_PATCHES="${FILESDIR}/revert-4f83989550ace0aa91464051cbaddc10e1b85778.patch
+	${DISTDIR}/patch-${BASE_VERSION}-ck${ck_version}.bz2"
 
 bfq_version="v3r4"
 bfq_url="http://algo.ing.unimo.it/people/paolo/disk_sched"
