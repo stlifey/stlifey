@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="2"
+EAPI="4"
 inherit multilib autotools eutils
 
 DESCRIPTION="A standards compliant, fast, light-weight, extensible window manager"
@@ -37,10 +37,10 @@ S="${WORKDIR}"
 
 src_prepare() {
 	epatch "${FILESDIR}"/${PN}-gnome-session-3.4.9.patch
+	epatch "${FILESDIR}"/${P/_p*/}-fix-desktop-files.patch
+	epatch "${FILESDIR}"/${P}-javaswing.patch
 	epatch "${FILESDIR}"/0001-remove-xim-support.patch
 	epatch "${FILESDIR}"/0002-clean-up-autostart-script.patch
-	epatch "${FILESDIR}"/${P/_p*/}-gtk34.patch
-	epatch "${FILESDIR}"/${P/_p*/}-fix-desktop-files.patch
 	sed -i -e "s:-O0 -ggdb ::" "${S}"/m4/openbox.m4 || die
 	epatch_user
 	eautopoint
@@ -63,7 +63,7 @@ src_install() {
 	dodir /etc/X11/Sessions
 	echo "/usr/bin/openbox-session" > "${D}/etc/X11/Sessions/${PN}"
 	fperms a+x /etc/X11/Sessions/${PN}
-	emake DESTDIR="${D}" install || die "emake install failed"
+	emake DESTDIR="${D}" install
 	if use branding; then
 		insinto /usr/share/themes
 		doins -r "${WORKDIR}"/Surreal_Gentoo

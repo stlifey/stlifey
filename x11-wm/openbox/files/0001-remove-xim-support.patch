@@ -1,14 +1,14 @@
-From 0ea09fc48d63d94559c1fdc8bf8bfa3f67c4b0c0 Mon Sep 17 00:00:00 2001
-From: stlifey <stlifey@gmail.com>
-Date: Thu, 17 May 2012 18:00:15 +0800
-Subject: [PATCH 1/2] remove xim support
+From 3a2f8c75cfe3e40583b2d5bdc054889c4554ff1f Mon Sep 17 00:00:00 2001
+From: stlifey joe <stlifey@gmail.com>
+Date: Mon, 8 Oct 2012 19:11:50 +0800
+Subject: [PATCH] remove xim support
 
 ---
- obt/keyboard.c |   58 --------------------------------------------------------
- 1 files changed, 0 insertions(+), 58 deletions(-)
+ obt/keyboard.c | 58 ----------------------------------------------------------
+ 1 file changed, 58 deletions(-)
 
 diff --git a/obt/keyboard.c b/obt/keyboard.c
-index ef2678b..536e162 100644
+index 4e84f48..eba4948 100644
 --- a/obt/keyboard.c
 +++ b/obt/keyboard.c
 @@ -42,7 +42,6 @@ struct _ObtIC
@@ -87,9 +87,9 @@ index ef2678b..536e162 100644
 -    g_free(aname);
 -}
 -
- ObtModkeysKey obt_keyboard_keyevent_to_modkey(XEvent *e)
+ guint obt_keyboard_keyevent_to_modmask(XEvent *e)
  {
-     KeySym sym;
+     gint i, masknum;
 -- 
-1.7.8.6
+1.7.12
 
