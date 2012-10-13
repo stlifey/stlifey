@@ -21,10 +21,9 @@ FULL_VERSION="${BASE_VERSION}.0"
 ck_version="1"
 ck_url="http://ck.kolivas.org/patches"
 ck_src="${ck_url}/${MAIN_VERSION}/${BASE_VERSION}/${BASE_VERSION}-ck${ck_version}/patch-${BASE_VERSION}-ck${ck_version}.bz2"
-use ck && CK_PATCHES="${FILESDIR}/revert-4f83989550ace0aa91464051cbaddc10e1b85778.patch
-	${DISTDIR}/patch-${BASE_VERSION}-ck${ck_version}.bz2:1"
+use ck && CK_PATCHES="${DISTDIR}/patch-${BASE_VERSION}-ck${ck_version}.bz2:1"
 
-bfq_version="v4"
+bfq_version="v5"
 bfq_url="http://algo.ing.unimo.it/people/paolo/disk_sched"
 bfq_src="${bfq_url}/patches/${FULL_VERSION}-${bfq_version}/0001-block-cgroups-kconfig-build-bits-for-BFQ-${bfq_version}-${BASE_VERSION}.patch
 	${bfq_url}/patches/${FULL_VERSION}-${bfq_version}/0002-block-introduce-the-BFQ-${bfq_version}-I-O-sched-for-${BASE_VERSION}.patch"
@@ -38,22 +37,16 @@ use fbcondecor && FBCONDECOR_PATCHES="${DISTDIR}/4200_fbcondecor-${fbcondecor_ve
 
 uksm_version="0.1.2.1"
 uksm_url="http://kerneldedup.org"
-uksm_src="${uksm_url}/download/uksm/${uksm_version}/uksm-${uksm_version}-for-v${BASE_VERSION}.ge.7.patch"
-use uksm && UKSM_PATCHES="${DISTDIR}/uksm-${uksm_version}-for-v${BASE_VERSION}.ge.7.patch:1"
+uksm_src="${uksm_url}/download/uksm/${uksm_version}/uksm-${uksm_version}-for-v${BASE_VERSION}.ge.2.patch"
+use uksm && UKSM_PATCHES="${DISTDIR}/uksm-${uksm_version}-for-v${BASE_VERSION}.ge.2.patch:1"
 
-reiser4_version="3.5.3"
-reiser4_url="http://sourceforge.net/projects/reiser4"
-reiser4_src="${reiser4_url}/files/reiser4-for-linux-3.x/reiser4-for-${reiser4_version}.patch.gz"
-use reiser4 && REISER4_PATCHES="${DISTDIR}/reiser4-for-${reiser4_version}.patch.gz:1"
-
-IUSE="+ck bfq fbcondecor reiser4 +uksm"
+IUSE="+ck bfq fbcondecor +uksm"
 DESCRIPTION="Full sources for the Linux kernel including: ck, bfq and other patches"
 HOMEPAGE="http://www.kernel.org ${ck_url} ${bfq_url} ${fbcondecor_url} ${uksm_src}"
 SRC_URI="${KERNEL_URI} ${ARCH_URI}
 	ck?		( ${ck_src} )
 	bfq?		( ${bfq_src} )
 	fbcondecor?	( ${fbcondecor_src} )
-	reiser4?	( ${reiser4_src} )
 	uksm?		( ${uksm_src} )"
 
 KEYWORDS="~amd64 ~x86"
