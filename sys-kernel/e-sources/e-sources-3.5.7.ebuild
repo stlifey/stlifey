@@ -36,10 +36,10 @@ fbcondecor_url="http://dev.gentoo.org/~mpagano/genpatches"
 fbcondecor_src="${fbcondecor_url}/trunk/${BASE_VERSION}/4200_fbcondecor-${fbcondecor_version}.patch"
 use fbcondecor && FBCONDECOR_PATCHES="${DISTDIR}/4200_fbcondecor-${fbcondecor_version}.patch:1"
 
-uksm_version="0.1.2"
+uksm_version="0.1.2.1"
 uksm_url="http://kerneldedup.org"
-uksm_src="${uksm_url}/download/uksm/${uksm_version}/uksm-${uksm_version}-for-v${BASE_VERSION}.patch"
-use uksm && UKSM_PATCHES="${DISTDIR}/uksm-${uksm_version}-for-v${BASE_VERSION}.patch:1"
+uksm_src="${uksm_url}/download/uksm/${uksm_version}/uksm-${uksm_version}-for-v${BASE_VERSION}.ge.7.patch"
+use uksm && UKSM_PATCHES="${DISTDIR}/uksm-${uksm_version}-for-v${BASE_VERSION}.ge.7.patch:1"
 
 reiser4_version="3.5.3"
 reiser4_url="http://sourceforge.net/projects/reiser4"

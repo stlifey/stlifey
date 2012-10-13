@@ -51,6 +51,9 @@ src_configure() {
 		$(use_with doc doxygen)
 		--enable-ld-version-script
 		$gtk_version
+		--disable-setup-ui
+		--disable-frontend-x11
+		--disable-im-rawcode
 	)
 	autotools-utils_src_configure
 }
@@ -70,19 +73,6 @@ src_install() {
 }
 
 pkg_postinst() {
-	elog
-	elog "To use Chinese input methods:"
-	elog "	# emerge app-i18n/scim-tables app-i18n/scim-pinyin"
-	elog "To use Korean input methods:"
-	elog "	# emerge app-i18n/scim-hangul"
-	elog "To use Japanese input methods:"
-	elog "	# emerge app-i18n/scim-anthy"
-	elog "To use various input methods (more than 30 languages):"
-	elog "	# emerge app-i18n/scim-m17n"
-	elog
-	elog "Please modify ${EPREFIX}/etc/scim/global and add your UTF-8 locale to"
-	elog "/SupportedUnicodeLocales entry."
-	elog
 	ewarn
 	ewarn "If you upgraded from scim-1.2.x or scim-1.0.x, you should remerge all SCIM modules."
 	ewarn
