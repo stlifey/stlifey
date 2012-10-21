@@ -40,13 +40,19 @@ uksm_url="http://kerneldedup.org"
 uksm_src="${uksm_url}/download/uksm/${uksm_version}/uksm-${uksm_version}-for-v${BASE_VERSION}.ge.2.patch"
 use uksm && UKSM_PATCHES="${DISTDIR}/uksm-${uksm_version}-for-v${BASE_VERSION}.ge.2.patch:1"
 
-IUSE="+ck bfq fbcondecor +uksm"
+reiser4_version="3.6.2"
+reiser4_url="http://sourceforge.net/projects/reiser4"
+reiser4_src="${reiser4_url}/files/reiser4-for-linux-3.x/reiser4-for-${reiser4_version}.patch.gz"
+use reiser4 && REISER4_PATCHES="${DISTDIR}/reiser4-for-${reiser4_version}.patch.gz:1"
+
+IUSE="+ck bfq fbcondecor reiser4 +uksm"
 DESCRIPTION="Full sources for the Linux kernel including: ck, bfq and other patches"
 HOMEPAGE="http://www.kernel.org ${ck_url} ${bfq_url} ${fbcondecor_url} ${uksm_src}"
 SRC_URI="${KERNEL_URI} ${ARCH_URI}
 	ck?		( ${ck_src} )
 	bfq?		( ${bfq_src} )
 	fbcondecor?	( ${fbcondecor_src} )
+	reiser4?	( ${reiser4_src} )
 	uksm?		( ${uksm_src} )"
 
 KEYWORDS="~amd64 ~x86"
