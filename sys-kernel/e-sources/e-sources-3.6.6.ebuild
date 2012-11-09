@@ -73,4 +73,5 @@ src_unpack() {
 
 	rm -rf ${S}/Documentation/* && touch ${S}/Documentation/Makefile
 	rm -rf ${S}/drivers/video/logo/* && touch ${S}/drivers/video/logo/{Makefile,Kconfig}
+	rm -rf ${S}/a && rm -rf ${S}/b
 }
