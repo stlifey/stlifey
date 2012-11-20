@@ -1,0 +1,11 @@
+--- /etc/init.d/udev	2012-08-25 17:34:24.000000000 +0400
++++ /etc/init.d/udev	2012-08-25 21:33:13.000000000 +0400
+@@ -2,7 +2,7 @@
+ # Copyright 1999-2010 Gentoo Foundation
+ # Distributed under the terms of the GNU General Public License v2
+ 
+-command=/usr/lib/systemd/systemd-udevd
++command="${udev_cmd}"
+ command_args="--daemon ${udev_opts}"
+ description="udev manages device permissions and symbolic links in /dev"
+ extra_started_commands="reload"

@@ -31,8 +31,8 @@ use bfq && BFQ_PATCHES="${DISTDIR}/0001-block-cgroups-kconfig-build-bits-for-BFQ
 	${DISTDIR}/0002-block-introduce-the-BFQ-${bfq_version}-I-O-sched-for-${BASE_VERSION}.patch:1"
 
 fbcondecor_version="0.9.6"
-fbcondecor_url="http://dev.gentoo.org/~mpagano/genpatches"
-fbcondecor_src="${fbcondecor_url}/trunk/${BASE_VERSION}/4200_fbcondecor-${fbcondecor_version}.patch"
+fbcondecor_url="http://dev.gentoo.org/~spock/projects/fbcondecor"
+fbcondecor_src="http://sources.gentoo.org/cgi-bin/viewvc.cgi/linux-patches/genpatches-2.6/trunk/${BASE_VERSION}/4200_fbcondecor-0.9.6.patch"
 use fbcondecor && FBCONDECOR_PATCHES="${DISTDIR}/4200_fbcondecor-${fbcondecor_version}.patch:1"
 
 uksm_version="0.1.2.1"

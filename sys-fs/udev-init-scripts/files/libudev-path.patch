@@ -1,0 +1,11 @@
+--- a/Makefile   2012-08-08 21:52:29.000000000 +0000
++++ b/Makefile   2012-09-02 11:12:08.496605407 +0000
+@@ -3,6 +3,6 @@
+ DISTNAME = $(PACKAGE)-$(VERSION)
+ 
+-LIBUDEV ?= /usr/lib/udev
++LIBUDEV ?= /lib/udev
+ RULESDIR ?= $(LIBUDEV)/rules.d
+ SYSCONFDIR ?= /etc
+ CONFD ?= $(SYSCONFDIR)/conf.d
+
