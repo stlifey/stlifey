@@ -6,6 +6,7 @@ EAPI=2
 
 ESVN_REPO_URI="https://pcsxr.svn.codeplex.com/svn/pcsxr"
 ESVN_PROJECT="pcsxr"
+ESVN_REVISION="81301"
 
 inherit eutils autotools games subversion
 
@@ -68,8 +69,6 @@ src_prepare() {
 
 	# fix icon and .desktop path
 	epatch "${FILESDIR}/${P}-datadir.patch"
-
-	epatch "${FILESDIR}/${P}-remove-icon.patch"
 
 	# regenerate for changes to spread
 	eautoreconf
