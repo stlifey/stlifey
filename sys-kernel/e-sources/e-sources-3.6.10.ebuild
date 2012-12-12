@@ -7,12 +7,14 @@ ETYPE="sources"
 
 ck_version="1"
 bfq_version="5"
-reiser4_version="3.6.4"
+uksm_version="0.1.2.1"
 fbcondecor_version="0.9.6"
-uksm_main_version="0.1.2.1"
-uksm_sub_version="2"
 
-IUSE="+ck bfq fbcondecor reiser4 +uksm"
+bfq_kernel_version="3.6.0"
+uksm_kernel_version="3.6.2"
+reiser4_kernel_version="3.6.4"
+
+IUSE="+ck bfq cjk +uksm reiser4 fbcondecor"
 DESCRIPTION="Full sources for the Linux kernel including: ck, bfq and other patches"
 KEYWORDS="~amd64 ~x86"
 
