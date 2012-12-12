@@ -15,6 +15,14 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
+DEPEND="
+	dev-libs/yajl
+	>=sys-apps/pacman-4.0
+	<=sys-apps/pacman-4.1
+"
+
+RDEPEND="${DEPEND}"
+
 src_prepare() {
 	eautoreconf
 }

@@ -14,6 +14,13 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
+DEPEND="
+	>=sys-apps/package-query-1.0
+	>=sys-apps/pacman-4.0
+"
+
+RDEPEND="${DEPEND}"
+
 src_install() {
 	emake sysconfdir=/etc localstatedir=/var DESTDIR="${D}" install
 	sed -i /_completion_loader/d bashcompletion

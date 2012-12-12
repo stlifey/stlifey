@@ -21,7 +21,6 @@ COMMON_DEPEND="app-arch/libarchive
 	app-arch/rpm
 	app-arch/zip
 	dev-libs/openssl
-	dev-libs/yajl
 	virtual/libiconv
 	virtual/libintl
 	sys-devel/gettext
