@@ -21,8 +21,12 @@ DEPEND="
 
 RDEPEND="${DEPEND}"
 
+src_prepare() {
+	emake PREFIX=/usr sysconfdir=/etc localstatedir=/var
+}
+
 src_install() {
-	emake sysconfdir=/etc localstatedir=/var DESTDIR="${D}" install
+	emake PREFIX=/usr sysconfdir=/etc localstatedir=/var DESTDIR="${D}" install
 	sed -i /_completion_loader/d bashcompletion
 	newbashcomp bashcompletion yaourt
 }
