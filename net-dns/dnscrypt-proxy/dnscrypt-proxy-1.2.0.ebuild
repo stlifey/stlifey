@@ -30,8 +30,8 @@ src_configure() {
 src_install() {
 	emake DESTDIR="${D}" install || die "emake install failed"
 
-	newinitd "${FILESDIR}/dnscrypt-proxy.initd" dnscrypt-proxy || die "newinitd failed"
-	newconfd "${FILESDIR}/dnscrypt-proxy.confd" dnscrypt-proxy || die "newconfd failed"
+	newinitd "${FILESDIR}/dnscrypt-proxy.initd" dnscrypt-proxy
+	newconfd "${FILESDIR}/dnscrypt-proxy.confd" dnscrypt-proxy
 
-	dodoc {AUTHORS,COPYING,INSTALL,NEWS,README,README.markdown,TECHNOTES,THANKS} || die "dodoc failed"
+	dodoc {AUTHORS,COPYING,INSTALL,NEWS,README,README.markdown,TECHNOTES,THANKS}
 }

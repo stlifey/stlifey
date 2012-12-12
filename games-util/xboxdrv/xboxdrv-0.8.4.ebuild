@@ -15,14 +15,18 @@ SLOT="0"
 KEYWORDS="amd64 x86"
 IUSE=""
 
-RDEPEND="dev-libs/boost
+RDEPEND="
+	dev-libs/boost
 	sys-fs/udev
 	sys-apps/dbus
 	dev-libs/glib:2
 	virtual/libusb:1
-	x11-libs/libX11"
-DEPEND="${RDEPEND}
-	virtual/pkgconfig"
+	x11-libs/libX11
+"
+DEPEND="
+	${RDEPEND}
+	virtual/pkgconfig
+"
 
 S=${WORKDIR}/${MY_P}
 

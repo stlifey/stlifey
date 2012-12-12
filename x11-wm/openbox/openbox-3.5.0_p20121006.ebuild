@@ -15,7 +15,8 @@ SLOT="3"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ppc ~ppc64 ~sparc ~x86 ~x86-fbsd"
 IUSE="branding debug imlib nls python session startup-notification static-libs"
 
-RDEPEND="dev-libs/glib:2
+RDEPEND="
+	dev-libs/glib:2
 	>=dev-libs/libxml2-2.0
 	python? ( dev-python/pyxdg )
 	>=media-libs/fontconfig-2
@@ -25,13 +26,16 @@ RDEPEND="dev-libs/glib:2
 	>=x11-libs/pango-1.8[X]
 	imlib? ( media-libs/imlib2 )
 	startup-notification? ( >=x11-libs/startup-notification-0.8 )
-	x11-libs/libXinerama"
-DEPEND="${RDEPEND}
+	x11-libs/libXinerama
+"
+DEPEND="
+	${RDEPEND}
 	sys-devel/gettext
 	virtual/pkgconfig
 	x11-proto/xextproto
 	x11-proto/xf86vidmodeproto
-	x11-proto/xineramaproto"
+	x11-proto/xineramaproto
+"
 
 S="${WORKDIR}"
 

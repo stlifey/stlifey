@@ -14,9 +14,11 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-DEPEND="app-i18n/sunpinyin
-		x11-libs/gtk+:2
-		x11-libs/libX11"
+DEPEND="
+	app-i18n/sunpinyin
+	x11-libs/gtk+:2
+	x11-libs/libX11
+"
 RDEPEND="${DEPEND}"
 
 src_unpack() {

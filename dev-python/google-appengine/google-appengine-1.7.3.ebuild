@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="examples"
 
-RDEPEND="dev-lang/python:2.7
+RDEPEND="
 	dev-python/mysql-python
 	dev-python/lxml
 	dev-python/imaging
@@ -27,7 +27,8 @@ RDEPEND="dev-lang/python:2.7
 	dev-python/pyopenssl
 	dev-python/pyyaml
 	dev-python/webob
-	media-libs/libpng:1.2"
+	media-libs/libpng:1.2
+"
 
 PYTHON_DEPEND="2"
 

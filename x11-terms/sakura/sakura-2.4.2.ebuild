@@ -20,7 +20,8 @@ RDEPEND="
 	>=x11-libs/gtk+-2.16:2
 	>=x11-libs/vte-0.26:0
 "
-DEPEND="${RDEPEND}
+DEPEND="
+	${RDEPEND}
 	>=dev-lang/perl-5.10.1
 	virtual/pkgconfig
 "

@@ -17,6 +17,5 @@ IUSE=""
 RDEPEND="sys-process/schedtool"
 
 src_install() {
-	mkdir -p "${D}"/usr/bin
-	install -c -D ${WORKDIR}/toolsched-${PV}/toolsched.* "${D}"/usr/bin
+	dobin toolsched.*
 }

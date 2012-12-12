@@ -15,9 +15,11 @@ SLOT="0"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~sh ~sparc ~x86 ~x86-fbsd"
 IUSE=""
 
-RDEPEND="media-gfx/imagemagick
+RDEPEND="
+	media-gfx/imagemagick
 	>=gnome-base/librsvg-2.26.0
-	>=x11-themes/hicolor-icon-theme-0.10"
+	>=x11-themes/hicolor-icon-theme-0.10
+"
 
 S=${WORKDIR}
 RESTRICT="binchecks mirror strip"

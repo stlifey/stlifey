@@ -18,8 +18,10 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 RDEPEND="dev-db/sqlite:3"
-DEPEND="${RDEPEND}
-		virtual/pkgconfig"
+DEPEND="
+	${RDEPEND}
+	virtual/pkgconfig
+"
 
 src_unpack() {
 	unpack "${P}.tar.gz"

@@ -19,7 +19,8 @@ SLOT="0"
 KEYWORDS="x86 amd64"
 IUSE="alsa cdio openal opengl oss pulseaudio +sdl-sound"
 
-RDEPEND="x11-libs/gtk+:2
+RDEPEND="
+	x11-libs/gtk+:2
 	gnome-base/libglade
 	media-libs/libsdl
 	sys-libs/zlib
@@ -31,13 +32,15 @@ RDEPEND="x11-libs/gtk+:2
 	opengl? ( virtual/opengl
 	x11-libs/libXxf86vm )
 	pulseaudio? ( >=media-sound/pulseaudio-0.9.16 )
-	cdio? ( dev-libs/libcdio )"
+	cdio? ( dev-libs/libcdio )
+"
 
-DEPEND="${RDEPEND}
+DEPEND="
+	${RDEPEND}
 	!games-emulation/pcsx
 	!games-emulation/pcsx-df
-	x86? ( dev-lang/nasm )"
-
+	x86? ( dev-lang/nasm )
+"
 
 pkg_setup() {
 	if use alsa; then
