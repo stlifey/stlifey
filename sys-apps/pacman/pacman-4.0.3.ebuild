@@ -79,8 +79,3 @@ src_install() {
 	dodir /etc/pacman.d
 	newbashcomp "${AUTOTOOLS_BUILD_DIR}"/contrib/bash_completion pacman
 }
-
-pkg_postinst() {
-	einfo "Please see http://ohnopub.net/~ohnobinki/gentoo/arch/ for information"
-	einfo "about setting up an archlinux chroot."
-}
