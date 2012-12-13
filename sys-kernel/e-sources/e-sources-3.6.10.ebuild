@@ -18,4 +18,4 @@ SUPPORTED_USE="ck bfq cjk uksm reiser4 fbcondecor"
 DESCRIPTION="Full sources for the Linux kernel including: ck, bfq and other patches"
 KEYWORDS="~amd64 ~x86"
 
-inherit stlifey
+inherit e-sources

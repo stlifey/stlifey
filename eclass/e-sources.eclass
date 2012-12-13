@@ -81,13 +81,13 @@ USE_ENABLE() {
 				UNIPATCH_LIST="${UNIPATCH_LIST} ${REISER4_PATCHES}"
 			;;
 		fbcondecor) 	fbcondecor_url="http://dev.gentoo.org/~spock/projects/fbcondecor"
-				fbcondecor_src="http://sources.gentoo.org/cgi-bin/viewvc.cgi/linux-patches/genpatches-2.6/trunk/${KMV}/4200_fbcondecor-0.9.6.patch"
+				fbcondecor_src="http://sources.gentoo.org/cgi-bin/viewvc.cgi/linux-patches/genpatches-2.6/trunk/${KMV}/4200_fbcondecor-${fbcondecor_version}.patch -> 4200_fbcondecor-${KMV}-${fbcondecor_version}.patch"
 				HOMEPAGE="${HOMEPAGE} ${fbcondecor_url}"
 				SRC_URI="
 					${SRC_URI}
 					fbcondecor?		( ${fbcondecor_src} )
 				"
-				FBCONDECOR_PATCHES="${DISTDIR}/4200_fbcondecor-${fbcondecor_version}.patch:1"
+				FBCONDECOR_PATCHES="${DISTDIR}/4200_fbcondecor-${KMV}-${fbcondecor_version}.patch:1"
 				UNIPATCH_LIST="${UNIPATCH_LIST} ${FBCONDECOR_PATCHES}"
 			;;
 	esac
@@ -97,7 +97,7 @@ for I in ${SUPPORTED_USE}; do
 	USE_ENABLE "${I}"
 done
 
-if [ -n "$(echo $SUPPORTED_USE | sed -n '/cjk/p' | grep 'fbcondecor')" ];
+if [ "${SUPPORTED_USE/cjk/}" != "$SUPPORTED_USE" -a "${SUPPORTED_USE/fbcondecor/}" != "$SUPPORTED_USE" ];
 	then REQUIRED_USE="cjk? ( !fbcondecor )";
 fi
 
@@ -114,11 +114,17 @@ HOMEPAGE="http://www.kernel.org ${HOMEPAGE}"
 src_unpack() {
 	kernel-2_src_unpack
 
-	use ck && sed -i -e 's/\(^EXTRAVERSION :=.*$\)/# \1/' "${S}/Makefile"
+	sed -i -e "s:^\(EXTRAVERSION =\).*:\1 ${EXTRAVERSION}:" Makefile
+
+	if [ "${SUPPORTED_USE/ck/}" != "$SUPPORTED_USE" ];
+		then use ck && sed -i -e 's/\(^EXTRAVERSION :=.*$\)/# \1/' "${S}/Makefile";
+	fi
+
+	if [ "${SUPPORTED_USE/cjk/}" != "$SUPPORTED_USE" ];
+		then use cjk && cjk_patch;
+	fi
 
 	rm -rf ${S}/Documentation/* && touch ${S}/Documentation/Makefile
 	rm -rf ${S}/drivers/video/logo/* && touch ${S}/drivers/video/logo/{Makefile,Kconfig}
 	rm -rf ${S}/a && rm -rf ${S}/b
-
-	use cjk && cjk_patch
 }
