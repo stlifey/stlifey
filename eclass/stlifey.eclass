@@ -97,7 +97,7 @@ for I in ${SUPPORTED_USE}; do
 	USE_ENABLE "${I}"
 done
 
-if [ -n "$(echo $SUPPORTED_USE | sed -n '/cjk/p' | sed -n '/fbcondecor/p')" ];
+if [ -n "$(echo $SUPPORTED_USE | sed -n '/cjk/p' | grep 'fbcondecor')" ];
 	then REQUIRED_USE="cjk? ( !fbcondecor )";
 fi
 
