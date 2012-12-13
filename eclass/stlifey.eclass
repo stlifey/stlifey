@@ -15,15 +15,15 @@ S="${WORKDIR}/linux-${KV_FULL}"
 
 KNOWN_FEATURES="ck bfq cjk uksm reiser4 fbcondecor"
 
-featureKnown() {
-	local feature="${1/-/}"
-	feature="${feature/+/}"
-	[ "${feature}" == "" ] && die "Feature not defined!"
+USE_ENABLE() {
+	local USE="${1/-/}"
+	USE="${USE/+/}"
+	[ "${USE}" == "" ] && die "Feature not defined!"
 
-	expr index "${SUPPORTED_FEATURES}" "${feature}" >/dev/null || die "${feature} is not supported in current kernel"
-	expr index "${KNOWN_FEATURES}" "${feature}" >/dev/null || die "${feature} is not known"
-	IUSE="${IUSE} ${feature}"
-	case ${feature} in
+	expr index "${SUPPORTED_USE}" "${USE}" >/dev/null || die "${USE} is not supported in current kernel"
+	expr index "${KNOWN_FEATURES}" "${USE}" >/dev/null || die "${USE} is not known"
+	IUSE="${IUSE} ${USE}"
+	case ${USE} in
 
 		ck)		ck_url="http://ck.kolivas.org/patches"
 				ck_src="${ck_url}/${KMSV}/${KMV}/${KMV}-ck${ck_version}/patch-${KMV}-ck${ck_version}.bz2"
@@ -42,7 +42,8 @@ featureKnown() {
 					${SRC_URI}
 					bfq?	( ${bfq_src} )
 				"
-
+				BFQ_PATCHES="${DISTDIR}/0001-block-cgroups-kconfig-build-bits-for-BFQ-v${bfq_version}-${KMV}.patch:1 ${DISTDIR}/0002-block-introduce-the-BFQ-v${bfq_version}-I-O-sched-for-${KMV}.patch:1"
+				UNIPATCH_LIST="${UNIPATCH_LIST} ${BFQ_PATCHES}"
 			;;
 		cjk)		cjk_url="http://repo.or.cz/w/linux-2.6/cjktty.git"
 				cjk_src="${cjk_url}/patch/611e97828af5c42355c870b9c7e4137e166b7220 -> vt-fix-255-glyph-limit-prepare-for-CJK-font-support.patch ${cjk_url}/patch/286181b3fabb5a982cf6dd55683109d2831ff97d -> vt-diable-setfont-if-we-have-cjk-font-in-kernel.patch ${cjk_url}/patch/60b2ff855ccbcf6cbacd5e8beba0285712eb0929 -> vt-add-cjk-font-that-has-65536-chars.patch ${cjk_url}/patch/8ff71e69d24ffa02fb8d79b4c88e292a9b9303e3 -> vt-default-to-cjk-font.patch"
@@ -88,14 +89,17 @@ featureKnown() {
 				"
 				FBCONDECOR_PATCHES="${DISTDIR}/4200_fbcondecor-${fbcondecor_version}.patch:1"
 				UNIPATCH_LIST="${UNIPATCH_LIST} ${FBCONDECOR_PATCHES}"
-				use cjk && REQUIRED_USE="cjk? ( !fbcondecor )"
 			;;
 	esac
 }
 
-for I in ${SUPPORTED_FEATURES}; do
-	featureKnown "${I}"
+for I in ${SUPPORTED_USE}; do
+	USE_ENABLE "${I}"
 done
+
+if [ -n "$(echo $SUPPORTED_USE | sed -n '/cjk/p' | sed -n '/fbcondecor/p')" ];
+	then REQUIRED_USE="cjk? ( !fbcondecor )";
+fi
 
 SRC_URI="
 	${SRC_URI}
