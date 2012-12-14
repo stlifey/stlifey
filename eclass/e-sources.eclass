@@ -120,7 +120,7 @@ src_unpack() {
 	sed -i -e "s:^\(EXTRAVERSION =\).*:\1 ${EXTRAVERSION}:" Makefile
 
 	if [ "${SUPPORTED_USE/ck/}" != "$SUPPORTED_USE" ];
-		then use ck && CJK_PATCH && sed -i -e 's/\(^EXTRAVERSION :=.*$\)/# \1/' "${S}/Makefile";
+		then use ck && CK_PATCH && sed -i -e 's/\(^EXTRAVERSION :=.*$\)/# \1/' "${S}/Makefile";
 	fi
 
 	if [ "${SUPPORTED_USE/cjk/}" != "$SUPPORTED_USE" ];
