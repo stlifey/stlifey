@@ -26,17 +26,13 @@ USE_ENABLE() {
 	case ${USE} in
 
 		ck)		ck_url="http://ck.kolivas.org/patches"
-				ck_src="${ck_url}/${KMSV}/${KMV}/${KMV}-ck${ck_version}/patch-${KMV}-ck${ck_version}.lrz"
+				ck_src="${ck_url}/${KMSV}/${KMV}/${KMV}-ck${ck_version}/patch-${KMV}-ck${ck_version}.bz2"
 				HOMEPAGE="${HOMEPAGE} ${ck_url}"
 				SRC_URI="
 					${SRC_URI}
 					ck?	( ${ck_src} )
 				"
-				CK_PATCH() {
-					lrunzip -dq "${DISTDIR}/patch-${KMV}-ck${ck_version}.lrz" \
-					-o "${S}/patch-${KMV}-ck${ck_version}"  > /dev/null 2>&1
-					epatch patch-${KMV}-ck${ck_version}
-				}
+				CK_PATCHES="${DISTDIR}/patch-${KMV}-ck${ck_version}.bz2:1"
 			;;
 		bfq)		bfq_url="http://algo.ing.unimo.it/people/paolo/disk_sched"
 				bfq_src="${bfq_url}/patches/${bfq_kernel_version}-v${bfq_version}/0001-block-cgroups-kconfig-build-bits-for-BFQ-v${bfq_version}-${KMV}.patch ${bfq_url}/patches/${bfq_kernel_version}-v${bfq_version}/0002-block-introduce-the-BFQ-v${bfq_version}-I-O-sched-for-${KMV}.patch"
@@ -46,7 +42,6 @@ USE_ENABLE() {
 					bfq?	( ${bfq_src} )
 				"
 				BFQ_PATCHES="${DISTDIR}/0001-block-cgroups-kconfig-build-bits-for-BFQ-v${bfq_version}-${KMV}.patch:1 ${DISTDIR}/0002-block-introduce-the-BFQ-v${bfq_version}-I-O-sched-for-${KMV}.patch:1"
-				use bfq && UNIPATCH_LIST="${UNIPATCH_LIST} ${BFQ_PATCHES}"
 			;;
 		cjktty)		cjktty_url="http://sourceforge.net/projects/cjktty"
 				cjktty_src="${cjktty_url}/files/cjktty-for-linux-3.x/cjktty-for-${cjktty_kernel_version}.patch.xz"
@@ -55,9 +50,8 @@ USE_ENABLE() {
 					${SRC_URI}
 					cjktty?		( ${cjktty_src} )
 				"
-				CJKTTY_PATCHES="${DISTDIR}/cjktty-for-${cjktty_kernel_version}.patch.xz:1"
 				if [ "${SUPPORTED_USE/cjktty/}" != "$SUPPORTED_USE" ];
-					then use cjktty && UNIPATCH_LIST="${UNIPATCH_LIST} ${CJKTTY_PATCHES}"
+					then CJKTTY_PATCHES="${DISTDIR}/cjktty-for-${cjktty_kernel_version}.patch.xz:1";
 				fi
 			;;
 		uksm)		uksm_url="http://kerneldedup.org"
@@ -69,7 +63,6 @@ USE_ENABLE() {
 					uksm?		( ${uksm_src} )
 				"
 				UKSM_PATCHES="${DISTDIR}/uksm-${uksm_version}-for-v${KMV}.ge.${uksm_sub_version}.patch:1"
-				use uksm && UNIPATCH_LIST="${UNIPATCH_LIST} ${UKSM_PATCHES}"
 			;;
 		reiser4) 	reiser4_url="http://sourceforge.net/projects/reiser4"
 				reiser4_src="${reiser4_url}/files/reiser4-for-linux-3.x/reiser4-for-${reiser4_kernel_version}.patch.gz"
@@ -79,7 +72,7 @@ USE_ENABLE() {
 					reiser4?		( ${reiser4_src} )
 				"
 				REISER4_PATCHES="${DISTDIR}/reiser4-for-${reiser4_kernel_version}.patch.gz:1"
-				use reiser4 && UNIPATCH_LIST="${UNIPATCH_LIST} ${REISER4_PATCHES}"
+
 			;;
 		fbcondecor) 	fbcondecor_url="http://dev.gentoo.org/~spock/projects/fbcondecor"
 				fbcondecor_src="http://sources.gentoo.org/cgi-bin/viewvc.cgi/linux-patches/genpatches-2.6/trunk/${KMV}/4200_fbcondecor-${fbcondecor_version}.patch -> 4200_fbcondecor-${KMV}-${fbcondecor_version}.patch"
@@ -88,9 +81,8 @@ USE_ENABLE() {
 					${SRC_URI}
 					fbcondecor?		( ${fbcondecor_src} )
 				"
-				FBCONDECOR_PATCHES="${DISTDIR}/4200_fbcondecor-${KMV}-${fbcondecor_version}.patch:1"
 				if [ "${SUPPORTED_USE/fbcondecor/}" != "$SUPPORTED_USE" ];
-					then use fbcondecor && UNIPATCH_LIST="${UNIPATCH_LIST} ${FBCONDECOR_PATCHES}";
+					then FBCONDECOR_PATCHES="${DISTDIR}/4200_fbcondecor-${KMV}-${fbcondecor_version}.patch:1";
 				fi
 			;;
 	esac
@@ -99,6 +91,13 @@ USE_ENABLE() {
 for I in ${SUPPORTED_USE}; do
 	USE_ENABLE "${I}"
 done
+
+use ck && UNIPATCH_LIST="${UNIPATCH_LIST} ${CK_PATCHES}"
+use bfq && UNIPATCH_LIST="${UNIPATCH_LIST} ${BFQ_PATCHES}"
+use cjktty && UNIPATCH_LIST="${UNIPATCH_LIST} ${CJKTTY_PATCHES}"
+use uksm && UNIPATCH_LIST="${UNIPATCH_LIST} ${UKSM_PATCHES}"
+use reiser4 && UNIPATCH_LIST="${UNIPATCH_LIST} ${REISER4_PATCHES}"
+use fbcondecor && UNIPATCH_LIST="${UNIPATCH_LIST} ${FBCONDECOR_PATCHES}"
 
 if [ "${SUPPORTED_USE/cjktty/}" != "$SUPPORTED_USE" -a "${SUPPORTED_USE/fbcondecor/}" != "$SUPPORTED_USE" ];
 	then REQUIRED_USE="cjktty? ( !fbcondecor )";
@@ -118,7 +117,7 @@ src_unpack() {
 	sed -i -e "s:^\(EXTRAVERSION =\).*:\1 ${EXTRAVERSION}:" Makefile
 
 	if [ "${SUPPORTED_USE/ck/}" != "$SUPPORTED_USE" ];
-		then use ck && CK_PATCH && sed -i -e 's/\(^EXTRAVERSION :=.*$\)/# \1/' "${S}/Makefile";
+		then use ck && sed -i -e 's/\(^EXTRAVERSION :=.*$\)/# \1/' "${S}/Makefile";
 	fi
 
 	rm -rf ${S}/Documentation/* && touch ${S}/Documentation/Makefile
