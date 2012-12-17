@@ -9,7 +9,7 @@ inherit eutils multilib linux-info linux-mod toolchain-funcs versionator
 DESCRIPTION="Ati precompiled drivers for radeon r600 (HD Series) and newer chipsets"
 HOMEPAGE="http://www.amd.com"
 MY_V=( $(get_version_components) )
-SRC_URI="http://www2.ati.com/drivers/legacy/amd-driver-installer-12.6-legacy-x86.x86_64.zip"
+SRC_URI="http://www2.ati.com/drivers/legacy/amd-driver-installer-${PV}-legacy-x86.x86_64.zip"
 FOLDER_PREFIX="common/"
 IUSE="debug modules multilib qt4 static-libs"
 

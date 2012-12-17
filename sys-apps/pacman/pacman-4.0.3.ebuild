@@ -15,7 +15,9 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="curl debug doc gpg test"
 
-COMMON_DEPEND="app-arch/libarchive
+COMMON_DEPEND="
+	sys-apps/fakeroot
+	app-arch/libarchive
 	app-arch/lrzip
 	app-arch/p7zip
 	app-arch/rpm
@@ -25,15 +27,19 @@ COMMON_DEPEND="app-arch/libarchive
 	virtual/libintl
 	sys-devel/gettext
 	curl? ( net-misc/curl )
-	gpg? ( app-crypt/gpgme )"
-RDEPEND="${COMMON_DEPEND}
-	app-arch/xz-utils"
-# autoconf macros from gpgme requied unconditionally
-DEPEND="${COMMON_DEPEND}
+	gpg? ( app-crypt/gpgme )
+"
+RDEPEND="
+	${COMMON_DEPEND}
+	app-arch/xz-utils
+"
+
+DEPEND="
+	${COMMON_DEPEND}
 	app-crypt/gpgme
-	doc? ( app-doc/doxygen
-		app-text/asciidoc )
-	test? ( dev-lang/python )"
+	doc? ( app-doc/doxygen app-text/asciidoc )
+	test? ( dev-lang/python )
+"
 
 RESTRICT="test"
 
