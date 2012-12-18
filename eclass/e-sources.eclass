@@ -110,16 +110,17 @@ SRC_URI="
 
 UNIPATCH_STRICTORDER="yes"
 
+RDEPEND=">=sys-devel/gcc-4.5"
+
 src_unpack() {
 	kernel-2_src_unpack
 
 	sed -i -e "s:^\(EXTRAVERSION =\).*:\1 ${EXTRAVERSION}:" Makefile
 
 	if [ "${SUPPORTED_USE/ck/}" != "$SUPPORTED_USE" ];
-		then use ck && sed -i -e 's/\(^EXTRAVERSION :=.*$\)/# \1/' "${S}/Makefile";
+		then use ck && sed -i -e 's/\(^EXTRAVERSION :=.*$\)/# \1/' "Makefile";
 	fi
 
-	rm -rf ${S}/Documentation/* && touch ${S}/Documentation/Makefile
-	rm -rf ${S}/drivers/video/logo/* && touch ${S}/drivers/video/logo/{Makefile,Kconfig}
-	rm -rf ${S}/a && rm -rf ${S}/b
+	rm -rf {a,b,Documentation/*,drivers/video/logo/*}
+	touch {{Documentation,drivers/video/logo}/Makefile,drivers/video/logo/Kconfig}
 }
