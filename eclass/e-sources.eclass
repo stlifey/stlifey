@@ -1,7 +1,7 @@
 
 inherit kernel-2 versionator
 
-#RESTRICT="mirror"
+RESTRICT="mirror"
 
 K_DEBLOB_AVAILABLE="1"
 K_NOSETEXTRAVERSION="yes"
