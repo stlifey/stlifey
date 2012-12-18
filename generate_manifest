@@ -9,12 +9,3 @@ for file in $(find `pwd` -iname  \*.ebuild); do
 	rm -rf "${file}~";
 	ebuild "${file}" digest;
 done;
-
-for file in $(find `pwd` -iname  ChangeLog); do
-	echo "${file}";
-	cp "${file}" "${file}~";
-	echo "`cat /usr/portage/header.txt`" > "${file}";
-	echo "" >> "${file}";
-	echo "`sed '1,4d' "${file}~"`" >> "${file}";
-	rm -rf "${file}~";
-done;
