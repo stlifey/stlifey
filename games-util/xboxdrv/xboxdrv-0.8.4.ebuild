@@ -17,7 +17,7 @@ IUSE=""
 
 RDEPEND="
 	dev-libs/boost
-	sys-fs/udev
+	virtual/udev
 	sys-apps/dbus
 	dev-libs/glib:2
 	virtual/libusb:1
