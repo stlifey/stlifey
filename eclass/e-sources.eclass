@@ -1,11 +1,11 @@
 
-inherit kernel-2 versionator
-
 RESTRICT="mirror"
 
-K_DEBLOB_AVAILABLE="1"
 K_NOSETEXTRAVERSION="yes"
 K_SECURITY_UNSUPPORTED="1"
+K_DEBLOB_AVAILABLE="1"
+
+inherit kernel-2
 
 KMV="$(get_version_component_range 1-2)"
 KMSV="$(get_version_component_range 1).0"
@@ -102,8 +102,6 @@ USE_ENABLE() {
 for I in ${SUPPORTED_USE}; do
 	USE_ENABLE "${I}"
 done
-
-IUSE="${IUSE} deblob"
 
 use ck && UNIPATCH_LIST="${UNIPATCH_LIST} ${CK_PATCHES}"
 use bfq && UNIPATCH_LIST="${UNIPATCH_LIST} ${BFQ_PATCHES}"
