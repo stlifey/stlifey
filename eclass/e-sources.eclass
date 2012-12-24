@@ -19,11 +19,9 @@ DESCRIPTION="Full sources for the Linux kernel including: ck, bfq and other patc
 KNOWN_FEATURES="ck bfq imq cjktty uksm reiser4 fbcondecor"
 
 USE_ENABLE() {
-	local USE="${1/-/}"
-	USE="${USE/+/}"
+	local USE=$1
 	[ "${USE}" == "" ] && die "Feature not defined!"
 
-	expr index "${SUPPORTED_USE}" "${USE}" >/dev/null || die "${USE} is not supported in current kernel"
 	expr index "${KNOWN_FEATURES}" "${USE}" >/dev/null || die "${USE} is not known"
 	IUSE="${IUSE} ${USE}"
 	case ${USE} in
@@ -67,14 +65,13 @@ USE_ENABLE() {
 				IMQ_PATCHES="${DISTDIR}/patch-imqmq-${imq_kernel_version/.0/}.diff.xz"
 			;;
 		uksm)		uksm_url="http://kerneldedup.org"
-				uksm_sub_version="${uksm_kernel_version/$KMV./}"
-				uksm_src="${uksm_url}/download/uksm/${uksm_version}/uksm-${uksm_version}-for-v${KMV}.ge.${uksm_sub_version}.patch"
+				uksm_src="${uksm_url}/download/uksm/${uksm_version}/uksm-${uksm_version}-for-v${KMV}.ge.${uksm_kernel_version/$KMV./}.patch"
 				HOMEPAGE="${HOMEPAGE} ${uksm_url}"
 				SRC_URI="
 					${SRC_URI}
 					uksm?		( ${uksm_src} )
 				"
-				UKSM_PATCHES="${DISTDIR}/uksm-${uksm_version}-for-v${KMV}.ge.${uksm_sub_version}.patch:1"
+				UKSM_PATCHES="${DISTDIR}/uksm-${uksm_version}-for-v${KMV}.ge.${uksm_kernel_version/$KMV./}.patch:1"
 			;;
 		reiser4) 	reiser4_url="http://sourceforge.net/projects/reiser4"
 				reiser4_src="${reiser4_url}/files/reiser4-for-linux-3.x/reiser4-for-${reiser4_kernel_version}.patch.gz"
