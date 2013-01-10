@@ -18,7 +18,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 src_prepare() {
-	sed -i -e 's#/usr/bin/env python#/usr/bin/python2#' *.py || die "sed failed"
+	sed -i -e 's#/usr/bin/env python#/usr/bin/python2#' lixian_{cli,hash,batch}.py || die "sed failed"
 }
 
 src_install() {
