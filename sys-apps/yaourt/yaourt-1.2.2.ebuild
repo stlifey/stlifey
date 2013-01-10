@@ -13,6 +13,7 @@ SRC_URI="http://mir.archlinux.fr/~tuxce/releases/${PN}/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
+IUSE=""
 
 DEPEND="
 	>=sys-apps/package-query-1.0

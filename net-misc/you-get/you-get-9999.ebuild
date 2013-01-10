@@ -3,14 +3,14 @@
 # $Header: $
 
 EAPI=4
-PYTHON_DEPEND=2
+PYTHON_DEPEND=3
 
 inherit python git-2
 
-DESCRIPTION="Download scripts for xunlei vip users"
-HOMEPAGE="https://github.com/iambus/xunlei-lixian"
+DESCRIPTION="A video downloader for youtube/youku"
+HOMEPAGE="http://www.soimort.org/you-get"
 
-EGIT_REPO_URI="git://github.com/iambus/xunlei-lixian.git"
+EGIT_REPO_URI="git://github.com/soimort/you-get.git"
 EGIT_BRANCH="master"
 
 LICENSE="MIT"
@@ -19,7 +19,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 pkg_setup() {
-	python_set_active_version 2
+	python_set_active_version 3
 	python_pkg_setup
 }
 
@@ -29,11 +29,11 @@ src_prepare() {
 
 src_install() {
 	exeinto "$(python_get_sitedir)"/${PN}
-	doexe *.py || die
+	doexe ${PN} || die
+	dosym $(python_get_sitedir)/${PN}/${PN} /usr/bin/${PN} || die
 
-	dosym "$(python_get_sitedir)"/${PN}/lixian_cli.py /usr/bin/${PN}-cli || die
-	dosym "$(python_get_sitedir)"/${PN}/lixian_hash.py /usr/bin/${PN}-hash || die
-	dosym "$(python_get_sitedir)"/${PN}/lixian_batch.py /usr/bin/${PN}-batch || die
+	insinto $(python_get_sitedir)/${PN}
+	doins -r you_get/* || die
 }
 
 pkg_postinst() {

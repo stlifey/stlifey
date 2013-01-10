@@ -13,6 +13,7 @@ SRC_URI="https://github.com/downloads/opendns/dnscrypt-proxy/dnscrypt-proxy-${PV
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
+IUSE=""
 
 pkg_setup() {
 	enewgroup dnscrypt

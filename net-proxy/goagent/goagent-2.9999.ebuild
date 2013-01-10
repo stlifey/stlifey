@@ -1,23 +1,21 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
 EAPI=4
-PYTHON_DEPEND="2"
+PYTHON_DEPEND=2
 
 inherit python git-2
 
 DESCRIPTION="A GAE proxy forked from gappproxy/wallproxy"
 HOMEPAGE="https://github.com/goagent/goagent"
-SRC_URI="${GOAGENT_SRC_URI}"
 
 EGIT_REPO_URI="git://github.com/goagent/goagent.git"
 EGIT_BRANCH="2.0"
-KEYWORDS="~x86 ~amd64"
-GOAGENT_ECLASS="git-2"
 
 LICENSE="GPL-3"
-SLOT="2.1"
+SLOT="2"
+KEYWORDS="~x86 ~amd64"
 IUSE=""
 
 RDEPEND="
