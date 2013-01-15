@@ -9,6 +9,7 @@ inherit autotools autotools-utils bash-completion-r1 eutils
 DESCRIPTION="Archlinux's binary package manager"
 HOMEPAGE="http://archlinux.org/pacman/"
 SRC_URI="ftp://ftp.archlinux.org/other/${PN}/${P}.tar.gz"
+RESTRICT="mirror"
 
 LICENSE="GPL-2"
 SLOT="0"

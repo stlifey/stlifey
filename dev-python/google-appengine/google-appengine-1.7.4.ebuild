@@ -9,6 +9,7 @@ inherit python
 DESCRIPTION="Google App Engine SDK for Python"
 HOMEPAGE="http://appengine.google.com/"
 SRC_URI="http://${PN/-/}.googlecode.com/files/${PN/-/_}_${PV}.zip"
+RESTRICT="mirror"
 
 LICENSE="Apache-2.0"
 SLOT="0"

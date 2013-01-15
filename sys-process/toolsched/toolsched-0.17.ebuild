@@ -12,6 +12,7 @@ SRC_URI="
 	http://ck.kolivas.org/apps/toolsched/toolsched-${PV}/toolsched.i
 	http://ck.kolivas.org/apps/toolsched/toolsched-${PV}/toolsched.n
 "
+RESTRICT="mirror"
 
 LICENSE="GPL-2"
 SLOT="0"

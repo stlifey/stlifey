@@ -9,6 +9,7 @@ inherit bash-completion-r1 eutils
 DESCRIPTION="A pacman wrapper with extended features and AUR support"
 HOMEPAGE="http://www.archlinux.fr/yaourt-en/"
 SRC_URI="http://mir.archlinux.fr/~tuxce/releases/${PN}/${P}.tar.gz"
+RESTRICT="mirror"
 
 LICENSE="GPL-2"
 SLOT="0"

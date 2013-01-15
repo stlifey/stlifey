@@ -8,6 +8,7 @@ inherit cmake-utils
 DESCRIPTION="sakura is a terminal emulator based on GTK and VTE"
 HOMEPAGE="http://www.pleyades.net/david/projects/sakura/"
 SRC_URI="http://launchpad.net/${PN}/trunk/${PV}/+download/${P}.tar.bz2"
+RESTRICT="mirror"
 
 LICENSE="GPL-2"
 SLOT="0"

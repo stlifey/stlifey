@@ -9,6 +9,7 @@ inherit autotools autotools-utils eutils
 DESCRIPTION="Query ALPM and AUR"
 HOMEPAGE="http://gitweb.archlinux.fr/package-query.git/"
 SRC_URI="http://mir.archlinux.fr/~tuxce/releases/${PN}/${P}.tar.gz"
+RESTRICT="mirror"
 
 LICENSE="GPL-2"
 SLOT="0"
