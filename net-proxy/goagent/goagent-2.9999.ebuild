@@ -28,13 +28,8 @@ src_unpack() {
 	git-2_src_unpack
 }
 
-pkg_setup() {
-	python_set_active_version 2
-	python_pkg_setup
-}
-
 src_prepare() {
-	python_convert_shebangs -r $(python_get_version) .
+	sed -i -e 's/local\/share/share/' local/proxy.py || die "Sed failed!"
 }
 
 src_install() {
@@ -51,7 +46,8 @@ src_install() {
 pkg_postrm() {
 	echo
 	ewarn "Note: Even though you have successfully unmerged GoAgent,"
-	ewarn "certs file ( ${ROOT}opt/goagent/certs directory and ${ROOT}opt/goagent/CA.* )"
+	ewarn "certificate file ( ${ROOT}opt/goagent/certs directory , ${ROOT}opt/goagent/CA.* ,"
+	ewarn "and /usr/share/ca-certificates/GoAgent.crt"
 	ewarn "will remain behind."
 	echo
 }
