@@ -5,13 +5,12 @@
 EAPI=4
 PYTHON_DEPEND=2
 
-inherit python git-2
+inherit python vcs-snapshot
 
 DESCRIPTION="A GAE proxy forked from gappproxy/wallproxy"
-HOMEPAGE="https://github.com/goagent/goagent"
-
-EGIT_REPO_URI="git://github.com/goagent/goagent.git"
-EGIT_BRANCH="2.0"
+HOMEPAGE="http://code.google.com/p/goagent"
+SRC_URI="https://github.com/goagent/goagent/tarball/v${PV} -> ${P}.tar.gz"
+RESTRICT="mirror"
 
 LICENSE="GPL-3"
 SLOT="2"
@@ -25,11 +24,16 @@ RDEPEND="
 "
 
 src_unpack() {
-	git-2_src_unpack
+	vcs-snapshot_src_unpack
+}
+
+pkg_setup() {
+	python_set_active_version 2
+	python_pkg_setup
 }
 
 src_prepare() {
-	sed -i -e 's/local\/share/share/' local/proxy.py || die "Sed failed!"
+	python_convert_shebangs -r $(python_get_version) local/proxy.py
 }
 
 src_install() {
@@ -42,13 +46,4 @@ src_install() {
 	dodir /opt/goagent/certs
 	newinitd ${FILESDIR}/goagent-initd goagent
 	dosym /etc/goagent/proxy.ini /opt/goagent/proxy.ini
-}
-
-pkg_postrm() {
-	echo
-	ewarn "Note: Even though you have successfully unmerged goagent,"
-	ewarn "certificate file ( ${ROOT}opt/goagent/certs directory , ${ROOT}opt/goagent/CA.* ,"
-	ewarn "and /usr/share/ca-certificates/GoAgent.crt"
-	ewarn "will remain behind."
-	echo
 }

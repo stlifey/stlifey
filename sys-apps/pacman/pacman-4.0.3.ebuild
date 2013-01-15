@@ -83,6 +83,5 @@ src_configure() {
 src_install() {
 	autotools-utils_src_install
 
-	dodir /etc/pacman.d
 	newbashcomp "${AUTOTOOLS_BUILD_DIR}"/contrib/bash_completion pacman
 }
