@@ -11,7 +11,7 @@ SRC_URI="mirror://nongnu/${PN}/${P}.tar.gz"
 
 LICENSE=GPL-2
 SLOT=0
-KEYWORDS="amd64 ~arm ~ppc ~ppc64 x86 ~x86-interix ~amd64-linux ~x86-linux"
+KEYWORDS="amd64 x86"
 IUSE=emacs
 
 RDEPEND="virtual/libintl

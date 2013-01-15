@@ -12,7 +12,7 @@ SRC_URI="mirror://ubuntu/pool/main/h/${PN}/${PN}_${PV}_all.deb"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~sh ~sparc ~x86 ~x86-fbsd"
+KEYWORDS="amd64 x86"
 IUSE=""
 
 RDEPEND="
