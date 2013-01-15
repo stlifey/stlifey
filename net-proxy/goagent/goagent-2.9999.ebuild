@@ -39,13 +39,14 @@ src_install() {
 	insinto /opt/goagent
 	doins local/proxy.{py,ini}
 	
+	dodir /opt/goagent/certs
 	newinitd ${FILESDIR}/goagent-initd goagent
 	dosym /etc/goagent/proxy.ini /opt/goagent/proxy.ini
 }
 
 pkg_postrm() {
 	echo
-	ewarn "Note: Even though you have successfully unmerged GoAgent,"
+	ewarn "Note: Even though you have successfully unmerged goagent,"
 	ewarn "certificate file ( ${ROOT}opt/goagent/certs directory , ${ROOT}opt/goagent/CA.* ,"
 	ewarn "and /usr/share/ca-certificates/GoAgent.crt"
 	ewarn "will remain behind."
