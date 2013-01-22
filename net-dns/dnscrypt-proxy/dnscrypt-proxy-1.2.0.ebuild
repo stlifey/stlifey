@@ -4,11 +4,11 @@
 
 EAPI=4
 
-inherit eutils flag-o-matic
+inherit eutils flag-o-matic systemd
 
 DESCRIPTION="A tool for securing communications between a client and a DNS resolver"
 HOMEPAGE="http://www.opendns.com/technology/dnscrypt/"
-SRC_URI="https://github.com/downloads/opendns/dnscrypt-proxy/dnscrypt-proxy-${PV}.tar.bz2"
+SRC_URI="http://download.dnscrypt.org/${PN}/${P}.tar.gz"
 RESTRICT="mirror"
 
 LICENSE="BSD"
@@ -26,14 +26,16 @@ src_configure() {
 		./autogen.sh || die "autogen failed"
 	fi
 	append-ldflags -Wl,-z,noexecstack || die
-	econf || die "configure failed"
+	econf --enable-nonblocking-random || die "configure failed"
 }
 
 src_install() {
 	emake DESTDIR="${D}" install || die "emake install failed"
 
-	newinitd "${FILESDIR}/dnscrypt-proxy.initd" dnscrypt-proxy
-	newconfd "${FILESDIR}/dnscrypt-proxy.confd" dnscrypt-proxy
+	newinitd "${FILESDIR}/${PN}.initd" ${PN} || die "newinitd failed"
+	newconfd "${FILESDIR}/${PN}.confd" ${PN} || die "newconfd failed"
 
-	dodoc {AUTHORS,COPYING,INSTALL,NEWS,README,README.markdown,TECHNOTES,THANKS}
+	systemd_dounit "${FILESDIR}"/${PN}.service
+
+	dodoc {AUTHORS,COPYING,INSTALL,NEWS,README,README.markdown,TECHNOTES,THANKS} || die "dodoc failed"
 }
