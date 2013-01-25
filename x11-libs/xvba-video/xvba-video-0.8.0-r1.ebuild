@@ -23,7 +23,6 @@ IUSE="debug opengl"
 
 RDEPEND="
 	>=x11-libs/libva-1.1.0[X,opengl?]
-	x11-libs/libvdpau
 	x11-drivers/ati-drivers
 "
 DEPEND="${DEPEND}
