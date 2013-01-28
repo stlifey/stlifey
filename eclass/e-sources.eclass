@@ -82,8 +82,8 @@ USE_ENABLE() {
 				"
 				REISER4_PATCHES="${DISTDIR}/reiser4-for-${reiser4_kernel_version}.patch.gz:1"
 			;;
-		fbcondecor) 	fbcondecor_url="http://dev.gentoo.org/~spock/projects/fbcondecor"
-				fbcondecor_src="http://sources.gentoo.org/cgi-bin/viewvc.cgi/linux-patches/genpatches-2.6/trunk/${KMV}/4200_fbcondecor-${fbcondecor_version}.patch -> 4200_fbcondecor-${KMV}-${fbcondecor_version}.patch"
+		fbcondecor) 	fbcondecor_url="http://dev.gentoo.org/~mpagano/genpatches"
+				fbcondecor_src="${fbcondecor_url}/trunk/${KMV}/4200_fbcondecor-${fbcondecor_version}.patch -> 4200_fbcondecor-${KMV}-${fbcondecor_version}.patch"
 				HOMEPAGE="${HOMEPAGE} ${fbcondecor_url}"
 				SRC_URI="
 					${SRC_URI}
