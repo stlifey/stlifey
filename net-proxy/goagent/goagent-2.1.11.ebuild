@@ -41,7 +41,7 @@ src_install() {
 	newins ${S}/local/proxy.ini proxy.ini
 
 	insinto /opt/goagent
-	doins local/proxy.{py,ini}
+	doins local/proxy.{pac,py,ini}
 	
 	dodir /opt/goagent/certs
 	newinitd ${FILESDIR}/goagent-initd goagent
