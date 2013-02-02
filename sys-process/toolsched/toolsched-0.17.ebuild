@@ -7,10 +7,10 @@ EAPI=3
 DESCRIPTION="Simple scripts for automatically starting commands"
 HOMEPAGE="http://ck.kolivas.org/apps/toolsched/"
 SRC_URI="
-	http://ck.kolivas.org/apps/toolsched/toolsched-${PV}/toolsched.b
-	http://ck.kolivas.org/apps/toolsched/toolsched-${PV}/toolsched.d
-	http://ck.kolivas.org/apps/toolsched/toolsched-${PV}/toolsched.i
-	http://ck.kolivas.org/apps/toolsched/toolsched-${PV}/toolsched.n
+	${HOMEPAGE}/${P}/${PN}.b
+	${HOMEPAGE}/${P}/${PN}.d
+	${HOMEPAGE}/${P}/${PN}.i
+	${HOMEPAGE}/${P}/${PN}.n
 "
 RESTRICT="mirror"
 
@@ -24,5 +24,5 @@ RDEPEND="sys-process/schedtool"
 src_unpack() { :; }
 
 src_install() {
-	dobin ${DISTDIR}/toolsched.*
+	dobin ${DISTDIR}/${PN}.*
 }

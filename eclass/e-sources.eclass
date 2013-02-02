@@ -23,7 +23,8 @@ USE_ENABLE() {
 	[ "${USE}" == "" ] && die "Feature not defined!"
 
 	expr index "${KNOWN_FEATURES}" "${USE}" >/dev/null || die "${USE} is not known"
-	IUSE="${IUSE} ${USE}"
+	IUSE="${IUSE} ${USE}" USE="${USE/+/}" USE="${USE/-/}"
+
 	case ${USE} in
 
 		ck)		ck_url="http://ck.kolivas.org/patches"
