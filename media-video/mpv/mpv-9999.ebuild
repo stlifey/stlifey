@@ -14,10 +14,10 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS=""
 
-IUSE="+alsa aqua bluray bs2b cddb +cdio debug +dts dvb +dvd +enca encode fbcon ftp
+IUSE="+alsa aqua bluray bs2b cddb +cdio debug +dts dvb dvd +enca encode fbcon ftp
 +iconv ipv6 jack joystick jpeg kernel_linux ladspa lcms +libass libcaca lirc mng +mp3
-+network -openal +opengl oss portaudio +postproc pulseaudio pvr quvi radio samba +shm
-v4l vcd vdpau +X xinerama +xscreensaver +xv"
++network -openal opengl oss portaudio +postproc pulseaudio pvr quvi radio samba +shm
+v4l vcd vdpau +X xinerama +xscreensaver xv"
 
 REQUIRED_USE="
 	cddb? ( cdio network )
