@@ -14,7 +14,7 @@ RESTRICT="mirror"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="curl debug doc gpg test"
+IUSE="+curl debug doc +gpg test"
 
 COMMON_DEPEND="
 	sys-apps/fakeroot
