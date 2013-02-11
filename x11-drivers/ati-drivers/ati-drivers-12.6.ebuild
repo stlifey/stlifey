@@ -8,7 +8,7 @@ inherit eutils multilib linux-info linux-mod toolchain-funcs versionator
 
 DESCRIPTION="Ati precompiled drivers for Radeon legacy (HD2000 HD3000 HD4000 Series) chipsets"
 HOMEPAGE="http://www.amd.com"
-DRIVERS_URI="http://www2.ati.com/drivers/legacy/amd-driver-installer-catalyst-${PV}-legacy-linux-x86.x86_64.zip"
+DRIVERS_URI="http://www2.ati.com/drivers/legacy/amd-driver-installer-${PV}-legacy-x86.x86_64.zip"
 XVBA_SDK_URI="http://developer.amd.com/wordpress/media/2012/10/xvba-sdk-0.74-404001.tar.gz"
 SRC_URI="${DRIVERS_URI} ${XVBA_SDK_URI}"
 FOLDER_PREFIX="common/"
@@ -325,7 +325,7 @@ src_prepare() {
 		|| die "Replacing 'finger' with 'who' failed."
 	# Adjust paths in the script from /usr/X11R6/bin/ to /opt/bin/ and
 	# add function to detect default state.
-	epatch "${FILESDIR}"/ati-powermode-opt-path-3.patch
+	epatch "${FILESDIR}"/ati-powermode-opt-path-2.patch
 
 	#fixes bug #420751
 	epatch "${FILESDIR}"/ati-drivers-do_mmap.patch
@@ -366,6 +366,15 @@ src_prepare() {
 	mkdir extra || die "mkdir failed"
 	cd extra
 	unpack ./../${FOLDER_PREFIX}usr/src/ati/fglrx_sample_source.tgz
+
+	# Get rid of watermark. Oldest known reference:
+	# http://phoronix.com/forums/showthread.php?19875-Unsupported-Hardware-watermark
+	ebegin "Disabling watermark"
+	driver="${MY_BASE_DIR}"/usr/X11R6/${PKG_LIBDIR}/modules/drivers/fglrx_drv.so
+	for x in $(objdump -d ${driver}|awk '/call/&&/EnableLogo/{print "\\x"$2"\\x"$3"\\x"$4"\\x"$5"\\x"$6}'); do
+		sed -i "s/${x}/\x90\x90\x90\x90\x90/g" ${driver} || break 1
+	done
+	eend $? || die "Disabling watermark failed"
 }
 
 src_compile() {
