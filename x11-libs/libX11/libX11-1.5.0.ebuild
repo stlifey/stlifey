@@ -30,7 +30,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-1.1.4-aix-pthread.patch
 	"${FILESDIR}"/${PN}-1.1.5-winnt-private.patch
 	"${FILESDIR}"/${PN}-1.1.5-solaris.patch
-	"${FILESDIR}"/0001-fix-timestamp-in-XNextEvent.patch
+	"${FILESDIR}"/fix-timestamp-in-XNextEvent.patch
 )
 
 pkg_setup() {
