@@ -119,6 +119,7 @@ src_prepare() {
 		${bash_scripts} || die
 
 	base_src_prepare
+	epatch "${FILESDIR}"/mute-no-bind-found-for-key.patch
 }
 
 src_configure() {
