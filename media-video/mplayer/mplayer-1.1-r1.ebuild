@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/media-video/mplayer/mplayer-1.1-r1.ebuild,v 1.20 2013/02/08 13:41:43 aballier Exp $
+# $Header: $
 
 EAPI=4
 

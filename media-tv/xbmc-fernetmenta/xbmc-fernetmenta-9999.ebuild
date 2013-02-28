@@ -16,12 +16,12 @@ EGIT_REPO_URI="https://github.com/FernetMenta/xbmc.git"
 EGIT_PROJECT="${PN}"
 EGIT_BRANCH="master"
 
-DESCRIPTION="XBMC is a free and open source media-player and entertainment hub. This is FernetMentas branch of XBMC with support for AMD XVBA."
+DESCRIPTION="XBMC is a free and open source media-player and entertainment hub. This is FernetMentas branch of XBMC with support for AMD XvBA."
 HOMEPAGE="http://forum.xbmc.org/showthread.php?tid=116996"
 
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="airplay alsa altivec avahi bluetooth bluray cec css debug goom java joystick midi mysql nfs profile +projectm pulseaudio pvr +rsxs rtmp +samba sse sse2 sftp udev upnp vaapi vdpau webserver +xrandr +xvba"
+IUSE="airplay alsa altivec avahi bluetooth bluray cec css debug goom joystick midi mysql nfs profile +projectm pulseaudio pvr +rsxs rtmp +samba sse sse2 sftp udev upnp vaapi vdpau webserver +xrandr +xvba"
 REQUIRED_USE="pvr? ( mysql )"
 
 COMMON_DEPEND="virtual/glu
@@ -105,8 +105,9 @@ DEPEND="${COMMON_DEPEND}
 	dev-util/gperf
 	x11-proto/xineramaproto
 	dev-util/cmake
-	x86? ( dev-lang/nasm )
-	java? ( virtual/jre )"
+	virtual/jre
+	x86? ( dev-lang/nasm )"
+
 
 S=${WORKDIR}/${MY_P}
 

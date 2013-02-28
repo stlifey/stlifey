@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/x11-wm/openbox/openbox-3.5.0_p20130215.ebuild,v 1.2 2013/02/16 05:58:07 zmedico Exp $
+# $Header: $
 
 EAPI="4"
 inherit multilib autotools python eutils
