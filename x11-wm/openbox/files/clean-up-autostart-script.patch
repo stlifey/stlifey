@@ -1,14 +1,14 @@
-From 5625f1c223eb5e7282683f9f793166cd5fe5340b Mon Sep 17 00:00:00 2001
-From: stlifey <stlifey@gmail.com>
-Date: Thu, 17 May 2012 18:04:11 +0800
-Subject: [PATCH 2/2] clean up autostart script
+From ab135a1c4e21553e0de185b2a3c76aec9bebb13e Mon Sep 17 00:00:00 2001
+From: stlifey joe <stlifey@gmail.com>
+Date: Fri, 22 Feb 2013 11:24:08 +0800
+Subject: [PATCH] clean up autostart script
 
 ---
- data/autostart/openbox-autostart.in |   16 ----------------
- 1 files changed, 0 insertions(+), 16 deletions(-)
+ data/autostart/openbox-autostart.in | 16 ----------------
+ 1 file changed, 16 deletions(-)
 
 diff --git a/data/autostart/openbox-autostart.in b/data/autostart/openbox-autostart.in
-index 063c635..5832eb7 100755
+index 5c72777..5832eb7 100755
 --- a/data/autostart/openbox-autostart.in
 +++ b/data/autostart/openbox-autostart.in
 @@ -1,16 +1,5 @@
@@ -16,11 +16,11 @@ index 063c635..5832eb7 100755
  
 -# Set a background color
 -BG=""
--if which hsetroot >/dev/null; then
+-if which hsetroot >/dev/null 2>/dev/null; then
 -  BG=hsetroot
--elif which esetroot >/dev/null; then
+-elif which esetroot >/dev/null 2>/dev/null; then
 -  BG=esetroot
--elif which xsetroot >/dev/null; then
+-elif which xsetroot >/dev/null 2>/dev/null; then
 -  BG=xsetroot
 -fi
 -test -z $BG || $BG -solid "#303030"
@@ -38,5 +38,5 @@ index 063c635..5832eb7 100755
 -# See openbox-xdg-autostart --help for more details.
 -@libexecdir@/openbox-xdg-autostart "$@"
 -- 
-1.7.8.6
+1.8.1.2
 
