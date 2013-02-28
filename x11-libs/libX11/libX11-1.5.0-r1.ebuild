@@ -2,9 +2,10 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=4
+EAPI=5
 
 XORG_DOC=doc
+XORG_MULTILIB=yes
 inherit xorg-2 toolchain-funcs flag-o-matic
 
 DESCRIPTION="X.Org X11 library"
@@ -13,14 +14,15 @@ KEYWORDS="amd64 x86"
 IUSE="ipv6 test"
 
 RDEPEND="
-	>=x11-libs/libxcb-1.8.1
+	>=x11-libs/libxcb-1.8.1[${MULTILIB_USEDEP}]
 	x11-libs/xtrans
-	>=x11-proto/xproto-7.0.17
-	x11-proto/xf86bigfontproto
-	x11-proto/inputproto
-	x11-proto/kbproto
-	x11-proto/xextproto
+	>=x11-proto/xproto-7.0.17[${MULTILIB_USEDEP}]
+	x11-proto/xf86bigfontproto[${MULTILIB_USEDEP}]
+	x11-proto/inputproto[${MULTILIB_USEDEP}]
+	x11-proto/kbproto[${MULTILIB_USEDEP}]
+	x11-proto/xextproto[${MULTILIB_USEDEP}]
 "
+
 DEPEND="
 	${RDEPEND}
 	test? ( dev-lang/perl )

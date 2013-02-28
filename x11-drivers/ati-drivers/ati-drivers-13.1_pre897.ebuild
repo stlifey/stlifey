@@ -270,8 +270,6 @@ src_prepare() {
 	# add function to detect default state.
 	epatch "${FILESDIR}"/ati-powermode-opt-path-3.patch
 
-	# see http://ati.cchtml.com/show_bug.cgi?id=495
-	#epatch "${FILESDIR}"/ati-drivers-old_rsp.patch
 	# first hunk applied upstream second (x32 related) was not
 	epatch "${FILESDIR}"/ati-drivers-x32_something_something.patch
 
@@ -551,7 +549,7 @@ src_install-libs() {
 	use static-libs || rm -rf "${D}"/usr/$(get_libdir)/libfglrx_dm.a
 
 	#install xvba sdk headers
-	doheader xvba_sdk/include/amdxvba.h
+	INSDESTTREE="/usr/include/amd" doins ${S}/xvba_sdk/include/amdxvba.h
 }
 
 pkg_postinst() {
