@@ -12,7 +12,7 @@ EGIT_REPO_URI="git://github.com/mpv-player/mpv.git"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~amd64 x86"
 
 IUSE="+alsa aqua bluray bs2b cddb +cdio debug +dts dvb dvd +enca encode fbcon ftp
 +iconv ipv6 jack joystick jpeg kernel_linux ladspa lcms +libass libcaca lirc mng mp3

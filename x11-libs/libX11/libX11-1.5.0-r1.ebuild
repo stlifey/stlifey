@@ -10,23 +10,18 @@ inherit xorg-2 toolchain-funcs flag-o-matic
 
 DESCRIPTION="X.Org X11 library"
 
-KEYWORDS="amd64 x86"
+KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~ppc-aix ~amd64-fbsd ~x86-fbsd ~x64-freebsd ~x86-freebsd ~x86-interix ~amd64-linux ~arm-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris ~x86-winnt"
 IUSE="ipv6 test"
 
-RDEPEND="
-	>=x11-libs/libxcb-1.8.1[${MULTILIB_USEDEP}]
+RDEPEND=">=x11-libs/libxcb-1.8.1[${MULTILIB_USEDEP}]
 	x11-libs/xtrans
 	>=x11-proto/xproto-7.0.17[${MULTILIB_USEDEP}]
 	x11-proto/xf86bigfontproto[${MULTILIB_USEDEP}]
 	x11-proto/inputproto[${MULTILIB_USEDEP}]
 	x11-proto/kbproto[${MULTILIB_USEDEP}]
-	x11-proto/xextproto[${MULTILIB_USEDEP}]
-"
-
-DEPEND="
-	${RDEPEND}
-	test? ( dev-lang/perl )
-"
+	x11-proto/xextproto[${MULTILIB_USEDEP}]"
+DEPEND="${RDEPEND}
+	test? ( dev-lang/perl )"
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.1.4-aix-pthread.patch
