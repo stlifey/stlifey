@@ -3,7 +3,6 @@
 # $Header: $
 
 EAPI=4
-PYTHON_DEPEND=3
 
 inherit python git-2
 

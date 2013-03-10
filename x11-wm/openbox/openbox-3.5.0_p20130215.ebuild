@@ -4,6 +4,8 @@
 
 EAPI=4
 
+inherit multilib autotools python eutils
+
 DESCRIPTION="A standards compliant, fast, light-weight, extensible window manager"
 HOMEPAGE="http://openbox.org/"
 SRC_URI="http://dev.gentoo.org/~hwoarang/distfiles/${P}.tar.gz

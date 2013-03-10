@@ -3,7 +3,6 @@
 # $Header: $
 
 EAPI=4
-inherit cmake-utils
 
 DESCRIPTION="sakura is a terminal emulator based on GTK and VTE"
 HOMEPAGE="http://www.pleyades.net/david/projects/sakura/"

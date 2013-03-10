@@ -3,7 +3,6 @@
 # $Header: $
 
 EAPI=4
-inherit eutils fdo-mime gnome2-utils
 
 DESCRIPTION="Legacy (stable) release of the GTK+ 2.x based codebase"
 HOMEPAGE="http://tarot.freeshell.org/leafpad/"
