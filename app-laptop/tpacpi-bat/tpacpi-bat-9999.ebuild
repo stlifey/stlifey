@@ -20,11 +20,16 @@ HOMEPAGE="https://github.com/teleshoes/tpacpi-bat"
 
 LICENSE="GPL-3"
 SLOT="0"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DEPEND=""
 RDEPEND="sys-power/acpi_call
 	dev-lang/perl"
+
+src_prepare() {
+	epatch_user
+}
 
 src_install() {
 	dodoc README battery_asl
