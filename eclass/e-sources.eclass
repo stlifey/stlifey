@@ -1,10 +1,9 @@
 
 RESTRICT="mirror"
 
-K_WANT_GENPATCHES="base"
+K_WANT_GENPATCHES="base extras"
 K_NOSETEXTRAVERSION="yes"
 K_SECURITY_UNSUPPORTED="1"
-K_DEBLOB_AVAILABLE="1"
 
 ETYPE="sources"
 inherit kernel-2
@@ -16,7 +15,6 @@ KMSV="$(get_version_component_range 1).0"
 
 SLOT="${KMV}"
 RDEPEND=">=sys-devel/gcc-4.5"
-KEYWORDS="~amd64 ~x86"
 HOMEPAGE="http://dev.gentoo.org/~mpagano/genpatches"
 
 DESCRIPTION="Full sources for the Linux kernel including: gentoo, ck, bfq and other patches"
@@ -125,6 +123,8 @@ USE_ENABLE() {
 for I in ${SUPPORTED_USE}; do
 	USE_ENABLE "${I}"
 done
+
+UNIPATCH_EXCLUDE="4200_fbcondecor-0.9.6.patch"
 
 use ck && UNIPATCH_LIST="${UNIPATCH_LIST} ${CK_PATCHES}"
 use bfq && UNIPATCH_LIST="${UNIPATCH_LIST} ${BFQ_PATCHES}"
