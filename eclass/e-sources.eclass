@@ -143,16 +143,34 @@ for I in ${SUPPORTED_USE}; do
 done
 
 UNIPATCH_EXCLUDE="4200_fbcondecor-0.9.6.patch"
-
-use aufs && UNIPATCH_LIST="${UNIPATCH_LIST} ${AUFS_PATCHES}"
-use ck && UNIPATCH_LIST="${UNIPATCH_LIST} ${CK_PATCHES}"
-use bfq && UNIPATCH_LIST="${UNIPATCH_LIST} ${BFQ_PATCHES}"
-use cjktty && UNIPATCH_LIST="${UNIPATCH_LIST} ${CJKTTY_PATCHES}"
-use tuxonice && UNIPATCH_LIST="${UNIPATCH_LIST} ${TUXONICE_PATCHES}"
-use imq && UNIPATCH_LIST="${UNIPATCH_LIST} ${IMQ_PATCHES}"
-use uksm && UNIPATCH_LIST="${UNIPATCH_LIST} ${UKSM_PATCHES}"
-use reiser4 && UNIPATCH_LIST="${UNIPATCH_LIST} ${REISER4_PATCHES}"
-use fbcondecor && UNIPATCH_LIST="${UNIPATCH_LIST} ${FBCONDECOR_PATCHES}"
+ 
+if [ "${SUPPORTED_USE/aufs/}" != "$SUPPORTED_USE" ]
+	then use aufs && UNIPATCH_LIST="${UNIPATCH_LIST} ${AUFS_PATCHES}"
+fi
+if [ "${SUPPORTED_USE/ck/}" != "$SUPPORTED_USE" ]
+	then use ck && UNIPATCH_LIST="${UNIPATCH_LIST} ${CK_PATCHES}"
+fi
+if [ "${SUPPORTED_USE/bfq/}" != "$SUPPORTED_USE" ]
+	then use bfq && UNIPATCH_LIST="${UNIPATCH_LIST} ${BFQ_PATCHES}"
+fi
+if [ "${SUPPORTED_USE/cjktty/}" != "$SUPPORTED_USE" ]
+	then use cjktty && UNIPATCH_LIST="${UNIPATCH_LIST} ${CJKTTY_PATCHES}"
+fi
+if [ "${SUPPORTED_USE/tuxonice/}" != "$SUPPORTED_USE" ]
+	then use tuxonice && UNIPATCH_LIST="${UNIPATCH_LIST} ${TUXONICE_PATCHES}"
+fi
+if [ "${SUPPORTED_USE/imq/}" != "$SUPPORTED_USE" ]
+	then use imq && UNIPATCH_LIST="${UNIPATCH_LIST} ${IMQ_PATCHES}"
+fi
+if [ "${SUPPORTED_USE/uksm/}" != "$SUPPORTED_USE" ]
+	then use uksm && UNIPATCH_LIST="${UNIPATCH_LIST} ${UKSM_PATCHES}"
+fi
+if [ "${SUPPORTED_USE/reiser4/}" != "$SUPPORTED_USE" ]
+	then use reiser4 && UNIPATCH_LIST="${UNIPATCH_LIST} ${REISER4_PATCHES}"
+fi
+if [ "${SUPPORTED_USE/fbcondecor/}" != "$SUPPORTED_USE" ]
+	then use fbcondecor && UNIPATCH_LIST="${UNIPATCH_LIST} ${FBCONDECOR_PATCHES}"
+fi
 
 if [ "${SUPPORTED_USE/cjktty/}" != "$SUPPORTED_USE" -a "${SUPPORTED_USE/fbcondecor/}" != "$SUPPORTED_USE" ];
 	then REQUIRED_USE="cjktty? ( !fbcondecor )";
