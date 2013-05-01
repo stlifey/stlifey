@@ -9,8 +9,8 @@ K_DEBLOB_AVAILABLE="1"
 # bfq_version=""
 # ck_version=""
 fbcondecor_version="0.9.6"
-# gentoo_version=""
-tuxonice_version="2013.04.24"
+gentoo_version="1"
+tuxonice_version="2013.05.01"
 # uksm_version=""
 
 # aufs_kernel_version=""
@@ -18,12 +18,12 @@ tuxonice_version="2013.04.24"
 cjktty_kernel_version="3.8.1"
 # imq_kernel_version=""
 # reiser4_kernel_version=""
-tuxonice_kernel_version="3.9.0-rc8"
+tuxonice_kernel_version="3.9.0"
 # uksm_kernel_version=""
 
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 
 # KNOWN_FEATURES="aufs bfq cjktty ck fbcondecor gentoo imq reiser4 tuxonice uksm"
-SUPPORTED_USE="cjktty +fbcondecor +tuxonice"
+SUPPORTED_USE="cjktty +gentoo +fbcondecor +tuxonice"
 
 inherit e-sources

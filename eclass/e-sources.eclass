@@ -22,9 +22,10 @@ RDEPEND=">=sys-devel/gcc-4.5"
 
 if [ "${SUPPORTED_USE/gentoo/}" != "$SUPPORTED_USE" ]; then
 	HOMEPAGE="http://dev.gentoo.org/~mpagano/genpatches"
-	DESCRIPTION="Full sources for the Linux kernel including: gentoo, ck, bfq and other patches"
 	SRC_URI="${GENPATCHES_URI}"
 fi
+
+DESCRIPTION="Full sources for the Linux kernel including: gentoo, ck, bfq and other patches"
 
 KNOWN_FEATURES="aufs bfq cjktty ck fbcondecor gentoo imq reiser4 tuxonice uksm"
 
@@ -101,13 +102,13 @@ USE_ENABLE() {
 			;;
 
 		imq)		imq_url="http://www.linuximq.net"
-				imq_src="${imq_url}/patches/patch-imqmq-${imq_kernel_version/.0/}.diff.xz"
+				#imq_src="${imq_url}/patches/patch-imqmq-${imq_kernel_version/.0/}.diff.xz"
 				HOMEPAGE="${HOMEPAGE} ${imq_url}"
-				SRC_URI="
-					${SRC_URI}
-					imq?	( ${imq_src} )
-				"
-				IMQ_PATCHES="${DISTDIR}/patch-imqmq-${imq_kernel_version/.0/}.diff.xz"
+				#SRC_URI="
+				#	${SRC_URI}
+				#	imq?	( ${imq_src} )
+				#"
+				IMQ_PATCHES="${FILESDIR}/patch-imqmq-${imq_kernel_version/.0/}.diff.xz"
 			;;
 
 		reiser4) 	reiser4_url="http://sourceforge.net/projects/reiser4"
@@ -121,7 +122,7 @@ USE_ENABLE() {
 			;;
 
 		tuxonice)		tuxonice_url="http://tuxonice.net"
-				if [[ "${tuxonice_kernel_version/$KMV./}" =~ "0" ]]
+				if [[ "${tuxonice_kernel_version/$KMV./}" = "0" ]]
 					then tuxonice_src="${tuxonice_url}/downloads/all/tuxonice-for-linux-${tuxonice_kernel_version}-${tuxonice_version//./-}.patch.bz2"
 					else tuxonice_src="${tuxonice_url}/downloads/all/tuxonice-for-linux-${KMV}-${tuxonice_kernel_version/$KMV./}-${tuxonice_version//./-}.patch.bz2"
 				fi
@@ -134,7 +135,7 @@ USE_ENABLE() {
 					${RDEPEND}
 					tuxonice?	( >=sys-apps/tuxonice-userui-1.0 ( || ( >=sys-power/hibernate-script-2.0 sys-power/pm-utils ) ) )
 				"
-				if [[ "${tuxonice_kernel_version/$KMV./}" =~ "0" ]]
+				if [[ "${tuxonice_kernel_version/$KMV./}" = "0" ]]
 					then TUXONICE_PATCHES="${DISTDIR}/tuxonice-for-linux-${tuxonice_kernel_version}-${tuxonice_version//./-}.patch.bz2:1"
 					else TUXONICE_PATCHES="${DISTDIR}/tuxonice-for-linux-${KMV}-${tuxonice_kernel_version/$KMV./}-${tuxonice_version//./-}.patch.bz2:1"
 				fi
@@ -157,7 +158,7 @@ for I in ${SUPPORTED_USE}; do
 	USE_ENABLE "${I}"
 done
 
-UNIPATCH_EXCLUDE="4200_fbcondecor-0.9.6.patch"
+UNIPATCH_EXCLUDE="${UNIPATCH_EXCLUDE} 4200_fbcondecor-0.9.6.patch"
 
 PATCH_ADD() {
 	local PATCH=$1
