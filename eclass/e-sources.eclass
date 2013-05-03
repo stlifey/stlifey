@@ -102,13 +102,13 @@ USE_ENABLE() {
 			;;
 
 		imq)		imq_url="http://www.linuximq.net"
-				#imq_src="${imq_url}/patches/patch-imqmq-${imq_kernel_version/.0/}.diff.xz"
+				imq_src="${imq_url}/patches/patch-imqmq-${imq_kernel_version/.0/}.diff.xz"
 				HOMEPAGE="${HOMEPAGE} ${imq_url}"
-				#SRC_URI="
-				#	${SRC_URI}
-				#	imq?	( ${imq_src} )
-				#"
-				IMQ_PATCHES="${FILESDIR}/patch-imqmq-${imq_kernel_version/.0/}.diff.xz"
+				SRC_URI="
+					${SRC_URI}
+					imq?	( ${imq_src} )
+				"
+				IMQ_PATCHES="${DISTDIR}/patch-imqmq-${imq_kernel_version/.0/}.diff.xz"
 			;;
 
 		reiser4) 	reiser4_url="http://sourceforge.net/projects/reiser4"
@@ -223,8 +223,10 @@ UNIPATCH_STRICTORDER="yes"
 
 src_unpack() {
 
-	if use aufs; then
-		unpack ${aufs_tarball}
+	if [ "${SUPPORTED_USE/ck/}" != "$SUPPORTED_USE" ]; then
+		if use aufs; then
+			unpack ${aufs_tarball}
+		fi
 	fi
 
 	kernel-2_src_unpack
@@ -239,10 +241,12 @@ src_unpack() {
 
 src_prepare() {
 
-	if use aufs; then
-		cp -i "${WORKDIR}"/include/linux/aufs_type.h include/linux/aufs_type.h || die
-		cp -i "${WORKDIR}"/include/uapi/linux/aufs_type.h include/uapi/linux/aufs_type.h || die
-		cp -ri "${WORKDIR}"/{Documentation,fs} . || die
+	if [ "${SUPPORTED_USE/ck/}" != "$SUPPORTED_USE" ]; then
+		if use aufs; then
+			cp -i "${WORKDIR}"/include/linux/aufs_type.h include/linux/aufs_type.h || die
+			cp -i "${WORKDIR}"/include/uapi/linux/aufs_type.h include/uapi/linux/aufs_type.h || die
+			cp -ri "${WORKDIR}"/{Documentation,fs} . || die
+		fi
 	fi
 
 	rm -rf {a,b,Documentation/*,drivers/video/logo/*}
