@@ -21,7 +21,8 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="+additions alsa doc extensions headless java pam pulseaudio +opengl python +qt4 +sdk vboxwebsrv vnc"
 
-RDEPEND="!app-emulation/virtualbox-bin
+RDEPEND="
+	!app-emulation/virtualbox-bin
 	~app-emulation/virtualbox-modules-${PV}
 	dev-libs/libIDL
 	>=dev-libs/libxslt-1.1.19
@@ -46,8 +47,11 @@ RDEPEND="!app-emulation/virtualbox-bin
 		media-libs/libsdl:0[X,video]
 	)
 	vnc? ( >=net-libs/libvncserver-0.9.9 )
-	java? ( || ( virtual/jre:1.7 virtual/jre:1.6 ) )"
-DEPEND="${RDEPEND}
+	java? ( || ( virtual/jre:1.7 virtual/jre:1.6 ) )
+"
+
+DEPEND="
+	${RDEPEND}
 	>=dev-util/kbuild-0.1.9998_pre20120806
 	>=dev-lang/yasm-0.6.2
 	sys-devel/bin86
@@ -68,9 +72,13 @@ DEPEND="${RDEPEND}
 	alsa? ( >=media-libs/alsa-lib-1.0.13 )
 	!headless? ( x11-libs/libXinerama )
 	pulseaudio? ( media-sound/pulseaudio )
-	vboxwebsrv? ( >=net-libs/gsoap-2.7.13 )"
-PDEPEND="additions? ( ~app-emulation/virtualbox-additions-${PV} )
-	extensions? ( ~app-emulation/virtualbox-extpack-oracle-${PV} )"
+	vboxwebsrv? ( >=net-libs/gsoap-2.7.13 )
+"
+
+PDEPEND="
+	additions? ( ~app-emulation/virtualbox-additions-${PV} )
+	extensions? ( ~app-emulation/virtualbox-extpack-oracle-${PV} )
+"
 
 QA_TEXTRELS_x86="usr/lib/virtualbox-ose/VBoxGuestPropSvc.so
 	usr/lib/virtualbox/VBoxSDL.so
