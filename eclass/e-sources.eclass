@@ -1,11 +1,7 @@
 
 RESTRICT="mirror"
 
-features() {
-	if [ "${SUPPORTED_USE/$1/}" != "$SUPPORTED_USE" ];
-		then return 0; else return 1;
-	fi
-}
+features() { if [ "${SUPPORTED_USE/$1/}" != "$SUPPORTED_USE" ]; then return 0; else return 1; fi }
 
 if features gentoo; then
 	K_GENPATCHES_VER="$gentoo_version"
@@ -16,9 +12,7 @@ K_NOSETEXTRAVERSION="yes"
 K_SECURITY_UNSUPPORTED="1"
 
 ETYPE="sources"
-inherit kernel-2 eutils
-detect_version
-detect_arch
+inherit kernel-2
 
 KMV="$(get_version_component_range 1-2)"
 KMSV="$(get_version_component_range 1).0"
@@ -33,13 +27,8 @@ fi
 
 DESCRIPTION="Full sources for the Linux kernel including: gentoo, ck, bfq and other patches"
 
-KNOWN_FEATURES="aufs bfq cjktty ck fbcondecor gentoo imq reiser4 tuxonice uksm"
-
 USE_ENABLE() {
 	local USE=$1
-	[ "${USE}" == "" ] && die "Feature not defined!"
-
-	expr index "${KNOWN_FEATURES}" "${USE}" > /dev/null || die "${USE} is not known"
 	IUSE="${IUSE} ${USE}" USE="${USE/+/}" USE="${USE/-/}"
 
 	case ${USE} in
@@ -119,7 +108,7 @@ USE_ENABLE() {
 				REISER4_PATCHES="${DISTDIR}/reiser4-for-${reiser4_kernel_version}.patch.gz:1"
 			;;
 
-		tuxonice)		tuxonice_url="http://tuxonice.net"
+		tuxonice)	tuxonice_url="http://tuxonice.net"
 				if [[ "${tuxonice_kernel_version/$KMV./}" = "0" ]]
 					then tuxonice_src="${tuxonice_url}/downloads/all/tuxonice-for-linux-${tuxonice_kernel_version}-${tuxonice_version//./-}.patch.bz2"
 					else tuxonice_src="${tuxonice_url}/downloads/all/tuxonice-for-linux-${KMV}-${tuxonice_kernel_version/$KMV./}-${tuxonice_version//./-}.patch.bz2"
@@ -194,12 +183,12 @@ UNIPATCH_STRICTORDER="yes"
 src_unpack() {
 	features aufs && use aufs && unpack ${aufs_tarball}
 	kernel-2_src_unpack
-	sed -i -e "s:^\(EXTRAVERSION =\).*:\1 ${EXTRAVERSION}:" Makefile
-	features ck && use ck && sed -i -e 's/\(^EXTRAVERSION :=.*$\)/# \1/' "Makefile"
-
 }
 
 src_prepare() {
+	sed -i -e "s:^\(EXTRAVERSION =\).*:\1 ${EXTRAVERSION}:" "Makefile"
+	features ck && use ck && sed -i -e 's/\(^EXTRAVERSION :=.*$\)/# \1/' "Makefile"
+
 	features aufs && if use aufs; then
 		cp -i "${WORKDIR}"/include/linux/aufs_type.h include/linux/aufs_type.h || die
 		cp -i "${WORKDIR}"/include/uapi/linux/aufs_type.h include/uapi/linux/aufs_type.h || die
