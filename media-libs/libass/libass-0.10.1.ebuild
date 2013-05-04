@@ -4,31 +4,33 @@
 
 EAPI=4
 
-inherit eutils
-
 DESCRIPTION="Library for SSA/ASS subtitles rendering"
 HOMEPAGE="http://code.google.com/p/libass/"
 SRC_URI="http://libass.googlecode.com/files/${P}.tar.xz"
 
 LICENSE="ISC"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sparc ~x86 ~amd64-fbsd ~x86-fbsd ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~sparc-solaris ~x86-solaris"
+KEYWORDS="~amd64 ~x86"
 IUSE="+enca +fontconfig +harfbuzz static-libs"
 
-RDEPEND="fontconfig? ( >=media-libs/fontconfig-2.4.2 )
+RDEPEND="
+	fontconfig? ( >=media-libs/fontconfig-2.4.2 )
 	>=media-libs/freetype-2.4:2
 	virtual/libiconv
 	>=dev-libs/fribidi-0.19.0
 	harfbuzz? ( >=media-libs/harfbuzz-0.9.11 )
-	enca? ( app-i18n/enca )"
+	enca? ( app-i18n/enca )
+"
 
-DEPEND="${RDEPEND}
-	virtual/pkgconfig"
+DEPEND="
+	${RDEPEND}
+	virtual/pkgconfig
+"
 
 DOCS="Changelog"
 
 src_prepare() {
-	epatch "${FILESDIR}"/mute-selected-font-not-match-warning.patch
+	epatch_user
 }
 
 src_configure() {

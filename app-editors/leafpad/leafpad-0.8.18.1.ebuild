@@ -13,24 +13,24 @@ SLOT=0
 KEYWORDS="amd64 x86"
 IUSE=emacs
 
-RDEPEND="virtual/libintl
-	x11-libs/gtk+:2"
-DEPEND="${RDEPEND}
+RDEPEND="
+	virtual/libintl
+	x11-libs/gtk+:2
+"
+
+DEPEND="
+	${RDEPEND}
 	dev-util/intltool
 	sys-devel/gettext
-	virtual/pkgconfig"
+	virtual/pkgconfig
+"
 
 DOCS="AUTHORS ChangeLog NEWS README"
 
 src_prepare() {
-	epatch "${FILESDIR}"/${P}-fdo.patch
-	epatch "${FILESDIR}"/${P}-remove-icon.patch
+	epatch_user
 }
 
 src_configure() {
 	econf --enable-chooser --enable-print $(use_enable emacs)
 }
-
-pkg_preinst() { gnome2_icon_savelist; }
-pkg_postinst() { fdo-mime_desktop_database_update; gnome2_icon_cache_update; }
-pkg_postrm() { fdo-mime_desktop_database_update; gnome2_icon_cache_update; }

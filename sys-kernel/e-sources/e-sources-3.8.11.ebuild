@@ -25,8 +25,8 @@ KEYWORDS="~amd64 ~x86"
 # SUPPORTED_USE="aufs bfq cjktty ck fbcondecor gentoo imq reiser4 tuxonice uksm"
 SUPPORTED_USE="+aufs +bfq +cjktty +ck fbcondecor +gentoo +reiser4 +tuxonice +uksm"
 
-# CK_PRE_PATCH=" "
-# CK_POST_PATCH=" "
-# UNIPATCH_EXCLUDE=" "
+# CK_PRE_PATCH=""
+# CK_POST_PATCH=""
+# UNIPATCH_EXCLUDE=""
 
 inherit e-sources

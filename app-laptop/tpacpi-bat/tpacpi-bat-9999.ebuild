@@ -23,9 +23,13 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-DEPEND=""
-RDEPEND="sys-power/acpi_call
-	dev-lang/perl"
+RDEPEND="
+	sys-power/acpi_call
+	dev-lang/perl
+"
+DEPEND="
+	${RDEPEND}
+"
 
 src_prepare() {
 	epatch_user

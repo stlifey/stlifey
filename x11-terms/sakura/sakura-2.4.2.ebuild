@@ -26,12 +26,11 @@ DEPEND="
 	virtual/pkgconfig
 "
 
-PATCHES=( "${FILESDIR}"/${P}-cflags.patch \
-	"${FILESDIR}"/${P}-remove-icon-file.patch )
-
-DOCS=( AUTHORS INSTALL )
+DOCS="AUTHORS INSTALL"
 
 src_prepare() {
+	epatch_user
+
 	sed -i -e "/FILES INSTALL/d" CMakeLists.txt || die
 
 	for lang in ${LANGS}; do
