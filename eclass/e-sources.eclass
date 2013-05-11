@@ -31,7 +31,7 @@ USE_ENABLE() {
 	local USE=$1
 	if [ "${USE/\*/}" != "$USE" ];
 		then USE="";
-	fi 
+	fi
 	IUSE="${IUSE} ${USE}" USE="${USE/+/}" USE="${USE/-/}"
 
 	case ${USE} in
@@ -48,7 +48,11 @@ USE_ENABLE() {
 					${RDEPEND}
 					aufs?	( >=sys-fs/aufs-util-3.8 )
 				"
-				AUFS_PATCHES="${WORKDIR}/aufs3-base.patch ${WORKDIR}/aufs3-proc_map.patch ${WORKDIR}/aufs3-kbuild.patch ${WORKDIR}/aufs3-standalone.patch"
+				if [ "${OVERRIDE_AUFS_PATCHES}" != "" ]; then
+					AUFS_PATCHES="${OVERRIDE_AUFS_PATCHES}"
+				else
+					AUFS_PATCHES="${WORKDIR}/aufs3-base.patch ${WORKDIR}/aufs3-proc_map.patch ${WORKDIR}/aufs3-kbuild.patch ${WORKDIR}/aufs3-standalone.patch"
+				fi
 			;;
 
 		bfq)		bfq_url="http://algo.ing.unimo.it/people/paolo/disk_sched"
@@ -58,7 +62,11 @@ USE_ENABLE() {
 					${SRC_URI}
 					bfq?	( ${bfq_src} )
 				"
-				BFQ_PATCHES="${DISTDIR}/0001-block-cgroups-kconfig-build-bits-for-BFQ-v${bfq_version}-${KMV}.patch:1 ${DISTDIR}/0002-block-introduce-the-BFQ-v${bfq_version}-I-O-sched-for-${KMV}.patch:1"
+				if [ "${OVERRIDE_BFQ_PATCHES}" != "" ]; then
+					BFQ_PATCHES="${OVERRIDE_BFQ_PATCHES}"
+				else
+					BFQ_PATCHES="${DISTDIR}/0001-block-cgroups-kconfig-build-bits-for-BFQ-v${bfq_version}-${KMV}.patch:1 ${DISTDIR}/0002-block-introduce-the-BFQ-v${bfq_version}-I-O-sched-for-${KMV}.patch:1"
+				fi
 			;;
 
 		cjktty)		cjktty_url="http://sourceforge.net/projects/cjktty"
@@ -68,7 +76,11 @@ USE_ENABLE() {
 					${SRC_URI}
 					cjktty?	( ${cjktty_src} )
 				"
-				CJKTTY_PATCHES="${DISTDIR}/cjktty-for-${cjktty_kernel_version}.patch.xz:1"
+				if [ "${OVERRIDE_CJKTTY_PATCHES}" != "" ]; then
+					CJKTTY_PATCHES="${OVERRIDE_CJKTTY_PATCHES}"
+				else
+					CJKTTY_PATCHES="${DISTDIR}/cjktty-for-${cjktty_kernel_version}.patch.xz:1"
+				fi
 			;;
 
 		ck)		ck_url="http://ck.kolivas.org/patches"
@@ -78,7 +90,11 @@ USE_ENABLE() {
 					${SRC_URI}
 					ck?	( ${ck_src} )
 				"
-				CK_PATCHES="${CK_PRE_PATCH} ${DISTDIR}/patch-${KMV}-ck${ck_version}.bz2:1 ${CK_POST_PATCH}"
+				if [ "${OVERRIDE_CK_PATCHES}" != "" ]; then
+					CK_PATCHES="${OVERRIDE_CK_PATCHES}"
+				else
+					CK_PATCHES="${CK_PRE_PATCH} ${DISTDIR}/patch-${KMV}-ck${ck_version}.bz2:1 ${CK_POST_PATCH}"
+				fi
 			;;
 
 		fbcondecor) 	fbcondecor_url="http://sources.gentoo.org/cgi-bin/viewvc.cgi/linux-patches/genpatches-2.6"
@@ -88,7 +104,11 @@ USE_ENABLE() {
 					${SRC_URI}
 					fbcondecor?		( ${fbcondecor_src} )
 				"
-				FBCONDECOR_PATCHES="${DISTDIR}/4200_fbcondecor-${KMV}-${fbcondecor_version}.patch:1"
+				if [ "${OVERRIDE_FBCONDECOR_PATCHES}" != "" ]; then
+					FBCONDECOR_PATCHES="${OVERRIDE_FBCONDECOR_PATCHES}"
+				else
+					FBCONDECOR_PATCHES="${DISTDIR}/4200_fbcondecor-${KMV}-${fbcondecor_version}.patch:1"
+				fi
 			;;
 
 		imq)		imq_url="http://www.linuximq.net"
@@ -98,7 +118,11 @@ USE_ENABLE() {
 					${SRC_URI}
 					imq?	( ${imq_src} )
 				"
-				IMQ_PATCHES="${DISTDIR}/patch-imqmq-${imq_kernel_version/.0/}.diff.xz"
+				if [ "${OVERRIDE_IMQ_PATCHES}" != "" ]; then
+					IMQ_PATCHES="${OVERRIDE_IMQ_PATCHES}"
+				else
+					IMQ_PATCHES="${DISTDIR}/patch-imqmq-${imq_kernel_version/.0/}.diff.xz"
+				fi
 			;;
 
 		reiser4) 	reiser4_url="http://sourceforge.net/projects/reiser4"
@@ -108,7 +132,11 @@ USE_ENABLE() {
 					${SRC_URI}
 					reiser4?		( ${reiser4_src} )
 				"
-				REISER4_PATCHES="${DISTDIR}/reiser4-for-${reiser4_kernel_version}.patch.gz:1"
+				if [ "${OVERRIDE_REISER4_PATCHES}" != "" ]; then
+					REISER4_PATCHES="${OVERRIDE_REISER4_PATCHES}"
+				else
+					REISER4_PATCHES="${DISTDIR}/reiser4-for-${reiser4_kernel_version}.patch.gz:1"
+				fi
 			;;
 
 		tuxonice)	tuxonice_url="http://tuxonice.net"
@@ -125,9 +153,13 @@ USE_ENABLE() {
 					${RDEPEND}
 					tuxonice?	( >=sys-apps/tuxonice-userui-1.0 ( || ( >=sys-power/hibernate-script-2.0 sys-power/pm-utils ) ) )
 				"
-				if [[ "${tuxonice_kernel_version/$KMV./}" = "0" ]]
-					then TUXONICE_PATCHES="${DISTDIR}/tuxonice-for-linux-${tuxonice_kernel_version}-${tuxonice_version//./-}.patch.bz2:1"
-					else TUXONICE_PATCHES="${DISTDIR}/tuxonice-for-linux-${KMV}-${tuxonice_kernel_version/$KMV./}-${tuxonice_version//./-}.patch.bz2:1"
+				if [ "${OVERRIDE_TUXONICE_PATCHES}" != "" ]; then
+					TUXONICE_PATCHES="${OVERRIDE_TUXONICE_PATCHES}"
+				else
+					if [[ "${tuxonice_kernel_version/$KMV./}" = "0" ]]
+						then TUXONICE_PATCHES="${DISTDIR}/tuxonice-for-linux-${tuxonice_kernel_version}-${tuxonice_version//./-}.patch.bz2:1"
+						else TUXONICE_PATCHES="${DISTDIR}/tuxonice-for-linux-${KMV}-${tuxonice_kernel_version/$KMV./}-${tuxonice_version//./-}.patch.bz2:1"
+					fi
 				fi
 			;;
 
@@ -138,7 +170,11 @@ USE_ENABLE() {
 					${SRC_URI}
 					uksm?		( ${uksm_src} )
 				"
-				UKSM_PATCHES="${DISTDIR}/uksm-${uksm_version}-for-v${KMV}.ge.${uksm_kernel_version/$KMV./}.patch:1"
+				if [ "${OVERRIDE_UKSM_PATCHES}" != "" ]; then
+					UKSM_PATCHES="${OVERRIDE_UKSM_PATCHES}";
+				else
+					UKSM_PATCHES="${DISTDIR}/uksm-${uksm_version}-for-v${KMV}.ge.${uksm_kernel_version/$KMV./}.patch:1"
+				fi
 			;;
 
 	esac
