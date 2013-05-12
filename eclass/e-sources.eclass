@@ -13,7 +13,7 @@
 #	gentoo - genpatches
 #	imq - intermediate queueing device
 #	reiser4 - Reiser4 file system
-#	tuxonice - another linux hibernate kernel patchset 
+#	tuxonice - another linux hibernate kernel patchset
 #	uksm - ultra kernel samepage merging
 #
 
@@ -69,12 +69,21 @@ USE_ENABLE() {
 						${SRC_URI}
 						aufs?	( ${aufs_src} )
 					"
-					AUFS_PATCHES="${WORKDIR}/aufs3-base.patch ${WORKDIR}/aufs3-proc_map.patch ${WORKDIR}/aufs3-kbuild.patch ${WORKDIR}/aufs3-standalone.patch"
+					AUFS_PATCHES="
+						${WORKDIR}/aufs3-base.patch
+						${WORKDIR}/aufs3-proc_map.patch
+						${WORKDIR}/aufs3-kbuild.patch
+						${WORKDIR}/aufs3-standalone.patch
+					"
 				fi
 			;;
 
 		bfq)		bfq_url="http://algo.ing.unimo.it/people/paolo/disk_sched"
-				bfq_src="${bfq_url}/patches/${bfq_kernel_version}-v${bfq_version/./r}/0001-block-cgroups-kconfig-build-bits-for-BFQ-v${bfq_version/./r}-${KMV}.patch ${bfq_url}/patches/${bfq_kernel_version}-v${bfq_version/./r}/0002-block-introduce-the-BFQ-v${bfq_version/./r}-I-O-sched-for-${KMV}.patch ${bfq_url}/patches/${bfq_kernel_version}-v${bfq_version/./r}/0003-block-bfq-add-Early-Queue-Merge-EQM-to-BFQ-v${bfq_version/./r}-for-${bfq_kernel_version}.patch"
+				bfq_src="
+					${bfq_url}/patches/${bfq_kernel_version}-v${bfq_version/./r}/0001-block-cgroups-kconfig-build-bits-for-BFQ-v${bfq_version/./r}-${KMV}.patch
+					${bfq_url}/patches/${bfq_kernel_version}-v${bfq_version/./r}/0002-block-introduce-the-BFQ-v${bfq_version/./r}-I-O-sched-for-${KMV}.patch
+					${bfq_url}/patches/${bfq_kernel_version}-v${bfq_version/./r}/0003-block-bfq-add-Early-Queue-Merge-EQM-to-BFQ-v${bfq_version/./r}-for-${bfq_kernel_version}.patch
+				"
 				HOMEPAGE="${HOMEPAGE} ${bfq_url}"
 				if [ "${OVERRIDE_BFQ_PATCHES}" != "" ]; then
 					BFQ_PATCHES="${OVERRIDE_BFQ_PATCHES}"
@@ -83,7 +92,11 @@ USE_ENABLE() {
 						${SRC_URI}
 						bfq?	( ${bfq_src} )
 					"
-					BFQ_PATCHES="${DISTDIR}/0001-block-cgroups-kconfig-build-bits-for-BFQ-v${bfq_version/./r}-${KMV}.patch:1 ${DISTDIR}/0002-block-introduce-the-BFQ-v${bfq_version/./r}-I-O-sched-for-${KMV}.patch:1 ${DISTDIR}/0003-block-bfq-add-Early-Queue-Merge-EQM-to-BFQ-v${bfq_version/./r}-for-${bfq_kernel_version}.patch:1"
+					BFQ_PATCHES="
+						${DISTDIR}/0001-block-cgroups-kconfig-build-bits-for-BFQ-v${bfq_version/./r}-${KMV}.patch:1
+						${DISTDIR}/0002-block-introduce-the-BFQ-v${bfq_version/./r}-I-O-sched-for-${KMV}.patch:1
+						${DISTDIR}/0003-block-bfq-add-Early-Queue-Merge-EQM-to-BFQ-v${bfq_version/./r}-for-${bfq_kernel_version}.patch:1
+					"
 				fi
 			;;
 
