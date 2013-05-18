@@ -3,7 +3,7 @@
 # Author stlifey <stlifey@gmail.com>
 # $Header: $
 #
-# e-sources.eclass - Eclass for building sys-kernel/e-sources-* packages , provide patchest including :
+# e-sources.eclass - Eclass for building sys-kernel/e-sources-* packages , provide patchests including :
 #
 #	aufs - Advanced multi layered unification filesystem
 #	bfq - budget fair queueing budget I/O scheduler
