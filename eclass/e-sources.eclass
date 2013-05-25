@@ -11,6 +11,7 @@
 #	ck - Con Kolivas' high performance patchset
 #	gentoo - genpatches
 #	imq - intermediate queueing device
+#	optimization - more optimized gcc options for additional CPUs
 #	reiser4 - Reiser4 file system
 #	tuxonice - another linux hibernate kernel patchset
 #	uksm - ultra kernel samepage merging
@@ -33,7 +34,7 @@ KMV="$(get_version_component_range 1-2)"
 KMSV="$(get_version_component_range 1).0"
 
 SLOT="${KMV}"
-RDEPEND=">=sys-devel/gcc-4.5"
+RDEPEND=">=sys-devel/gcc-4.8"
 
 if features gentoo; then
 	HOMEPAGE="http://dev.gentoo.org/~mpagano/genpatches"
@@ -109,6 +110,7 @@ USE_ENABLE() {
 					"
 					CJKTTY_PATCHES="${DISTDIR}/cjktty-for-${cjktty_kernel_version}.patch.xz:1"
 				fi
+				UNIPATCH_EXCLUDE="${UNIPATCH_EXCLUDE} 4200_fbcondecor-0.9.6.patch"
 			;;
 
 		ck)		ck_url="http://ck.kolivas.org/patches"
@@ -123,7 +125,6 @@ USE_ENABLE() {
 					"
 					CK_PATCHES="${CK_PRE_PATCH} ${DISTDIR}/patch-${KMV}-ck${ck_version}.bz2:1 ${CK_POST_PATCH}"
 				fi
-				UNIPATCH_EXCLUDE="${UNIPATCH_EXCLUDE} 4200_fbcondecor-0.9.6.patch"
 			;;
 
 		imq)		imq_url="http://www.linuximq.net"
@@ -137,6 +138,20 @@ USE_ENABLE() {
 						imq?	( ${imq_src} )
 					"
 					IMQ_PATCHES="${DISTDIR}/patch-imqmq-${imq_kernel_version/.0/}.diff.xz"
+				fi
+			;;
+
+		optimization)	optimization_url="https://raw.github.com/graysky2/kernel_gcc_patch"
+				optimization_src="${optimization_url}/master/kernel-${KMV/./}-gcc48-${optimization_version}.patch"
+				HOMEPAGE="${HOMEPAGE} ${optimization_url}"
+				if [ "${OVERRIDE_OPTIMIZATION_PATCHES}" != "" ]; then
+					OPTIMIZATION_PATCHES="${OVERRIDE_OPTIMIZATION_PATCHES}"
+				else
+					SRC_URI="
+						${SRC_URI}
+						optimization?		( ${optimization_src} )
+					"
+					OPTIMIZATION_PATCHES="${DISTDIR}/kernel-${KMV/./}-gcc48-${optimization_version}.patch"
 				fi
 			;;
 
@@ -209,6 +224,7 @@ PATCH_APPEND() {
 		cjktty)		use cjktty && UNIPATCH_LIST="${UNIPATCH_LIST} ${CJKTTY_PATCHES}" ;;
 		ck)		use ck && UNIPATCH_LIST="${UNIPATCH_LIST} ${CK_PATCHES}" ;;
 		imq)		use imq && UNIPATCH_LIST="${UNIPATCH_LIST} ${IMQ_PATCHES}" ;;
+		optimization)	use optimization && UNIPATCH_LIST="${UNIPATCH_LIST} ${OPTIMIZATION_PATCHES}" ;;
 		reiser4)	use reiser4 && UNIPATCH_LIST="${UNIPATCH_LIST} ${REISER4_PATCHES}" ;;
 		tuxonice)	use tuxonice && UNIPATCH_LIST="${UNIPATCH_LIST} ${TUXONICE_PATCHES}" ;;
 		uksm)		use uksm && UNIPATCH_LIST="${UNIPATCH_LIST} ${UKSM_PATCHES}" ;;
@@ -233,7 +249,7 @@ src_unpack() {
 }
 
 src_prepare() {
-	sed -i -e "s:^\(EXTRAVERSION =\).*:\1 ${EXTRAVERSION}:" "Makefile"
+	sed -i -e "s:^\(EXTRAVERSION =\).*: \1 ${EXTRAVERSION}:" "Makefile"
 	features ck && use ck && sed -i -e 's/\(^EXTRAVERSION :=.*$\)/# \1/' "Makefile"
 
 	features aufs && if use aufs; then
