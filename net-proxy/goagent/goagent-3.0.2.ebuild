@@ -12,12 +12,12 @@ SRC_URI="https://github.com/goagent/goagent/tarball/v${PV} -> ${P}.tar.gz"
 RESTRICT="mirror"
 
 LICENSE="GPL-3"
-SLOT="2"
+SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
 
 RDEPEND="
-	dev-lang/python:2.7[ssl]
+	dev-lang/python:3.3[ssl]
+	dev-libs/nss[utils]
 	dev-python/gevent
 	dev-python/pyopenssl
 "
@@ -27,7 +27,7 @@ src_unpack() {
 }
 
 pkg_setup() {
-	python_set_active_version 2
+	python_set_active_version 3
 	python_pkg_setup
 }
 

@@ -73,13 +73,13 @@ USE_ENABLE() {
 				cjktty_src="${cjktty_url}/files/cjktty-for-linux-3.x/${cjktty_patch}"
 				HOMEPAGE="${HOMEPAGE} ${cjktty_url}"
 				if [ "${OVERRIDE_CJKTTY_PATCHES}" = 1 ]; then
-					CJKTTY_PATCHES="${FILESDIR}/${cjktty_patch}:1"
+					CJKTTY_PATCHES="${FILESDIR}/${cjktty_patch}"
 				else
 					SRC_URI="
 						${SRC_URI}
 						cjktty?	( ${cjktty_src} )
 					"
-					CJKTTY_PATCHES="${DISTDIR}/${cjktty_patch}:1"
+					CJKTTY_PATCHES="${DISTDIR}/${cjktty_patch}"
 				fi
 			;;
 
@@ -88,13 +88,13 @@ USE_ENABLE() {
 				ck_src="${ck_url}/${KMSV}/${KMV}/${KMV}-ck${ck_version}/${ck_patch}"
 				HOMEPAGE="${HOMEPAGE} ${ck_url}"
 				if [ "${OVERRIDE_CK_PATCHES}" = 1 ]; then
-					CK_PATCHES="${FILESDIR}/${CK_PRE_PATCH} ${FILESDIR}/${ck_patch}:1 ${FILESDIR}/${CK_POST_PATCH}"
+					CK_PATCHES="${FILESDIR}/${CK_PRE_PATCH} ${FILESDIR}/${ck_patch} ${FILESDIR}/${CK_POST_PATCH}"
 				else
 					SRC_URI="
 						${SRC_URI}
 						ck?	( ${ck_src} )
 					"
-					CK_PATCHES="${FILESDIR}/${CK_PRE_PATCH} ${DISTDIR}/${ck_patch}:1 ${FILESDIR}/${CK_POST_PATCH}"
+					CK_PATCHES="${FILESDIR}/${CK_PRE_PATCH} ${DISTDIR}/${ck_patch} ${FILESDIR}/${CK_POST_PATCH}"
 				fi
 			;;
 
@@ -146,7 +146,7 @@ USE_ENABLE() {
 		tuxonice)	tuxonice_url="http://tuxonice.net"
 				if [[ "${tuxonice_kernel_version/$KMV./}" = "0" ]]
 					then tuxonice_patch="tuxonice-for-linux-head-${tuxonice_kernel_version}-${tuxonice_version//./-}.patch.bz2"
-					else tuxonice_patch="tuxonice-for-linux-${KMV}-${tuxonice_kernel_version/$KMV./}-${tuxonice_version//./-}.patch.bz2"
+					else tuxonice_patch="tuxonice-for-linux-${tuxonice_kernel_version}-${tuxonice_version//./-}.patch.bz2"
 				fi
 				tuxonice_src="${tuxonice_url}/downloads/all/${tuxonice_patch}"
 				HOMEPAGE="${HOMEPAGE} ${tuxonice_url}"
@@ -161,7 +161,7 @@ USE_ENABLE() {
 						${SRC_URI}
 						tuxonice?	( ${tuxonice_src} )
 					"
-					UXONICE_PATCHES="${DISTDIR}/${tuxonice_patch}"
+					TUXONICE_PATCHES="${DISTDIR}/${tuxonice_patch}"
 				fi
 			;;
 
@@ -173,7 +173,7 @@ USE_ENABLE() {
 				uksm_src="${uksm_url}/download/uksm/${uksm_version}/${uksm_patch}"
 				HOMEPAGE="${HOMEPAGE} ${uksm_url}"
 				if [ "${OVERRIDE_UKSM_PATCHES}" = 1 ]; then
-					UKSM_PATCHES="${FILESDIR}/${uksm_patch}";
+					UKSM_PATCHES="${FILESDIR}/${uksm_patch}"
 				else
 					SRC_URI="
 						${SRC_URI}
