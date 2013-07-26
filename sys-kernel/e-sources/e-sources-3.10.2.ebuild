@@ -6,7 +6,7 @@ EAPI="5"
 K_DEBLOB_AVAILABLE="1"
 
 ck_version="1"
-gentoo_version="4"
+gentoo_version="5"
 optimization_version="1"
 tuxonice_version="2013.07.14"
 uksm_version="0.1.2.2"
@@ -34,6 +34,6 @@ OVERRIDE_REISER4_PATCHES="0"
 OVERRIDE_TUXONICE_PATCHES="0"
 OVERRIDE_UKSM_PATCHES="0"
 
-ADDITION_PATCHES=""
+ADDITION_PATCHES="${FILESDIR}/94a335dba34ff47cad3d6d0c29b452d43a1be3c8.patch"
 
 inherit e-sources
