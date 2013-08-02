@@ -8,19 +8,19 @@ K_DEBLOB_AVAILABLE="1"
 ck_version="1"
 gentoo_version="8"
 optimization_version="1"
-tuxonice_version="2013.07.14"
+tuxonice_version="2013.07.30"
 uksm_version="0.1.2.2"
 
-aufs_kernel_version="3.10_p20130708"
+aufs_kernel_version="3.10_p20130722"
 cjktty_kernel_version="3.8.1"
 imq_kernel_version="3.10.0"
 reiser4_kernel_version="3.10.0"
-tuxonice_kernel_version="3.10.1"
+tuxonice_kernel_version="3.10.4"
 uksm_kernel_version="3.10.0"
 
 KEYWORDS="~amd64 ~x86"
 
-SUPPORTED_USE="+aufs +cjktty +ck +gentoo +imq +optimization +reiser4 +tuxonice +uksm"
+SUPPORTED_USE="+aufs +cjktty +ck +gentoo +optimization +reiser4 +tuxonice +uksm"
 
 CK_PRE_PATCH=""
 CK_POST_PATCH=""
@@ -29,11 +29,11 @@ UNIPATCH_EXCLUDE=""
 OVERRIDE_CJKTTY_PATCHES="0"
 OVERRIDE_CK_PATCHES="0"
 OVERRIDE_FBCONDECOR_PATCHES="0"
-OVERRIDE_IMQ_PATCHES="1"
+OVERRIDE_IMQ_PATCHES="0"
 OVERRIDE_REISER4_PATCHES="0"
 OVERRIDE_TUXONICE_PATCHES="0"
 OVERRIDE_UKSM_PATCHES="0"
 
-ADDITION_PATCHES="${FILESDIR}/enable-haswell-pstate-driver.patch"
+ADDITION_PATCHES=""
 
 inherit e-sources

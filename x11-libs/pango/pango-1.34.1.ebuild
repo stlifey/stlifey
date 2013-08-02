@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Header: /var/cvsroot/gentoo-x86/x11-libs/pango/pango-1.34.1.ebuild,v 1.3 2013/06/06 14:24:31 tetromino Exp $
 
 EAPI="5"
 GCONF_DEBUG="yes"
@@ -13,39 +13,46 @@ HOMEPAGE="http://www.pango.org/"
 
 LICENSE="LGPL-2+ FTL"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86 ~amd64-fbsd ~x86-fbsd ~x86-freebsd ~x86-interix ~amd64-linux ~arm-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~sparc-solaris ~x64-solaris ~x86-solaris"
+KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~sh ~sparc ~x86 ~amd64-fbsd ~x86-fbsd ~x86-freebsd ~x86-interix ~amd64-linux ~arm-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~sparc-solaris ~x64-solaris ~x86-solaris"
 
 IUSE="X +introspection"
 
+# Bump cairo dep to be safer:
+# https://bugzilla.gnome.org/show_bug.cgi?id=700247#c4
 RDEPEND="
-	>=media-libs/harfbuzz-0.9.9:=
+	>=media-libs/harfbuzz-0.9.9:=[glib(+),truetype(+)]
 	>=dev-libs/glib-2.33.12:2
-	>=media-libs/fontconfig-2.5.0:1.0=
+	>=media-libs/fontconfig-2.10.91:1.0=
 	media-libs/freetype:2=
-	>=x11-libs/cairo-1.7.6:=[X?]
+	>=x11-libs/cairo-1.12.10:=[X?]
 	introspection? ( >=dev-libs/gobject-introspection-0.9.5 )
 	X? (
 		x11-libs/libXrender
 		x11-libs/libX11
-		>=x11-libs/libXft-2.0.0 )"
+		>=x11-libs/libXft-2.0.0 )
+"
 DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.13
 	virtual/pkgconfig
 	X? ( x11-proto/xproto )
-	!<=sys-devel/autoconf-2.63:2.5"
+	!<=sys-devel/autoconf-2.63:2.5
+"
 
 src_prepare() {
 	tc-export CXX
-	DOCS="AUTHORS ChangeLog* NEWS README THANKS"
-	G2CONF="${G2CONF}
-		$(use_enable introspection)
-		$(use_with X xft)
-		"$(usex X --x-includes="${EPREFIX}/usr/include" "")"
-		"$(usex X --x-libraries="${EPREFIX}/usr/$(get_libdir)" "")
+
 	epatch_user
 	eautoreconf
 
 	gnome2_src_prepare
+}
+
+src_configure() {
+	gnome2_src_configure \
+		$(use_enable introspection) \
+		$(use_with X xft) \
+		"$(usex X --x-includes="${EPREFIX}/usr/include" "")" \
+		"$(usex X --x-libraries="${EPREFIX}/usr/$(get_libdir)" "")"
 }
 
 src_install() {
