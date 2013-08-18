@@ -18,7 +18,7 @@ IUSE=""
 
 CONFIG_CHECK="!USER_NS"
 BUILD_TARGETS="all"
-MODULE_NAMES="exfat_fs(fs:${S}) exfat_core(fs:${S})"
+MODULE_NAMES="exfat(fs:${S})"
 
 src_compile(){
 	BUILD_PARAMS="KDIR=${KV_OUT_DIR} M=${S}"
