@@ -5,21 +5,25 @@
 #
 # e-sources.eclass - Eclass for building sys-kernel/e-sources-* packages , provide patchests including :
 #
-#	aufs - Advanced multi layered unification filesystem
-#	cjktty - CJK tty font support
-#	ck - Con Kolivas' high performance patchset
-#	gentoo - genpatches
-#	optimization - more optimized gcc options for additional CPUs
-#	reiser4 - Reiser4 file system
-#	tuxonice - another linux hibernate kernel patchset
-#	uksm - ultra kernel samepage merging
+#	aufs - Add advanced multi layered unification filesystem support.
+#	cjktty - Add CJK font support for tty.
+#	ck - Apply Con Kolivas' high performance patchset.
+#	gentoo - Apply Gentoo linux kernel patches called genpatches.
+#	imq - Add intermediate queueing device support.
+#	optimization - more optimized gcc options for additional CPUs.
+#	reiser4 - Add Reiser4 filesystem support.
+#	tuxonice - Add TuxOnIce support - another linux hibernate kernel patches.
+#	uksm - Add ultra kernel samepage merging support.
 #
 
 features() { if [ "${SUPPORTED_USE/$1/}" != "$SUPPORTED_USE" ]; then return 0; else return 1; fi }
+enable() { if features $1 && use $1; then return 0; else return 1; fi }
 
 if features gentoo; then
 	K_GENPATCHES_VER="$gentoo_version"
-	K_WANT_GENPATCHES="base extras"
+	K_WANT_GENPATCHES="base extras experimental"
+else
+	SUPPORTED_USE="${SUPPORTED_USE/?experimental/}"
 fi
 
 K_NOSETEXTRAVERSION=""
@@ -33,7 +37,7 @@ KMSV="$(get_version_component_range 1).0"
 
 SLOT="${KMV}"
 
-features optimization && use optimization && RDEPEND=">=sys-devel/gcc-4.8"
+features optimization && RDEPEND=">=sys-devel/gcc-4.8"
 
 if features gentoo; then
 	HOMEPAGE="http://dev.gentoo.org/~mpagano/genpatches"
@@ -73,7 +77,7 @@ USE_ENABLE() {
 				cjktty_src="${cjktty_url}/files/cjktty-for-linux-3.x/${cjktty_patch}"
 				HOMEPAGE="${HOMEPAGE} ${cjktty_url}"
 				if [ "${OVERRIDE_CJKTTY_PATCHES}" = 1 ]; then
-					CJKTTY_PATCHES="${FILESDIR}/${cjktty_patch}:1"
+					CJKTTY_PATCHES="${FILESDIR}/${KMV}/${cjktty_patch}:1"
 				else
 					SRC_URI="
 						${SRC_URI}
@@ -88,13 +92,28 @@ USE_ENABLE() {
 				ck_src="${ck_url}/${KMSV}/${KMV}/${KMV}-ck${ck_version}/${ck_patch}"
 				HOMEPAGE="${HOMEPAGE} ${ck_url}"
 				if [ "${OVERRIDE_CK_PATCHES}" = 1 ]; then
-					CK_PATCHES="${FILESDIR}/${CK_PRE_PATCH} ${FILESDIR}/${ck_patch}:1 ${FILESDIR}/${CK_POST_PATCH}"
+					CK_PATCHES="${FILESDIR}/${KMV}/${ck_patch}:1"
 				else
 					SRC_URI="
 						${SRC_URI}
 						ck?	( ${ck_src} )
 					"
-					CK_PATCHES="${FILESDIR}/${CK_PRE_PATCH} ${DISTDIR}/${ck_patch}:1 ${FILESDIR}/${CK_POST_PATCH}"
+					CK_PATCHES="${DISTDIR}/${ck_patch}:1"
+				fi
+			;;
+
+		imq)		imq_url="http://www.linuximq.net"
+				imq_patch="patch-imqmq-${imq_kernel_version/.0/}.diff.xz"
+				imq_src="${imq_url}/patches/${imq_patch}"
+				HOMEPAGE="${HOMEPAGE} ${imq_url}"
+				if [ "${OVERRIDE_IMQ_PATCHES}" = 1 ]; then
+					IMQ_PATCHES="${FILESDIR}/${KMV}/${imq_patch}:1"
+				else
+					SRC_URI="
+						${SRC_URI}
+						imq?  ( ${imq_src} )
+					"
+					IMQ_PATCHES="${DISTDIR}/${imq_patch}:1"
 				fi
 			;;
 
@@ -103,7 +122,7 @@ USE_ENABLE() {
 				optimization_src="${optimization_url}/master/${optimization_patch}"
 				HOMEPAGE="${HOMEPAGE} ${optimization_url}"
 				if [ "${OVERRIDE_OPTIMIZATION_PATCHES}" = 1 ]; then
-					OPTIMIZATION_PATCHES="${FILESDIR}/${optimization_patch}:1"
+					OPTIMIZATION_PATCHES="${FILESDIR}/${KMV}/${optimization_patch}:1"
 				else
 					SRC_URI="
 						${SRC_URI}
@@ -118,7 +137,7 @@ USE_ENABLE() {
 				reiser4_src="${reiser4_url}/files/reiser4-for-linux-3.x/${reiser4_patch}"
 				HOMEPAGE="${HOMEPAGE} ${reiser4_url}"
 				if [ "${OVERRIDE_REISER4_PATCHES}" = 1 ]; then
-					REISER4_PATCHES="${FILESDIR}/${reiser4_patch}:1"
+					REISER4_PATCHES="${FILESDIR}/${KMV}/${reiser4_patch}:1"
 				else
 					SRC_URI="
 						${SRC_URI}
@@ -140,7 +159,7 @@ USE_ENABLE() {
 					tuxonice?	( >=sys-apps/tuxonice-userui-1.0 ( || ( >=sys-power/hibernate-script-2.0 sys-power/pm-utils ) ) )
 				"
 				if [ "${OVERRIDE_TUXONICE_PATCHES}" = 1 ]; then
-					TUXONICE_PATCHES="${FILESDIR}/${tuxonice_patch}:1"
+					TUXONICE_PATCHES="${FILESDIR}/${KMV}/${tuxonice_patch}:1"
 				else
 					SRC_URI="
 						${SRC_URI}
@@ -158,7 +177,7 @@ USE_ENABLE() {
 				uksm_src="${uksm_url}/download/uksm/${uksm_version}/${uksm_patch}"
 				HOMEPAGE="${HOMEPAGE} ${uksm_url}"
 				if [ "${OVERRIDE_UKSM_PATCHES}" = 1 ]; then
-					UKSM_PATCHES="${FILESDIR}/${uksm_patch}:1"
+					UKSM_PATCHES="${FILESDIR}/${KMV}/${uksm_patch}:1"
 				else
 					SRC_URI="
 						${SRC_URI}
@@ -175,6 +194,8 @@ for I in ${SUPPORTED_USE}; do
 	USE_ENABLE "${I}"
 done
 
+features gentoo && REQUIRED_USE=" experimental? ( gentoo ) "
+
 PATCH_APPEND() {
 	local PATCH=$1
 	PATCH="${PATCH/+/}" PATCH="${PATCH/-/}"
@@ -183,6 +204,7 @@ PATCH_APPEND() {
 		aufs)		use aufs && UNIPATCH_LIST="${UNIPATCH_LIST} ${AUFS_PATCHES}" ;;
 		cjktty)		use cjktty && UNIPATCH_LIST="${UNIPATCH_LIST} ${CJKTTY_PATCHES}" ;;
 		ck)		use ck && UNIPATCH_LIST="${UNIPATCH_LIST} ${CK_PATCHES}" ;;
+		imq)		use imq && UNIPATCH_LIST="${UNIPATCH_LIST} ${IMQ_PATCHES}" ;; 
 		optimization)	use optimization && UNIPATCH_LIST="${UNIPATCH_LIST} ${OPTIMIZATION_PATCHES}" ;;
 		reiser4)	use reiser4 && UNIPATCH_LIST="${UNIPATCH_LIST} ${REISER4_PATCHES}" ;;
 		tuxonice)	use tuxonice && UNIPATCH_LIST="${UNIPATCH_LIST} ${TUXONICE_PATCHES}" ;;
@@ -194,9 +216,7 @@ for I in ${SUPPORTED_USE}; do
 	PATCH_APPEND "${I}"
 done
 
-UNIPATCH_LIST="${UNIPATCH_LIST} ${ADDITION_PATCHES}"
-
-features cjktty && use cjktty && UNIPATCH_EXCLUDE="${UNIPATCH_EXCLUDE} 4200_fbcondecor-0.9.6.patch"
+enable cjktty && UNIPATCH_EXCLUDE="${UNIPATCH_EXCLUDE} 4200_fbcondecor-0.9.6.patch"
 
 SRC_URI="
 	${SRC_URI}
@@ -209,10 +229,15 @@ UNIPATCH_STRICTORDER="yes"
 src_unpack() {
 	features aufs && use aufs && unpack ${aufs_tarball}
 	kernel-2_src_unpack
+
+	if enable additional; then
+		EPATCH_SOURCE="${FILESDIR}/${KMV}" EPATCH_SUFFIX="patch" \
+        	EPATCH_FORCE="yes" epatch
+	fi
 }
 
 src_prepare() {
-	features ck && use ck && sed -i -e 's/\(^EXTRAVERSION :=.*$\)/# \1/' "Makefile"
+	enable ck && sed -i -e 's/\(^EXTRAVERSION :=.*$\)/# \1/' "Makefile"
 
 	features aufs && if use aufs; then
 		cp -i "${WORKDIR}"/include/linux/aufs_type.h include/linux/aufs_type.h || die

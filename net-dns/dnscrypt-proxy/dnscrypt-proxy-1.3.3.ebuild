@@ -16,6 +16,10 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
+DEPEND="
+	dev-libs/libsodium
+"
+
 pkg_setup() {
 	enewgroup dnscrypt
 	enewuser dnscrypt -1 -1 /var/empty dnscrypt

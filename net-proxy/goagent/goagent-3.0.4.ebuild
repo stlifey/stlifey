@@ -12,7 +12,7 @@ SRC_URI="https://github.com/goagent/goagent/tarball/v${PV} -> ${P}.tar.gz"
 RESTRICT="mirror"
 
 LICENSE="GPL-3"
-SLOT="0"
+SLOT="3"
 KEYWORDS="~amd64 ~x86"
 
 RDEPEND="
