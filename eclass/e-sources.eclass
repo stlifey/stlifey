@@ -234,7 +234,7 @@ src_unpack() {
 	kernel-2_src_unpack
 
 	if enable additional; then
-		EPATCH_SOURCE="${FILESDIR}/${KMV}" EPATCH_SUFFIX="patch" \
+		EPATCH_SOURCE="${FILESDIR}/${PV}" EPATCH_SUFFIX="patch" \
         	EPATCH_FORCE="yes" epatch
 	fi
 }
