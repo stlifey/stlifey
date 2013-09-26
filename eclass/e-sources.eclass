@@ -16,7 +16,11 @@
 #	uksm - Add ultra kernel samepage merging support.
 #
 
-features() { if [ "${SUPPORTED_USE/$1/}" != "$SUPPORTED_USE" ]; then return 0; else return 1; fi }
+features() {
+	if [ "${SUPPORTED_USE/$1/}" != "$SUPPORTED_USE" ]; then
+	return 0; else return 1; fi
+}
+
 enable() { if features $1 && use $1; then return 0; else return 1; fi }
 
 if features gentoo; then
@@ -26,11 +30,10 @@ else
 	SUPPORTED_USE="${SUPPORTED_USE/?experimental/}"
 fi
 
-K_NOSETEXTRAVERSION=""
-K_SECURITY_UNSUPPORTED="1"
-
 ETYPE="sources"
 inherit kernel-2
+
+K_SECURITY_UNSUPPORTED="1"
 
 KMV="$(get_version_component_range 1-2)"
 KMSV="$(get_version_component_range 1).0"
@@ -194,8 +197,6 @@ for I in ${SUPPORTED_USE}; do
 	USE_ENABLE "${I}"
 done
 
-features gentoo && REQUIRED_USE=" experimental? ( gentoo ) "
-
 PATCH_APPEND() {
 	local PATCH=$1
 	PATCH="${PATCH/+/}" PATCH="${PATCH/-/}"
@@ -215,6 +216,8 @@ PATCH_APPEND() {
 for I in ${SUPPORTED_USE}; do
 	PATCH_APPEND "${I}"
 done
+
+features gentoo && REQUIRED_USE=" experimental? ( gentoo ) "
 
 enable cjktty && UNIPATCH_EXCLUDE="${UNIPATCH_EXCLUDE} 4200_fbcondecor-0.9.6.patch"
 
