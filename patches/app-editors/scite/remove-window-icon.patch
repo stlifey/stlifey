@@ -1,0 +1,46 @@
+diff -uNr a/scite/gtk/SciTEGTK.cxx b/scite/gtk/SciTEGTK.cxx
+--- a/scite/gtk/SciTEGTK.cxx	2013-05-22 07:05:04.000000000 +0800
++++ b/scite/gtk/SciTEGTK.cxx	2013-10-07 14:26:30.440076380 +0800
+@@ -59,7 +59,6 @@
+ #include "Mutex.h"
+ #include "JobQueue.h"
+ #include "pixmapsGNOME.h"
+-#include "SciIcon.h"
+ #include "Widget.h"
+ #include "Cookie.h"
+ #include "Worker.h"
+@@ -548,7 +547,6 @@
+ 	                       int val, GtkAccelGroup *accel_group, bool isDefault = false);
+ 	void SetWindowName();
+ 	void ShowFileInStatus();
+-	void SetIcon();
+ 
+ 	virtual void ReadLocalization();
+ 	virtual void ReadPropertiesInitial();
+@@ -4900,7 +4898,6 @@
+ 	if ((width != useDefault) && (height != useDefault))
+ 		gtk_window_set_default_size(GTK_WINDOW(PWidget(wSciTE)), width, height);
+ 	gtk_widget_show_all(PWidget(wSciTE));
+-	SetIcon();
+ 
+ 	if (maximize)
+ 		gtk_window_maximize(GTK_WINDOW(PWidget(wSciTE)));
+@@ -4972,18 +4969,6 @@
+ 	gtk_entry_set_text(GTK_ENTRY(IncSearchEntry), "");
+ }
+ 
+-void SciTEGTK::SetIcon() {
+-	FilePath pathPixmap(PIXMAP_PATH, "Sci48M.png");
+-	GError *err=0;
+-	if (!gtk_window_set_icon_from_file(
+-		GTK_WINDOW(PWidget(wSciTE)), pathPixmap.AsInternal(), &err)) {
+-		// Failed to load from file so use backup inside executable
+-		GdkPixbuf *pixbufIcon = gdk_pixbuf_new_from_xpm_data(SciIcon_xpm);
+-		gtk_window_set_icon(GTK_WINDOW(PWidget(wSciTE)), pixbufIcon);
+-		g_object_unref(pixbufIcon);
+-	}
+-}
+-
+ static void *WorkerThread(void *ptr) {
+ 	Worker *pWorker = static_cast<Worker *>(ptr);
+ 	pWorker->Execute();
