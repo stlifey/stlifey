@@ -237,8 +237,10 @@ src_unpack() {
 	kernel-2_src_unpack
 
 	if enable additional; then
-		EPATCH_SOURCE="${FILESDIR}/${PV}" EPATCH_SUFFIX="patch" \
-        	EPATCH_FORCE="yes" epatch
+		EPATCH_SOURCE="${FILESDIR}/${PV}" EPATCH_FORCE="yes"  \
+        	EPATCH_SUFFIX="diff" epatch
+		EPATCH_SOURCE="${FILESDIR}/${PV}" EPATCH_FORCE="yes"  \
+        	EPATCH_SUFFIX="patch" epatch
 	fi
 }
 

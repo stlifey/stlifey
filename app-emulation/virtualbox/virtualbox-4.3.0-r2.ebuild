@@ -20,7 +20,7 @@ HOMEPAGE="http://www.virtualbox.org/"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="+additions alsa doc extensions headless java pam pulseaudio +opengl python +qt4 +sdk vboxwebsrv vnc"
+IUSE="+additions alsa doc extensions headless java multilib pam pulseaudio +opengl python +qt4 +sdk vboxwebsrv vnc"
 
 RDEPEND="!app-emulation/virtualbox-bin
 	~app-emulation/virtualbox-modules-${PV}
@@ -54,6 +54,7 @@ DEPEND="${RDEPEND}
 	sys-devel/bin86
 	sys-power/iasl
 	media-libs/libpng
+	media-libs/libvpx
 	pam? ( sys-libs/pam )
 	sys-libs/libcap
 	doc? (
@@ -106,7 +107,8 @@ QA_TEXTRELS_x86="usr/lib/virtualbox-ose/VBoxGuestPropSvc.so
 	usr/lib/virtualbox/VBoxPython2_7.so
 	usr/lib/virtualbox/VBoxXPCOMC.so
 	usr/lib/virtualbox/VBoxOGLhostcrutil.so
-	usr/lib/virtualbox/VBoxNetDHCP.so"
+	usr/lib/virtualbox/VBoxNetDHCP.so
+	usr/lib/virtualbox/VBoxNetNAT.so"
 
 REQUIRED_USE="
 	java? ( sdk )
@@ -187,17 +189,20 @@ src_prepare() {
 src_configure() {
 	local myconf
 	use alsa       || myconf+=" --disable-alsa"
+	use doc        || myconf+=" --disable-docs"
+	use java       || myconf+=" --disable-java"
 	use opengl     || myconf+=" --disable-opengl"
 	use pulseaudio || myconf+=" --disable-pulse"
 	use python     || myconf+=" --disable-python"
-	use java       || myconf+=" --disable-java"
 	use vboxwebsrv && myconf+=" --enable-webservice"
 	use vnc        && myconf+=" --enable-vnc"
-	use doc        || myconf+=" --disable-docs"
 	if ! use headless ; then
 		use qt4 || myconf+=" --disable-qt4"
 	else
 		myconf+=" --build-headless --disable-opengl"
+	fi
+	if use amd64 && ! use multilib ; then
+		myconf+=" --disable-vmmraw"
 	fi
 	# not an autoconf script
 	./configure \
@@ -218,13 +223,14 @@ src_compile() {
 	# strip-flags
 
 	MAKE="kmk" emake \
-		VBOX_VERSION_STRING='$(VBOX_VERSION_MAJOR).$(VBOX_VERSION_MINOR).$(VBOX_VERSION_BUILD)'_Gentoo_ \
+		VBOX_BUILD_PUBLISHER=_Gentoo \
 		TOOL_GCC3_CC="$(tc-getCC)" TOOL_GCC3_CXX="$(tc-getCXX)" \
 		TOOL_GCC3_AS="$(tc-getCC)" TOOL_GCC3_AR="$(tc-getAR)" \
 		TOOL_GCC3_LD="$(tc-getCXX)" TOOL_GCC3_LD_SYSMOD="$(tc-getLD)" \
 		TOOL_GCC3_CFLAGS="${CFLAGS}" TOOL_GCC3_CXXFLAGS="${CXXFLAGS}" \
 		VBOX_GCC_OPT="${CXXFLAGS}" \
 		TOOL_YASM_AS=yasm KBUILD_PATH="${S}/kBuild" \
+		KBUILD_VERBOSE=2 \
 		all
 }
 
@@ -268,7 +274,12 @@ src_install() {
 		newconfd "${FILESDIR}"/vboxwebsrv-confd vboxwebsrv
 	fi
 
-	for each in VBox{Manage,SVC,XPCOMIPCD,Tunctl,NetAdpCtl,NetDHCP,ExtPackHelperApp} *so *r0 *gc ; do
+	local GCFILE="*gc"
+	if use amd64 && ! use multilib ; then
+		GCFILE=""
+	fi
+
+	for each in VBox{Manage,SVC,XPCOMIPCD,Tunctl,NetAdpCtl,NetDHCP,NetNAT,ExtPackHelperApp} *so *r0 ${GCFILE} ; do
 		doins $each
 		fowners root:vboxusers /usr/$(get_libdir)/${PN}/${each}
 		fperms 0750 /usr/$(get_libdir)/${PN}/${each}
@@ -308,6 +319,7 @@ src_install() {
 		fi
 
 		pushd "${S}"/src/VBox/Resources/OSE &>/dev/null || die
+		popd &>/dev/null || die
 	else
 		doins VBoxHeadless
 		fowners root:vboxusers /usr/$(get_libdir)/${PN}/VBoxHeadless
@@ -316,7 +328,6 @@ src_install() {
 	fi
 
 	insinto /usr/$(get_libdir)/${PN}
-	popd &>/dev/null || die
 
 	# New way of handling USB device nodes for VBox (bug #356215)
 	local udevdir="$(udev_get_udevdir)"

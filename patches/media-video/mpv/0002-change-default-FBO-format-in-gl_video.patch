@@ -1,0 +1,25 @@
+From 7646e383105e8db03f51a311395aad1d18b94fb3 Mon Sep 17 00:00:00 2001
+From: stlifey joe <stlifey@gmail.com>
+Date: Fri, 25 Oct 2013 14:56:07 +0800
+Subject: [PATCH] change default FBO format in gl_video
+
+---
+ video/out/gl_video.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/video/out/gl_video.c b/video/out/gl_video.c
+index 603f334..a1a10ac 100644
+--- a/video/out/gl_video.c
++++ b/video/out/gl_video.c
+@@ -279,7 +279,7 @@ const struct gl_video_opts gl_video_opts_hq_def = {
+     .npot = 1,
+     .dither_depth = 0,
+     .dither_size = 6,
+-    .fbo_format = GL_RGB16,
++    .fbo_format = GL_RGB10_A2,
+     .scale_sep = 1,
+     .scalers = { "lanczos2", "bilinear" },
+     .scaler_params = {NAN, NAN},
+-- 
+1.8.4
+

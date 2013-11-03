@@ -23,7 +23,7 @@ index d15f575..1cb8d08 100644
  	while (*s && n-- > 0) {
  		if (*s == '\n')
 diff --git a/drivers/accessibility/braille/braille_console.c b/drivers/accessibility/braille/braille_console.c
-index dc34a5b..020118b 100644
+index d21167b..0a0c23c 100644
 --- a/drivers/accessibility/braille/braille_console.c
 +++ b/drivers/accessibility/braille/braille_console.c
 @@ -116,7 +116,7 @@ static void braille_write(u16 *buf)
@@ -36,7 +36,7 @@ index dc34a5b..020118b 100644
  
  /* Follow the VC cursor*/
 diff --git a/drivers/net/netconsole.c b/drivers/net/netconsole.c
-index 4822aaf..fb8fb38 100644
+index 59ac143..4d2ce8c 100644
 --- a/drivers/net/netconsole.c
 +++ b/drivers/net/netconsole.c
 @@ -719,7 +719,8 @@ static int netconsole_netdev_event(struct notifier_block *this,
@@ -180,7 +180,7 @@ index 86c00b1c..3480291 100644
  	struct uart_8250_port *up = &serial8250_ports[co->index];
  	struct uart_port *port = &up->port;
 diff --git a/drivers/tty/serial/8250/8250_early.c b/drivers/tty/serial/8250/8250_early.c
-index 946ddd2..9b0700c 100644
+index 721904f..0d208a7 100644
 --- a/drivers/tty/serial/8250/8250_early.c
 +++ b/drivers/tty/serial/8250/8250_early.c
 @@ -98,7 +98,7 @@ static void __init serial_putc(struct uart_port *port, int c)
@@ -193,7 +193,7 @@ index 946ddd2..9b0700c 100644
  	struct uart_port *port = &early_device.port;
  	unsigned int ier;
 diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
-index c677829..393859c 100644
+index 740202d..a7dd92c 100644
 --- a/drivers/tty/vt/vt.c
 +++ b/drivers/tty/vt/vt.c
 @@ -71,6 +71,7 @@
@@ -297,10 +297,10 @@ index c677829..393859c 100644
  	notify_update(vc);
  
 diff --git a/include/linux/console.h b/include/linux/console.h
-index 7571a16..af01c35 100644
+index 73bab0f..73086fc 100644
 --- a/include/linux/console.h
 +++ b/include/linux/console.h
-@@ -118,7 +118,7 @@ static inline int con_debug_leave(void)
+@@ -121,7 +121,7 @@ static inline int con_debug_leave(void)
  
  struct console {
  	char	name[16];
@@ -309,11 +309,11 @@ index 7571a16..af01c35 100644
  	int	(*read)(struct console *, char *, unsigned);
  	struct tty_driver *(*device)(struct console *, int *);
  	void	(*unblank)(void);
-diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
-index 5b5a708..7a19b9a 100644
---- a/kernel/printk/printk.c
-+++ b/kernel/printk/printk.c
-@@ -1282,7 +1282,7 @@ static void call_console_drivers(int level, const char *text, size_t len)
+diff --git a/kernel/printk.c b/kernel/printk.c
+index 8212c1a..d7fde7f 100644
+--- a/kernel/printk.c
++++ b/kernel/printk.c
+@@ -1287,7 +1287,7 @@ static void call_console_drivers(int level, const char *text, size_t len)
  		if (!cpu_online(smp_processor_id()) &&
  		    !(con->flags & CON_ANYTIME))
  			continue;
@@ -322,7 +322,7 @@ index 5b5a708..7a19b9a 100644
  	}
  }
  
-@@ -1732,7 +1732,7 @@ void early_vprintk(const char *fmt, va_list ap)
+@@ -1737,7 +1737,7 @@ void early_vprintk(const char *fmt, va_list ap)
  		char buf[512];
  		int n = vscnprintf(buf, sizeof(buf), fmt, ap);
  
@@ -330,4 +330,3 @@ index 5b5a708..7a19b9a 100644
 +		early_console->write(early_console, buf, n, 0);
  	}
  }
- 
