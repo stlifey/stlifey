@@ -1,0 +1,99 @@
+From 3dad63bc0e6c5562cd00069b7502239312aeaf30 Mon Sep 17 00:00:00 2001
+From: stlifey joe <stlifey@gmail.com>
+Date: Thu, 28 Nov 2013 02:27:23 +0800
+Subject: [PATCH] remove vaapi vo
+
+---
+ DOCS/man/en/vo.rst | 40 ----------------------------------------
+ video/out/vo.c     |  4 ----
+ wscript_build.py   |  1 -
+ 3 files changed, 45 deletions(-)
+
+diff --git a/DOCS/man/en/vo.rst b/DOCS/man/en/vo.rst
+index fd14c6a..c1eae3b 100644
+--- a/DOCS/man/en/vo.rst
++++ b/DOCS/man/en/vo.rst
+@@ -687,46 +687,6 @@ Available video output drivers are:
+     ``switch-mode``
+         Instruct SDL to switch the monitor video mode when going fullscreen.
+ 
+-``vaapi``
+-    Intel VA API video output driver with support for hardware decoding. Note
+-    that there is absolutely no reason to use this, other than wanting to use
+-    hardware decoding to save power on laptops, or possibly preventing video
+-    tearing with some setups.
+-
+-    ``scaling=<algorithm>``
+-        default
+-            Driver default (mpv default as well).
+-        fast
+-            Fast, but low quality.
+-        hq
+-            Unspecified driver dependent high-quality scaling, slow.
+-        nla
+-            ``non-linear anamorphic scaling``
+-
+-    ``deint-mode=<mode>``
+-        Select deinterlacing algorithm. Note that by default deinterlacing is
+-        initially always off, and needs to be enabled with the ``D`` key
+-        (default key binding for ``cycle deinterlace``).
+-
+-        This option doesn't apply if libva supports video post processing (vpp).
+-        In this case, the default for ``deint-mode`` is ``no``, and enabling
+-        deinterlacing via user interaction using the methods mentioned above
+-        actually inserts the ``vavpp`` video filter. If vpp is not actually
+-        supported with the libva backend in use, you can use this option to
+-        forcibly enable VO based deinterlacing.
+-
+-        no
+-            Don't allow deinterlacing (default for newer libva).
+-        first-field
+-            Show only first field (going by ``--field-dominance``).
+-        bob
+-            bob deinterlacing (default for older libva).
+-
+-    ``scaled-osd=<yes|no>``
+-        If enabled, then the OSD is rendered at video resolution and scaled to
+-        display resolution. By default, this is disabled, and the OSD is
+-        rendered at display resolution if the driver supports it.
+-
+ ``null``
+     Produces no video output. Useful for benchmarking.
+ 
+diff --git a/video/out/vo.c b/video/out/vo.c
+index 41a1b2a..e32c961 100644
+--- a/video/out/vo.c
++++ b/video/out/vo.c
+@@ -61,7 +61,6 @@ extern struct vo_driver video_out_direct3d;
+ extern struct vo_driver video_out_direct3d_shaders;
+ extern struct vo_driver video_out_sdl;
+ extern struct vo_driver video_out_corevideo;
+-extern struct vo_driver video_out_vaapi;
+ extern struct vo_driver video_out_wayland;
+ 
+ const struct vo_driver *video_out_drivers[] =
+@@ -88,9 +87,6 @@ const struct vo_driver *video_out_drivers[] =
+ #if HAVE_GL
+         &video_out_opengl_old,
+ #endif
+-#if HAVE_VAAPI
+-        &video_out_vaapi,
+-#endif
+ #if HAVE_X11
+         &video_out_x11,
+ #endif
+diff --git a/wscript_build.py b/wscript_build.py
+index 55c2f6b..7e9a56f 100644
+--- a/wscript_build.py
++++ b/wscript_build.py
+@@ -353,7 +353,6 @@ def build(ctx):
+         ( "video/out/vo_opengl.c",               "gl" ),
+         ( "video/out/vo_opengl_old.c",           "gl" ),
+         ( "video/out/vo_sdl.c",                  "sdl2" ),
+-        ( "video/out/vo_vaapi.c",                "vaapi" ),
+         ( "video/out/vo_vdpau.c",                "vdpau" ),
+         ( "video/out/vo_wayland.c",              "wayland" ),
+         ( "video/out/vo_x11.c" ,                 "x11" ),
+-- 
+1.8.4.3
+

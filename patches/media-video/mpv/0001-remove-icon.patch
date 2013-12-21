@@ -1,26 +1,26 @@
-From e11e3e6a6c461d4e76aa347660584ab2b7fd76f2 Mon Sep 17 00:00:00 2001
+From 3e84ce60a27c0558309f5cfdd60cef46cee4fbd1 Mon Sep 17 00:00:00 2001
 From: stlifey joe <stlifey@gmail.com>
-Date: Sun, 8 Sep 2013 17:11:51 +0800
-Subject: [PATCH 1/2] remove icon
+Date: Fri, 20 Dec 2013 15:44:57 +0800
+Subject: [PATCH] remove icon
 
 ---
  video/out/x11_common.c | 105 -------------------------------------------------
  1 file changed, 105 deletions(-)
 
 diff --git a/video/out/x11_common.c b/video/out/x11_common.c
-index 7c06ebf..e2c3df1 100644
+index a042bd0..11e0e65 100644
 --- a/video/out/x11_common.c
 +++ b/video/out/x11_common.c
 @@ -66,10 +66,6 @@
  #include <X11/XF86keysym.h>
  #endif
  
--#if CONFIG_ZLIB
+-#if HAVE_ZLIB
 -#include <zlib.h>
 -#endif
 -
- #include "mpvcore/input/input.h"
- #include "mpvcore/input/keycodes.h"
+ #include "input/input.h"
+ #include "input/keycodes.h"
  
 @@ -132,10 +128,6 @@ typedef struct
      long state;
@@ -33,7 +33,7 @@ index 7c06ebf..e2c3df1 100644
  static void vo_x11_update_geometry(struct vo *vo);
  static void vo_x11_fullscreen(struct vo *vo);
  static int vo_x11_get_fs_type(struct vo *vo);
-@@ -379,7 +371,6 @@ static void init_atoms(struct vo_x11_state *x11)
+@@ -402,7 +394,6 @@ static void init_atoms(struct vo_x11_state *x11)
      XA_INIT(_NET_WM_PID);
      XA_INIT(_NET_WM_NAME);
      XA_INIT(_NET_WM_ICON_NAME);
@@ -41,11 +41,11 @@ index 7c06ebf..e2c3df1 100644
      XA_INIT(_WIN_PROTOCOLS);
      XA_INIT(_WIN_LAYER);
      XA_INIT(_WIN_HINTS);
-@@ -954,101 +945,6 @@ static void vo_x11_update_window_title(struct vo *vo)
+@@ -974,101 +965,6 @@ static void vo_x11_update_window_title(struct vo *vo)
      vo_x11_set_property_utf8(vo, x11->XA_NET_WM_ICON_NAME, title);
  }
  
--#if CONFIG_ZLIB
+-#if HAVE_ZLIB
 -static bstr decompress_gz(bstr in)
 -{
 -    bstr res = {0};
@@ -143,14 +143,14 @@ index 7c06ebf..e2c3df1 100644
  static void find_default_visual(struct vo_x11_state *x11, XVisualInfo *vis)
  {
      Display *display = x11->display;
-@@ -1098,7 +994,6 @@ static void vo_x11_create_window(struct vo *vo, XVisualInfo *vis, int x, int y,
-                          XNFocusWindow, x11->window,
-                          NULL);
+@@ -1124,7 +1020,6 @@ static void vo_x11_create_window(struct vo *vo, XVisualInfo *vis, int x, int y,
+                              NULL);
+     }
  
 -    vo_x11_set_wm_icon(x11);
      vo_x11_update_window_title(vo);
  }
  
 -- 
-1.8.3.2
+1.8.5.2
 

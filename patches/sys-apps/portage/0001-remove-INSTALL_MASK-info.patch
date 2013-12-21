@@ -1,0 +1,25 @@
+From 1d003cb24521c085d11974967afd0da383cf3466 Mon Sep 17 00:00:00 2001
+From: stlifey joe <stlifey@gmail.com>
+Date: Mon, 4 Nov 2013 04:06:55 +0800
+Subject: [PATCH] remove INSTALL_MASK info
+
+---
+ bin/misc-functions.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/bin/misc-functions.sh b/bin/misc-functions.sh
+index 771bd0a..832b37c 100755
+--- a/bin/misc-functions.sh
++++ b/bin/misc-functions.sh
+@@ -965,7 +965,7 @@ install_mask() {
+ 	local no_inst
+ 	for no_inst in ${install_mask}; do
+ 		set +o noglob
+-		__quiet_mode || einfo "Removing ${no_inst}"
++		__quiet_mode
+ 		# normal stuff
+ 		rm -Rf "${root}"/${no_inst} >&/dev/null
+ 
+-- 
+1.8.4.2
+
