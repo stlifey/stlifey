@@ -6,25 +6,24 @@ EAPI="5"
 K_DEBLOB_AVAILABLE="1"
 
 ck_version="2"
-gentoo_version="4"
-optimization_version="1"
-tuxonice_version="2013.12.05"
+gentoo_version="9"
+tuxonice_version="2013.12.09"
 uksm_version="0.1.2.2"
 
-aufs_kernel_version="3.12_p20131111"
-reiser4_kernel_version="3.12.0"
-tuxonice_kernel_version="3.12.3"
+aufs_kernel_version="3.12_p20140114"
+reiser4_kernel_version="3.12.6"
+tuxonice_kernel_version="3.12.4"
 uksm_kernel_version="3.12.0"
 
 KEYWORDS="~amd64 ~x86"
 
-SUPPORTED_USE="+ck +additional +aufs +experimental +gentoo +optimization +reiser4 +tuxonice +uksm"
-UNSUPPORTED_USE=""
+SUPPORTED_USE="+aufs +ck +additional +experimental +gentoo +reiser4 +tuxonice +uksm"
 
 UNIPATCH_EXCLUDE=""
 
+OVERRIDE_AUFS_PATCHES="1"
 OVERRIDE_CK_PATCHES=""
-OVERRIDE_REISER4_PATCHES="1"
+OVERRIDE_REISER4_PATCHES=""
 OVERRIDE_TUXONICE_PATCHES=""
 OVERRIDE_UKSM_PATCHES=""
 

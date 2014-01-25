@@ -8,7 +8,6 @@
 #	aufs - Add advanced multi layered unification filesystem support.
 #	ck - Apply Con Kolivas' high performance patchset.
 #	gentoo - Apply Gentoo linux kernel patches called genpatches.
-#	optimization - more optimized gcc options for additional CPUs.
 #	reiser4 - Add Reiser4 filesystem support.
 #	tuxonice - Add TuxOnIce support - another linux hibernate kernel patches.
 #	uksm - Add ultra kernel samepage merging support.
@@ -38,9 +37,6 @@ KMSV="$(get_version_component_range 1).0"
 
 SLOT="${KMV}"
 
-features optimization && \
-RDEPEND="optimization? ( >=sys-devel/gcc-4.8 )"
-
 if features gentoo; then
 	HOMEPAGE="http://dev.gentoo.org/~mpagano/genpatches"
 	SRC_URI="${GENPATCHES_URI}"
@@ -66,12 +62,21 @@ USE_ENABLE() {
 					${SRC_URI}
 					aufs?	( ${aufs_src} )
 				"
-				AUFS_PATCHES="
-					${WORKDIR}/aufs3-base.patch
-					${WORKDIR}/aufs3-mmap.patch
-					${WORKDIR}/aufs3-kbuild.patch
-					${WORKDIR}/aufs3-standalone.patch
-				"
+				if [ "${OVERRIDE_AUFS_PATCHES}" = 1 ]; then
+					AUFS_PATCHES="
+						${FILESDIR}/${PV}/aufs/aufs3-kbuild.patch
+						${FILESDIR}/${PV}/aufs/aufs3-base.patch
+						${FILESDIR}/${PV}/aufs/aufs3-mmap.patch
+						${FILESDIR}/${PV}/aufs/aufs3-standalone.patch
+					"
+				else
+					AUFS_PATCHES="
+						${WORKDIR}/aufs3-kbuild.patch
+						${WORKDIR}/aufs3-base.patch
+						${WORKDIR}/aufs3-mmap.patch
+						${WORKDIR}/aufs3-standalone.patch
+					"
+				fi
 			;;
 
 		ck)		ck_url="http://ck.kolivas.org/patches"
@@ -86,21 +91,6 @@ USE_ENABLE() {
 						ck?	( ${ck_src} )
 					"
 					CK_PATCHES="${DISTDIR}/${ck_patch}:1"
-				fi
-			;;
-
-		optimization)	optimization_url="https://raw.github.com/graysky2/kernel_gcc_patch"
-				optimization_patch="kernel-${KMV/./}-gcc48-${optimization_version}.patch"
-				optimization_src="${optimization_url}/master/${optimization_patch}"
-				HOMEPAGE="${HOMEPAGE} ${optimization_url}"
-				if [ "${OVERRIDE_OPTIMIZATION_PATCHES}" = 1 ]; then
-					OPTIMIZATION_PATCHES="${FILESDIR}/${PV}/${optimization_patch}:1"
-				else
-					SRC_URI="
-						${SRC_URI}
-						optimization?		( ${optimization_src} )
-					"
-					OPTIMIZATION_PATCHES="${DISTDIR}/${optimization_patch}:1"
 				fi
 			;;
 
@@ -175,7 +165,6 @@ PATCH_APPEND() {
 	case ${PATCH} in
 		aufs)		use aufs && UNIPATCH_LIST="${UNIPATCH_LIST} ${AUFS_PATCHES}" ;;
 		ck)		use ck && UNIPATCH_LIST="${UNIPATCH_LIST} ${CK_PATCHES}" ;;
-		optimization)	use optimization && UNIPATCH_LIST="${UNIPATCH_LIST} ${OPTIMIZATION_PATCHES}" ;;
 		reiser4)	use reiser4 && UNIPATCH_LIST="${UNIPATCH_LIST} ${REISER4_PATCHES}" ;;
 		tuxonice)	use tuxonice && UNIPATCH_LIST="${UNIPATCH_LIST} ${TUXONICE_PATCHES}" ;;
 		uksm)		use uksm && UNIPATCH_LIST="${UNIPATCH_LIST} ${UKSM_PATCHES}" ;;

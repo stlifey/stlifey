@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/x11-misc/spacefm/spacefm-0.8.7.ebuild,v 1.3 2013/05/14 09:41:48 ago Exp $
+# $Header: $
 
 EAPI=5
 

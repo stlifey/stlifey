@@ -29,9 +29,6 @@ DEPEND="${RDEPEND}"
 
 DOCS=(ChangeLog README.md)
 
-# https://github.com/i-rinat/libvdpau-va-gl/issues/6
-RESTRICT="test"
-
 pkg_postinst() {
 	einfo "In order to use vdpau hardware video acceleration via ${PN}"
 	einfo "you have to add VDPAU_DRIVER=va_gl to your environment"
