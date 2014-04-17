@@ -1,0 +1,24 @@
+From 41bf2d7c185eb6511f13f7d1b85695593e541f81 Mon Sep 17 00:00:00 2001
+From: wm4 <wm4@nowhere>
+Date: Sun, 2 Feb 2014 03:00:45 +0100
+Subject: [PATCH] hm....
+
+---
+ video/out/gl_x11.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/video/out/gl_x11.c b/video/out/gl_x11.c
+index 434d0d8..bf9aedf 100644
+--- a/video/out/gl_x11.c
++++ b/video/out/gl_x11.c
+@@ -223,6 +223,7 @@ static bool config_window_x11(struct MPGLContext *ctx, uint32_t d_width,
+         GLX_BLUE_SIZE, 1,
+         GLX_ALPHA_SIZE, 0,
+         GLX_DOUBLEBUFFER, True,
++        GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
+         None
+     };
+     GLXFBConfig fbc = NULL;
+-- 
+1.8.5.1
+

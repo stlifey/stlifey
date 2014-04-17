@@ -5,12 +5,16 @@
 #
 # e-sources.eclass - Eclass for building sys-kernel/e-sources-* packages , provide patches including :
 #
-#	aufs - Add advanced multi layered unification filesystem support.
-#	ck - Apply Con Kolivas' high performance patchset.
-#	gentoo - Apply Gentoo linux kernel patches called genpatches.
-#	reiser4 - Add Reiser4 filesystem support.
-#	tuxonice - Add TuxOnIce support - another linux hibernate kernel patches.
-#	uksm - Add ultra kernel samepage merging support.
+#	additional	- misc kernel patch
+#	aufs		- advanced multi layered unification filesystem
+#	ck		- con kolivas's high performance patchset
+#	exfat		- exfat filesystem support from samsung
+#	gentoo		- gentoo linux kernel patches called genpatches
+#	imq		- intermediate queueing device
+#	reiser4		- reiser4 filesystem support
+#	thinkpad	- a set of lenovo thinkpad patches
+#	tuxonice	- tuxonice support - another linux hibernate system
+#	uksm		- ultra kernel samepage merging support
 #
 
 features() {
@@ -36,6 +40,9 @@ KMV="$(get_version_component_range 1-2)"
 KMSV="$(get_version_component_range 1).0"
 
 SLOT="${KMV}"
+
+features optimization && \
+RDEPEND="optimization? ( >=sys-devel/gcc-4.8 )"
 
 if features gentoo; then
 	HOMEPAGE="http://dev.gentoo.org/~mpagano/genpatches"
@@ -93,6 +100,7 @@ USE_ENABLE() {
 					CK_PATCHES="${DISTDIR}/${ck_patch}:1"
 				fi
 			;;
+
 
 		reiser4) 	reiser4_url="http://sourceforge.net/projects/reiser4"
 				reiser4_patch="reiser4-for-${reiser4_kernel_version/.0/}.patch.gz"
@@ -189,12 +197,15 @@ src_unpack() {
 	enable aufs && unpack ${aufs_tarball}
 	kernel-2_src_unpack
 
-	if enable additional; then
-		EPATCH_SOURCE="${FILESDIR}/${PV}" EPATCH_FORCE="yes"  \
+	local patch
+	for patch in additional exfat imq thinkpad ; do
+	if enable ${patch}; then
+		EPATCH_SOURCE="${FILESDIR}/${PV}/${patch}" EPATCH_FORCE="yes"  \
 		EPATCH_SUFFIX="diff" epatch
-		EPATCH_SOURCE="${FILESDIR}/${PV}" EPATCH_FORCE="yes"  \
+		EPATCH_SOURCE="${FILESDIR}/${PV}/${patch}" EPATCH_FORCE="yes"  \
 		EPATCH_SUFFIX="patch" epatch
 	fi
+	done
 }
 
 src_prepare() {

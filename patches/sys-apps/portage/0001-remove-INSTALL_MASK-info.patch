@@ -1,6 +1,6 @@
-From 1d003cb24521c085d11974967afd0da383cf3466 Mon Sep 17 00:00:00 2001
+From 329a3f405b4d37db8af86fff3c8fdd2b53f37e56 Mon Sep 17 00:00:00 2001
 From: stlifey joe <stlifey@gmail.com>
-Date: Mon, 4 Nov 2013 04:06:55 +0800
+Date: Wed, 16 Apr 2014 02:37:31 +0800
 Subject: [PATCH] remove INSTALL_MASK info
 
 ---
@@ -8,10 +8,10 @@ Subject: [PATCH] remove INSTALL_MASK info
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/bin/misc-functions.sh b/bin/misc-functions.sh
-index 771bd0a..832b37c 100755
+index 5ccf7c2..61be9d3 100755
 --- a/bin/misc-functions.sh
 +++ b/bin/misc-functions.sh
-@@ -965,7 +965,7 @@ install_mask() {
+@@ -982,7 +982,7 @@ install_mask() {
  	local no_inst
  	for no_inst in ${install_mask}; do
  		set +o noglob
@@ -21,5 +21,5 @@ index 771bd0a..832b37c 100755
  		rm -Rf "${root}"/${no_inst} >&/dev/null
  
 -- 
-1.8.4.2
+1.9.2
 

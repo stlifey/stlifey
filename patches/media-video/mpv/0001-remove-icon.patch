@@ -1,6 +1,6 @@
-From 3fac275e6b924e4e0494748b966a20dd99b1f590 Mon Sep 17 00:00:00 2001
+From 851f6c160aba261bc594615a920af6ed9275d1d1 Mon Sep 17 00:00:00 2001
 From: stlifey joe <stlifey@gmail.com>
-Date: Mon, 6 Jan 2014 03:37:51 +0800
+Date: Sun, 30 Mar 2014 01:46:26 +0800
 Subject: [PATCH] remove icon
 
 ---
@@ -8,7 +8,7 @@ Subject: [PATCH] remove icon
  1 file changed, 51 deletions(-)
 
 diff --git a/video/out/x11_common.c b/video/out/x11_common.c
-index 2c25c19..7e894d8 100644
+index da8d878..44e0ee9 100644
 --- a/video/out/x11_common.c
 +++ b/video/out/x11_common.c
 @@ -135,10 +135,6 @@ typedef struct
@@ -27,10 +27,10 @@ index 2c25c19..7e894d8 100644
      XA_INIT(_NET_WM_NAME);
      XA_INIT(_NET_WM_ICON_NAME);
 -    XA_INIT(_NET_WM_ICON);
+     XA_INIT(_NET_WM_MOVERESIZE);
      XA_INIT(_WIN_PROTOCOLS);
      XA_INIT(_WIN_LAYER);
-     XA_INIT(_WIN_HINTS);
-@@ -1178,51 +1173,6 @@ static bstr decompress_gz(bstr in)
+@@ -1199,51 +1194,6 @@ static bstr decompress_gz(bstr in)
  }
  #endif
  
@@ -82,7 +82,7 @@ index 2c25c19..7e894d8 100644
  static void find_default_visual(struct vo_x11_state *x11, XVisualInfo *vis)
  {
      Display *display = x11->display;
-@@ -1278,7 +1228,6 @@ static void vo_x11_create_window(struct vo *vo, XVisualInfo *vis, int x, int y,
+@@ -1299,7 +1249,6 @@ static void vo_x11_create_window(struct vo *vo, XVisualInfo *vis, int x, int y,
                               NULL);
      }
  
@@ -91,5 +91,5 @@ index 2c25c19..7e894d8 100644
      vo_x11_dnd_init_window(vo);
  }
 -- 
-1.8.5.2
+1.8.5.3
 
