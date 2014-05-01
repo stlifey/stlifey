@@ -1,19 +1,19 @@
-From 3dad63bc0e6c5562cd00069b7502239312aeaf30 Mon Sep 17 00:00:00 2001
+From 9a998209d3efdbeb3f65e2440145f793504e764d Mon Sep 17 00:00:00 2001
 From: stlifey joe <stlifey@gmail.com>
-Date: Thu, 28 Nov 2013 02:27:23 +0800
+Date: Tue, 22 Apr 2014 02:05:32 +0800
 Subject: [PATCH] remove vaapi vo
 
 ---
- DOCS/man/en/vo.rst | 40 ----------------------------------------
+ DOCS/man/en/vo.rst | 43 -------------------------------------------
  video/out/vo.c     |  4 ----
  wscript_build.py   |  1 -
- 3 files changed, 45 deletions(-)
+ 3 files changed, 48 deletions(-)
 
 diff --git a/DOCS/man/en/vo.rst b/DOCS/man/en/vo.rst
-index fd14c6a..c1eae3b 100644
+index 795618e..43fe095 100644
 --- a/DOCS/man/en/vo.rst
 +++ b/DOCS/man/en/vo.rst
-@@ -687,46 +687,6 @@ Available video output drivers are:
+@@ -737,49 +737,6 @@ Available video output drivers are:
      ``switch-mode``
          Instruct SDL to switch the monitor video mode when going fullscreen.
  
@@ -22,6 +22,9 @@ index fd14c6a..c1eae3b 100644
 -    that there is absolutely no reason to use this, other than wanting to use
 -    hardware decoding to save power on laptops, or possibly preventing video
 -    tearing with some setups.
+-
+-    .. note:: This driver is for compatibility with crappy systems. You can
+-              use vaapi hardware decoding with ``--vo=opengl`` too.
 -
 -    ``scaling=<algorithm>``
 -        default
@@ -61,7 +64,7 @@ index fd14c6a..c1eae3b 100644
      Produces no video output. Useful for benchmarking.
  
 diff --git a/video/out/vo.c b/video/out/vo.c
-index 41a1b2a..e32c961 100644
+index 9af1d59..1485fca 100644
 --- a/video/out/vo.c
 +++ b/video/out/vo.c
 @@ -61,7 +61,6 @@ extern struct vo_driver video_out_direct3d;
@@ -83,10 +86,10 @@ index 41a1b2a..e32c961 100644
          &video_out_x11,
  #endif
 diff --git a/wscript_build.py b/wscript_build.py
-index 55c2f6b..7e9a56f 100644
+index 62328c4..c42f63c 100644
 --- a/wscript_build.py
 +++ b/wscript_build.py
-@@ -353,7 +353,6 @@ def build(ctx):
+@@ -350,7 +350,6 @@ def build(ctx):
          ( "video/out/vo_opengl.c",               "gl" ),
          ( "video/out/vo_opengl_old.c",           "gl" ),
          ( "video/out/vo_sdl.c",                  "sdl2" ),
@@ -95,5 +98,5 @@ index 55c2f6b..7e9a56f 100644
          ( "video/out/vo_wayland.c",              "wayland" ),
          ( "video/out/vo_x11.c" ,                 "x11" ),
 -- 
-1.8.4.3
+1.9.2
 

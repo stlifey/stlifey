@@ -4,6 +4,8 @@
 
 EAPI=4
 
+inherit cmake-utils eutils
+
 DESCRIPTION="sakura is a terminal emulator based on GTK and VTE"
 HOMEPAGE="http://www.pleyades.net/david/projects/sakura/"
 SRC_URI="http://launchpad.net/${PN}/trunk/${PV}/+download/${P}.tar.bz2"
@@ -39,5 +41,5 @@ src_prepare() {
 		fi
 	done
 
-	base_src_prepare
+	cmake-utils_src_prepare
 }
