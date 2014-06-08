@@ -36,11 +36,3 @@ src_install() {
 	dosym "$(python_get_sitedir)"/${PN}/lixian_hash.py /usr/bin/${PN}-hash || die
 	dosym "$(python_get_sitedir)"/${PN}/lixian_batch.py /usr/bin/${PN}-batch || die
 }
-
-pkg_postinst() {
-	python_mod_optimize ${PN}
-}
-
-pkg_postrm() {
-	python_mod_cleanup ${PN}
-}

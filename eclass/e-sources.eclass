@@ -10,7 +10,6 @@
 #	ck		- con kolivas's high performance patchset
 #	exfat		- exfat filesystem support from samsung
 #	gentoo		- gentoo linux kernel patches called genpatches
-#	imq		- intermediate queueing device
 #	reiser4		- reiser4 filesystem support
 #	thinkpad	- a set of lenovo thinkpad patches
 #	tuxonice	- tuxonice support - another linux hibernate system
@@ -198,7 +197,7 @@ src_unpack() {
 	kernel-2_src_unpack
 
 	local patch
-	for patch in additional exfat imq thinkpad ; do
+	for patch in additional exfat thinkpad tuxonice ; do
 	if enable ${patch}; then
 		EPATCH_SOURCE="${FILESDIR}/${PV}/${patch}" EPATCH_FORCE="yes"  \
 		EPATCH_SUFFIX="diff" epatch

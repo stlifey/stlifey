@@ -34,6 +34,10 @@ pkg_setup() {
 
 src_prepare() {
 	python_convert_shebangs -r $(python_get_version) local/proxy.py
+
+	sed -e 's|^ geoip = .*)\( if.*\)$| geoip = pygeoip.GeoIP("/usr/share/GeoIP/GeoIP.dat")\1|' \
+	-i ${S}/local/proxy.py
+
 	sed -i -e 's/appid\ =\ goagent/appid\ =\ gastlifey/' local/proxy.ini
 }
 

@@ -1,6 +1,6 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/x11-libs/pango/pango-1.36.3-r2.ebuild,v 1.1 2014/04/20 22:36:13 tetromino Exp $
+# $Header: $
 
 EAPI="5"
 GCONF_DEBUG="yes"
