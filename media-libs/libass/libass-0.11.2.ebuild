@@ -14,15 +14,19 @@ SLOT="0/5" # subslot = libass soname version
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~sparc ~x86 ~amd64-fbsd ~x86-fbsd ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~sparc-solaris ~x86-solaris"
 IUSE="+enca +fontconfig +harfbuzz static-libs"
 
-RDEPEND="fontconfig? ( >=media-libs/fontconfig-2.4.2[${MULTILIB_USEDEP}] )
+RDEPEND="
+	fontconfig? ( >=media-libs/fontconfig-2.4.2[${MULTILIB_USEDEP}] )
 	>=media-libs/freetype-2.4:2[${MULTILIB_USEDEP}]
 	virtual/libiconv[${MULTILIB_USEDEP}]
 	>=dev-libs/fribidi-0.19.0[${MULTILIB_USEDEP}]
 	harfbuzz? ( >=media-libs/harfbuzz-0.9.11[truetype,${MULTILIB_USEDEP}] )
-	enca? ( app-i18n/enca[${MULTILIB_USEDEP}] )"
+	enca? ( app-i18n/enca[${MULTILIB_USEDEP}] )
+"
 
-DEPEND="${RDEPEND}
-	virtual/pkgconfig"
+DEPEND="
+	${RDEPEND}
+	virtual/pkgconfig
+"
 
 X86_CPU_OPTS="abi_x86_32 abi_x86_64"
 for i in ${X86_CPU_OPTS} ; do

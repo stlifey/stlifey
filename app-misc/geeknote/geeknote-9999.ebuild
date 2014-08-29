@@ -28,9 +28,7 @@ RDEPEND="
 	dev-python/evernote-sdk-python
 "
 
-DEPEND="
-	${RDEPEND}
-"
+DEPEND="${RDEPEND}"
 
 src_install() {
 	if use bash-completion; then

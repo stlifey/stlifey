@@ -2,55 +2,64 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=4
+EAPI=5
 
-inherit git-2 python
+if [[ ${PV} == "9999" ]]; then
+	EGIT_REPO_URI="git://github.com/goagent/goagent.git"
+	EGIT_BRANCH="3.0"
+	GOAGENT_ECLASS="git-2"
+	KEYWORDS="~amd64 ~x86"
+else
+	GOAGENT_SRC_URI="https://github.com/goagent/goagent/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+	RESTRICT="mirror"
+	GOAGENT_ECLASS="vcs-snapshot"
+	KEYWORDS="~amd64 ~x86"
+fi
 
-EGIT_REPO_URI="git://github.com/goagent/goagent.git"
-EGIT_BRANCH="3.0"
+inherit eutils ${GOAGENT_ECLASS}
 
 DESCRIPTION="A GAE proxy forked from gappproxy/wallproxy"
 HOMEPAGE="http://code.google.com/p/goagent"
+SRC_URI="${GOAGENT_SRC_URI}"
 
 LICENSE="GPL-3"
 SLOT="3"
-KEYWORDS="~amd64 ~x86"
 
 RDEPEND="
 	dev-lang/python:2.7[ssl]
+	dev-libs/geoip
 	dev-libs/nss[utils]
+	dev-python/dnslib
 	dev-python/gevent
+	dev-python/pycrypto
+	dev-python/pygeoip
 	dev-python/pyopenssl
+	net-libs/pacparser
 "
 
-src_unpack() {
-	git-2_src_unpack
-}
-
-pkg_setup() {
-	python_set_active_version 2
-	python_pkg_setup
-}
-
 src_prepare() {
-	python_convert_shebangs -r $(python_get_version) local/proxy.py
+	epatch_user
+}
 
-	sed -e 's|^ geoip = .*)\( if.*\)$| geoip = pygeoip.GeoIP("/usr/share/GeoIP/GeoIP.dat")\1|' \
-	-i ${S}/local/proxy.py
+src_unpack() {
+	${GOAGENT_ECLASS}_src_unpack
 
-	sed -i -e 's/appid\ =\ goagent/appid\ =\ gastlifey/' local/proxy.ini
+	sed -e "s|^#!/usr/bin/env python|#!/usr/bin/env python2|" \
+		-i local/{proxy.py,proxylib.py,dnsproxy.py}
 }
 
 src_install() {
-	insinto /etc/goagent
-	newins ${S}/local/proxy.ini proxy.ini
+	insinto "/etc/"
+	newins "${FILESDIR}/goagent" goagent
 
 	insinto /opt/goagent
-	doins local/CA.crt
+	doins ${FILESDIR}/CA.crt
 	doins local/cacert.pem
 	doins local/proxy.{pac,py,ini}
+	doins local/dnsproxy.py
+	doins local/proxylib.py
 	
 	dodir /opt/goagent/certs
 	newinitd ${FILESDIR}/goagent-initd goagent
-	dosym /etc/goagent/proxy.ini /opt/goagent/proxy.ini
+	dosym /etc/goagent "/opt/goagent/proxy.user.ini"
 }

@@ -34,7 +34,9 @@ RDEPEND="
 		!app-emulation/emul-linux-x86-gtklibs[-abi_x86_32(-)]
 	)
 "
-DEPEND="${RDEPEND}
+
+DEPEND="
+	${RDEPEND}
 	>=dev-util/gtk-doc-am-1.15
 	virtual/pkgconfig
 	X? ( x11-proto/xproto[${MULTILIB_USEDEP}] )

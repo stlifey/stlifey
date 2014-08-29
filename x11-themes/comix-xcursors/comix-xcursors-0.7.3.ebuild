@@ -18,8 +18,11 @@ SLOT="0"
 KEYWORDS="amd64 ppc x86"
 IUSE="lefthanded opaque"
 
-RDEPEND="x11-libs/libX11
-	x11-libs/libXcursor"
+RDEPEND="
+	x11-libs/libX11
+	x11-libs/libXcursor
+"
+
 DEPEND=""
 
 S="${WORKDIR}"

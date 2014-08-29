@@ -20,11 +20,6 @@ DEPEND="
 	dev-libs/libsodium
 "
 
-pkg_setup() {
-	enewgroup dnscrypt
-	enewuser dnscrypt -1 -1 /var/empty dnscrypt
-}
-
 src_configure() {
 	if [[ ! -e configure ]] ; then
 		./autogen.sh || die "autogen failed"

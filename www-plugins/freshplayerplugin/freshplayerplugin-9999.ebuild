@@ -2,25 +2,39 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=5
+EAPI="5"
 
-inherit cmake-utils git-2
+inherit git-2 cmake-utils
 
-DESCRIPTION="PPAPI to NPAPI plugins compatibility layer."
+DESCRIPTION="Chromium Flash wrapper for Mozilla Firefox"
 HOMEPAGE="https://github.com/i-rinat/freshplayerplugin"
-EGIT_REPO_URI="git://github.com/i-rinat/freshplayerplugin.git"
+SRC_URI=""
+EGIT_REPO_URI="https://github.com/i-rinat/${PN}.git"
 
-LICENSE="LGPL-3"
+LICENSE="MIT"
 SLOT="0"
-
-RDEPEND="
-	dev-libs/uriparser
-	www-plugins/chrome-binary-plugins[flash]
-"
-DEPEND="${RDEPEND}"
-
 KEYWORDS="~amd64 ~x86"
+IUSE=""
+
+DEPEND="
+	dev-libs/glib
+	dev-libs/libconfig
+	dev-libs/libevent[threads]
+	dev-libs/uriparser
+	media-libs/alsa-lib
+	media-libs/freetype
+	media-libs/mesa[egl,gles2]
+	x11-libs/cairo
+	x11-libs/gtk+:2
+	x11-libs/libX11
+	x11-libs/libXinerama
+	x11-libs/pango
+"
 
 src_install() {
-	einfo ""
+	insinto /etc
+	newins data/freshwrapper.conf.example freshwrapper.conf
+
+	insinto /usr/lib/nsbrowser/plugins/
+	doins "${BUILD_DIR}"/libfreshwrapper-pepperflash.so
 }

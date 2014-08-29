@@ -21,21 +21,25 @@ IUSE="+cpp +glib event perl +python qt4 static-libs test +zlib"
 
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
-RDEPEND="cpp? ( dev-libs/boost:= )
+RDEPEND="
+	cpp? ( dev-libs/boost:= )
 	event? ( dev-libs/libevent )
 	glib? ( dev-libs/glib:2 )
 	perl? ( dev-lang/perl:= dev-perl/Bit-Vector )
 	qt4? ( dev-qt/qtcore:4 )
 	zlib? ( sys-libs/zlib )
-	python? ( ${PYTHON_DEPS} )"
-DEPEND="${RDEPEND}
+	python? ( ${PYTHON_DEPS} )
+"
+
+DEPEND="
+	${RDEPEND}
 	python? ( dev-python/setuptools[${PYTHON_USEDEP}] )
-	virtual/pkgconfig"
+	virtual/pkgconfig
+"
 
 src_prepare() {
 	epatch "${FILESDIR}/${PV}-autoconf-fixes.patch"
 
-	# fixed in 1.0-dev
 	sed -i -e 's|tutorial||' Makefile.am || die
 
 	AT_NO_RECURSIVE=1 eautoreconf

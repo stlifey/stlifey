@@ -16,7 +16,8 @@ SLOT="0"
 KEYWORDS="amd64 x86"
 IUSE="startup-notification"
 
-RDEPEND="dev-libs/glib:2
+RDEPEND="
+	dev-libs/glib:2
 	dev-util/desktop-file-utils
 	>=virtual/udev-143
 	virtual/freedesktop-icon-theme
@@ -26,11 +27,15 @@ RDEPEND="dev-libs/glib:2
 	x11-libs/pango
 	x11-libs/libX11
 	x11-misc/shared-mime-info
-	startup-notification? ( x11-libs/startup-notification )"
-DEPEND="${RDEPEND}
+	startup-notification? ( x11-libs/startup-notification )
+"
+
+DEPEND="
+	${RDEPEND}
 	dev-util/intltool
 	virtual/pkgconfig
-	sys-devel/gettext"
+	sys-devel/gettext
+"
 
 src_configure() {
 	econf \

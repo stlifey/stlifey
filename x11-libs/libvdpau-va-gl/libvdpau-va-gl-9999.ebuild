@@ -25,6 +25,7 @@ RDEPEND="
 	virtual/opengl
 	virtual/ffmpeg
 "
+
 DEPEND="${RDEPEND}"
 
 DOCS=(ChangeLog README.md)
