@@ -1,0 +1,86 @@
+From f739469f11b535d4c57da038d7f070678cf55879 Mon Sep 17 00:00:00 2001
+From: stlifey joe <stlifey@gmail.com>
+Date: Thu, 21 Aug 2014 12:51:33 +0800
+Subject: [PATCH 2/2] remove import_ca()
+
+---
+ local/proxylib.py | 56 -------------------------------------------------------
+ 1 file changed, 56 deletions(-)
+
+diff --git a/local/proxylib.py b/local/proxylib.py
+index 76d8714..2bc3d64 100644
+--- a/local/proxylib.py
++++ b/local/proxylib.py
+@@ -248,59 +248,6 @@ class CertUtil(object):
+                 return CertUtil._get_cert(commonname, sans)
+ 
+     @staticmethod
+-    def import_ca(certfile):
+-        commonname = os.path.splitext(os.path.basename(certfile))[0]
+-        sha1digest = 'AB:70:2C:DF:18:EB:E8:B4:38:C5:28:69:CD:4A:5D:EF:48:B4:0E:33'
+-        if OpenSSL:
+-            try:
+-                with open(certfile, 'rb') as fp:
+-                    x509 = OpenSSL.crypto.load_certificate(OpenSSL.crypto.FILETYPE_PEM, fp.read())
+-                    commonname = next(v.decode() for k, v in x509.get_subject().get_components() if k == b'O')
+-                    sha1digest = x509.digest('sha1')
+-            except StandardError as e:
+-                logging.error('load_certificate(certfile=%r) failed:%s', certfile, e)
+-        if sys.platform.startswith('win'):
+-            import ctypes
+-            with open(certfile, 'rb') as fp:
+-                certdata = fp.read()
+-                if certdata.startswith(b'-----'):
+-                    begin = b'-----BEGIN CERTIFICATE-----'
+-                    end = b'-----END CERTIFICATE-----'
+-                    certdata = base64.b64decode(b''.join(certdata[certdata.find(begin)+len(begin):certdata.find(end)].strip().splitlines()))
+-                crypt32 = ctypes.WinDLL(b'crypt32.dll'.decode())
+-                store_handle = crypt32.CertOpenStore(10, 0, 0, 0x4000 | 0x20000, b'ROOT'.decode())
+-                if not store_handle:
+-                    return -1
+-                X509_ASN_ENCODING = 0x00000001
+-                CERT_FIND_HASH = 0x10000
+-                class CRYPT_HASH_BLOB(ctypes.Structure):
+-                    _fields_ = [('cbData', ctypes.c_ulong), ('pbData', ctypes.c_char_p)]
+-                crypt_hash = CRYPT_HASH_BLOB(20, binascii.a2b_hex(sha1digest.replace(':', '')))
+-                crypt_handle = crypt32.CertFindCertificateInStore(store_handle, X509_ASN_ENCODING, 0, CERT_FIND_HASH, ctypes.byref(crypt_hash), None)
+-                if crypt_handle:
+-                    crypt32.CertFreeCertificateContext(crypt_handle)
+-                    return 0
+-                ret = crypt32.CertAddEncodedCertificateToStore(store_handle, 0x1, certdata, len(certdata), 4, None)
+-                crypt32.CertCloseStore(store_handle, 0)
+-                del crypt32
+-                return 0 if ret else -1
+-        elif sys.platform == 'darwin':
+-            return os.system(('security find-certificate -a -c "%s" | grep "%s" >/dev/null || security add-trusted-cert -d -r trustRoot -k "/Library/Keychains/System.keychain" "%s"' % (commonname, commonname, certfile.decode('utf-8'))).encode('utf-8'))
+-        elif sys.platform.startswith('linux'):
+-            import platform
+-            platform_distname = platform.dist()[0]
+-            if platform_distname == 'Ubuntu':
+-                pemfile = "/etc/ssl/certs/%s.pem" % commonname
+-                new_certfile = "/usr/local/share/ca-certificates/%s.crt" % commonname
+-                if not os.path.exists(pemfile):
+-                    return os.system('cp "%s" "%s" && update-ca-certificates' % (certfile, new_certfile))
+-            elif any(os.path.isfile('%s/certutil' % x) for x in os.environ['PATH'].split(os.pathsep)):
+-                return os.system('certutil -L -d sql:$HOME/.pki/nssdb | grep "%s" || certutil -d sql:$HOME/.pki/nssdb -A -t "C,," -n "%s" -i "%s"' % (commonname, commonname, certfile))
+-            else:
+-                logging.warning('please install *libnss3-tools* package to import GoAgent root ca')
+-        return 0
+-
+-    @staticmethod
+     def check_ca():
+         #Check CA exists
+         capath = os.path.join(os.path.dirname(os.path.abspath(__file__)), CertUtil.ca_keyfile)
+@@ -323,9 +270,6 @@ class CertUtil(object):
+                     os.remove(os.path.splitext(filename)[0]+'.crt')
+                 except EnvironmentError:
+                     pass
+-        #Check CA imported
+-        if CertUtil.import_ca(capath) != 0:
+-            logging.warning('install root certificate failed, Please run as administrator/root/sudo')
+         #Check Certs Dir
+         if not os.path.exists(certdir):
+             os.makedirs(certdir)
+-- 
+2.0.4
+

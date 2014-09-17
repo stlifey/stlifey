@@ -11,7 +11,7 @@ tuxonice_version="2014.08.07"
 uksm_version="0.1.2.3"
 
 aufs_kernel_version="3.15_p20140811"
-reiser4_kernel_version="3.15.1"
+reiser4_kernel_version="3.15.2"
 tuxonice_kernel_version="3.15.8"
 uksm_kernel_version="3.15.3"
 
@@ -20,7 +20,7 @@ KEYWORDS="amd64 x86 mips"
 SUPPORTED_USE="+additional +aufs +ck +exfat +experimental +gentoo +reiser4 +uksm +thinkpad +tuxonice"
 UNSUPPORTED_USE=""
 
-UNIPATCH_EXCLUDE=""
+UNIPATCH_EXCLUDE="3.15-sched-bfs-448.patch"
 
 OVERRIDE_AUFS_PATCHES=""
 OVERRIDE_CJKTTY_PATCHES=""

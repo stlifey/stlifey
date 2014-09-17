@@ -8,7 +8,6 @@
 #	additional	- misc kernel patch
 #	aufs		- advanced multi layered unification filesystem
 #	ck		- con kolivas's high performance patchset
-#	exfat		- exfat filesystem support from samsung
 #	gentoo		- gentoo linux kernel patches called genpatches
 #	reiser4		- reiser4 filesystem support
 #	thinkpad	- a set of lenovo thinkpad patches
@@ -86,17 +85,17 @@ USE_ENABLE() {
 			;;
 
 		ck)		ck_url="http://ck.kolivas.org/patches"
-				ck_patch="patch-${KMV}-ck${ck_version}.bz2"
+				ck_patch="${KMV}-ck${ck_version}-broken-out.tar.bz2"
 				ck_src="${ck_url}/${KMSV}/${KMV}/${KMV}-ck${ck_version}/${ck_patch}"
 				HOMEPAGE="${HOMEPAGE} ${ck_url}"
 				if [ "${OVERRIDE_CK_PATCHES}" = 1 ]; then
-					CK_PATCHES="${FILESDIR}/${PV}/${ck_patch}:1"
+					CK_PATCHES="${FILESDIR}/${PV}/${ck_patch}"
 				else
 					SRC_URI="
 						${SRC_URI}
 						ck?	( ${ck_src} )
 					"
-					CK_PATCHES="${DISTDIR}/${ck_patch}:1"
+					CK_PATCHES="${DISTDIR}/${ck_patch}"
 				fi
 			;;
 
@@ -197,7 +196,7 @@ src_unpack() {
 	kernel-2_src_unpack
 
 	local patch
-	for patch in additional exfat thinkpad tuxonice ; do
+	for patch in additional ck reiser4 thinkpad tuxonice ; do
 	if enable ${patch}; then
 		EPATCH_SOURCE="${FILESDIR}/${PV}/${patch}" EPATCH_FORCE="yes"  \
 		EPATCH_SUFFIX="diff" epatch

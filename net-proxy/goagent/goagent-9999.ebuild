@@ -39,13 +39,14 @@ RDEPEND="
 
 src_prepare() {
 	epatch_user
+
+	sed -e "s|^#!/usr/bin/env python|#!/usr/bin/env python2|" \
+		-i local/{proxy.py,proxylib.py,dnsproxy.py}
 }
 
 src_unpack() {
 	${GOAGENT_ECLASS}_src_unpack
 
-	sed -e "s|^#!/usr/bin/env python|#!/usr/bin/env python2|" \
-		-i local/{proxy.py,proxylib.py,dnsproxy.py}
 }
 
 src_install() {

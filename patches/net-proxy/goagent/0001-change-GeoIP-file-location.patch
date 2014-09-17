@@ -1,0 +1,25 @@
+From da7fc12e8fd17e22b5671aed792ed1fccb104359 Mon Sep 17 00:00:00 2001
+From: stlifey joe <stlifey@gmail.com>
+Date: Thu, 21 Aug 2014 12:49:40 +0800
+Subject: [PATCH 1/2] change GeoIP file location
+
+---
+ local/proxylib.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/local/proxylib.py b/local/proxylib.py
+index 5c84f18..76d8714 100644
+--- a/local/proxylib.py
++++ b/local/proxylib.py
+@@ -1087,7 +1087,7 @@ class DirectRegionFilter(BaseProxyHandlerFilter):
+         self.regions = set(regions)
+         try:
+             import pygeoip
+-            self.geoip = pygeoip.GeoIP(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'GeoIP.dat'))
++            self.geoip = pygeoip.GeoIP("/usr/share/GeoIP/GeoIP.dat")
+         except StandardError as e:
+             logging.error('DirectRegionFilter init pygeoip failed: %r', e)
+             sys.exit(-1)
+-- 
+2.0.4
+
