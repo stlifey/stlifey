@@ -1,0 +1,26 @@
+From d66d9af10d762e90ee0b676aca8353472cc787e8 Mon Sep 17 00:00:00 2001
+From: stlifey joe <stlifey@gmail.com>
+Date: Tue, 28 Oct 2014 00:33:32 +0800
+Subject: [PATCH] remove import_ca()
+
+---
+ local/proxylib.py | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/local/proxylib.py b/local/proxylib.py
+index 3ec9c64..58724c7 100644
+--- a/local/proxylib.py
++++ b/local/proxylib.py
+@@ -350,9 +350,6 @@ class CertUtil(object):
+                 serial_number = OpenSSL.crypto.load_certificate(OpenSSL.crypto.FILETYPE_PEM, fp.read()).get_serial_number()
+             if serial_number != CertUtil.get_cert_serial_number(commonname):
+                 any(os.remove(x) for x in certfiles)
+-        #Check CA imported
+-        if CertUtil.import_ca(capath) != 0:
+-            logging.warning('install root certificate failed, Please run as administrator/root/sudo')
+         #Check Certs Dir
+         if not os.path.exists(certdir):
+             os.makedirs(certdir)
+-- 
+2.1.2
+

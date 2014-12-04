@@ -1,0 +1,10 @@
+#!/bin/sh
+
+ANDROID_HOME=/home/stlifey/Android
+
+export JAVA_HOME=$ANDROID_HOME/java
+export JDK_HOME=$JAVA_HOME
+export JAVAC=$JAVA_HOME/bin/javac
+export PATH=$PATH:$JAVA_HOME/bin
+
+export EPYTHON=python2.7

@@ -17,7 +17,7 @@ uksm_kernel_version="3.15.3"
 
 KEYWORDS="amd64 x86 mips"
 
-SUPPORTED_USE="+additional +aufs +ck +exfat +experimental +gentoo +reiser4 +uksm +thinkpad +tuxonice"
+SUPPORTED_USE="+additional +aufs +ck +exfat +experimental +gentoo reiser4 +uksm +thinkpad +tuxonice"
 UNSUPPORTED_USE=""
 
 UNIPATCH_EXCLUDE="3.15-sched-bfs-448.patch"

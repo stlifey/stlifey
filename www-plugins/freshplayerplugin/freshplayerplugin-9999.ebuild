@@ -21,6 +21,7 @@ DEPEND="
 	dev-libs/libconfig
 	dev-libs/libevent[threads]
 	dev-libs/uriparser
+	dev-util/ragel
 	media-libs/alsa-lib
 	media-libs/freetype
 	media-libs/mesa[egl,gles2]
