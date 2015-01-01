@@ -4,6 +4,7 @@
 # $Header: $
 
 ss="ss-local"
+ss_acl="/etc/shadowsocks-chn.acl"
 ss_config="/etc/shadowsocks.json"
 
 ss_pidfile="/run/${ss}.pid"
@@ -26,7 +27,7 @@ start() {
 
     ebegin "Starting Shadowsocks Local"
     start-stop-daemon --start --exec ${ss_command} \
-    -- -c ${ss_config} -f ${ss_pidfile} >/dev/null 2>&1 &
+    -- --acl ${ss_acl} -c ${ss_config} -f ${ss_pidfile} >/dev/null 2>&1 &
     eend $?
 }
 
