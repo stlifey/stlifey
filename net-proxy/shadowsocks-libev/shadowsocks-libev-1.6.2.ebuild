@@ -6,15 +6,15 @@ EAPI=5
 
 inherit eutils autotools
 
-DESCRIPTION="Shadowsocks-libev is a lightweight secured scoks5 proxy for embedded devices and low end boxes. It is a port of shadowsocks created by clowwindy maintained by madeye and linusyang."
-HOMEPAGE="https://github.com/madeye/shadowsocks-libev"
+DESCRIPTION="Shadowsocks is a lightweight secured scoks5 proxy for embedded devices and low end boxes"
+HOMEPAGE="https://github.com/shadowsocks/shadowsocks-libev"
 
 MY_PV="v${PV}"
-SRC_URI="https://github.com/madeye/${PN}/archive/${MY_PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/shadowsocks/${PN}/archive/${MY_PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-3+"
 SLOT="0"
-KEYWORDS="~x86 ~amd64 x86 amd64"
+KEYWORDS="x86 amd64"
 IUSE="debug"
 
 DEPEND="dev-libs/openssl"
@@ -30,5 +30,6 @@ src_install() {
 	insinto "/etc/"
 	newins "${FILESDIR}/shadowsocks.json" shadowsocks.json
 
-	newinitd "${FILESDIR}/shadowsocks-initd" shadowsocks
+	newinitd "${FILESDIR}/ss-local-initd" ss-local
+	newinitd "${FILESDIR}/ss-server-initd" ss-server
 }
