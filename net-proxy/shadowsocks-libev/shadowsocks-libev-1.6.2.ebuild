@@ -28,7 +28,6 @@ src_install() {
 	emake DESTDIR="${D}" install || die "emake install failed"
 
 	insinto "/etc/"
-	newins "${WORKDIR}/${P}/acl/chn.acl" shadowsocks-chn.acl
 	newins "${FILESDIR}/shadowsocks.json" shadowsocks.json
 
 	newinitd "${FILESDIR}/ss-local-initd" ss-local
