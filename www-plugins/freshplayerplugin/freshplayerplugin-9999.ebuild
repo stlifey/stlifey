@@ -10,6 +10,7 @@ DESCRIPTION="Chromium Flash wrapper for Mozilla Firefox"
 HOMEPAGE="https://github.com/i-rinat/freshplayerplugin"
 SRC_URI=""
 EGIT_REPO_URI="https://github.com/i-rinat/${PN}.git"
+#EGIT_COMMIT="9ae7a650f4f57b09069b58d93c339dbd6d2202ac"
 
 LICENSE="MIT"
 SLOT="0"

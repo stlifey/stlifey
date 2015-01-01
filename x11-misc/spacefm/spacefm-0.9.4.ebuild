@@ -45,6 +45,7 @@ src_configure() {
 		--enable-inotify \
 		--disable-pixmaps \
 		--with-gtk2 # still glitches in gtk3
+	epatch_user
 }
 
 pkg_preinst() {
