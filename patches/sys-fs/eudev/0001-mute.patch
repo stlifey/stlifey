@@ -1,0 +1,24 @@
+From e636faf8e1a2c8bcbc0c56577802ac1f64a51cc0 Mon Sep 17 00:00:00 2001
+From: stlifey joe <stlifey@gmail.com>
+Date: Tue, 27 Jan 2015 14:36:31 +0800
+Subject: [PATCH] mute
+
+---
+ src/udev/udev-builtin-usb_id.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/src/udev/udev-builtin-usb_id.c b/src/udev/udev-builtin-usb_id.c
+index 06d4191..e18c15f 100644
+--- a/src/udev/udev-builtin-usb_id.c
++++ b/src/udev/udev-builtin-usb_id.c
+@@ -169,7 +169,6 @@ static int dev_if_packed_info(struct udev_device *dev, char *ifs_str, size_t len
+ 
+         fd = open(filename, O_RDONLY|O_CLOEXEC);
+         if (fd < 0) {
+-                fprintf(stderr, "error opening USB device 'descriptors' file\n");
+                 return -errno;
+         }
+ 
+-- 
+2.2.2
+

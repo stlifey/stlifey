@@ -1,6 +1,6 @@
-From 4de7d5d38296f8dc3be09564a0c4609ffebf424b Mon Sep 17 00:00:00 2001
+From 9d6bc03426d14cca6ea2234293b53fc6f02c8d8e Mon Sep 17 00:00:00 2001
 From: stlifey joe <stlifey@gmail.com>
-Date: Tue, 28 Oct 2014 00:27:08 +0800
+Date: Thu, 1 Jan 2015 22:56:21 +0800
 Subject: [PATCH] remove icon
 
 ---
@@ -8,7 +8,7 @@ Subject: [PATCH] remove icon
  1 file changed, 52 deletions(-)
 
 diff --git a/video/out/x11_common.c b/video/out/x11_common.c
-index 04f475e..3c5faa2 100644
+index 9823570..cfcfe66 100644
 --- a/video/out/x11_common.c
 +++ b/video/out/x11_common.c
 @@ -112,10 +112,6 @@ typedef struct
@@ -22,7 +22,7 @@ index 04f475e..3c5faa2 100644
  static struct mp_log *x11_error_output;
  
  static void vo_x11_update_geometry(struct vo *vo);
-@@ -1072,9 +1068,7 @@ static void vo_x11_update_window_title(struct vo *vo)
+@@ -1083,9 +1079,7 @@ static void vo_x11_update_window_title(struct vo *vo)
  
      const char *title = vo_get_window_title(vo);
      vo_x11_set_property_string(vo, XA_WM_NAME, title);
@@ -32,7 +32,7 @@ index 04f475e..3c5faa2 100644
  }
  
  #if HAVE_ZLIB
-@@ -1127,51 +1121,6 @@ static bstr decompress_gz(bstr in)
+@@ -1138,51 +1132,6 @@ static bstr decompress_gz(bstr in)
  }
  #endif
  
@@ -84,14 +84,14 @@ index 04f475e..3c5faa2 100644
  static void vo_x11_create_window(struct vo *vo, XVisualInfo *vis,
                                   struct mp_rect rc)
  {
-@@ -1223,7 +1172,6 @@ static void vo_x11_create_window(struct vo *vo, XVisualInfo *vis,
+@@ -1233,7 +1182,6 @@ static void vo_x11_create_window(struct vo *vo, XVisualInfo *vis,
      }
  
-     if (vo->opts->WinID < 0) {
+     if (!x11->parent) {
 -        vo_x11_set_wm_icon(x11);
          vo_x11_update_window_title(vo);
          vo_x11_dnd_init_window(vo);
      }
 -- 
-2.1.2
+2.2.1
 
