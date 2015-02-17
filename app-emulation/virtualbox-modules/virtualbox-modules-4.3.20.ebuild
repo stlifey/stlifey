@@ -43,9 +43,6 @@ src_prepare() {
 	if use pax_kernel && kernel_is -ge 3 0 0 ; then
 		epatch "${FILESDIR}"/${PN}-4.1.4-pax-const.patch
 	fi
-	if kernel_is -ge 3 17 ; then
-		epatch "${FILESDIR}"/${PN}-3.17.patch
-	fi
 }
 
 src_install() {

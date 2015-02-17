@@ -196,11 +196,11 @@ src_unpack() {
 	kernel-2_src_unpack
 
 	local patch
-	for patch in additional ck reiser4 thinkpad tuxonice ; do
+	for patch in additional ck thinkpad tuxonice ; do
 	if enable ${patch}; then
-		EPATCH_SOURCE="${FILESDIR}/${PV}/${patch}" EPATCH_FORCE="yes"  \
+		EPATCH_SOURCE="${FILESDIR}/${KMV}/${patch}" EPATCH_FORCE="yes"  \
 		EPATCH_SUFFIX="diff" epatch
-		EPATCH_SOURCE="${FILESDIR}/${PV}/${patch}" EPATCH_FORCE="yes"  \
+		EPATCH_SOURCE="${FILESDIR}/${KMV}/${patch}" EPATCH_FORCE="yes"  \
 		EPATCH_SUFFIX="patch" epatch
 	fi
 	done

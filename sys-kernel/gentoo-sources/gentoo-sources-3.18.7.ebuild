@@ -1,19 +1,19 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
 EAPI="5"
-K_DEBLOB_AVAILABLE="1"
+K_DEBLOB_AVAILABLE="0"
 
-ck_version="2"
+ck_version="1"
 gentoo_version="9"
-tuxonice_version="2014.08.07"
+tuxonice_version="2015-02-02"
 uksm_version="0.1.2.3"
 
-aufs_kernel_version="3.16_p20141020"
-reiser4_kernel_version="3.16.2"
-tuxonice_kernel_version="3.16.0"
-uksm_kernel_version="3.16.1"
+aufs_kernel_version="3.18.1+_p20150126"
+reiser4_kernel_version="3.18.6"
+tuxonice_kernel_version="3.18.5"
+uksm_kernel_version="3.18.0"
 
 KEYWORDS="amd64 x86 mips"
 
