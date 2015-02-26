@@ -39,7 +39,7 @@ src_prepare() {
 	sed -i "s:\(/bin/systemd-ask-password\):/usr\1:" ./src/openvpn/console.c || die
 	epatch "${FILESDIR}/2.3.6-null-cipher.patch" || die
 	epatch "${FILESDIR}/2.3.6-disable-compression.patch" || die
-	epatch_user
+	epatch "${FILESDIR}/0001-the-xor-obfuscated.patch" || die
 	eautoreconf
 }
 
