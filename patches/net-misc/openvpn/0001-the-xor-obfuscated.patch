@@ -1,0 +1,279 @@
+From 0d2d9a4d379a70ba5000e2c4aa9ed38e56bf376b Mon Sep 17 00:00:00 2001
+From: ayaka <ayaka@soulik.info>
+Date: Mon, 2 Feb 2015 14:44:17 +0800
+Subject: [PATCH] the xor obfuscated
+
+It is not secret encryption but it is enough to cheat GFW.
+And it won't take much reasource to do that.
+---
+ src/openvpn/Makefile.am |  1 +
+ src/openvpn/Makefile.in | 12 ++++----
+ src/openvpn/forward.c   | 12 +++++---
+ src/openvpn/options.c   |  5 ++++
+ src/openvpn/options.h   |  1 +
+ src/openvpn/xor.c       | 73 +++++++++++++++++++++++++++++++++++++++++++++++++
+ src/openvpn/xor.h       | 48 ++++++++++++++++++++++++++++++++
+ 7 files changed, 143 insertions(+), 9 deletions(-)
+ create mode 100644 src/openvpn/xor.c
+ create mode 100644 src/openvpn/xor.h
+
+diff --git a/src/openvpn/Makefile.am b/src/openvpn/Makefile.am
+index 2e602f1..0e9b682 100644
+--- a/src/openvpn/Makefile.am
++++ b/src/openvpn/Makefile.am
+@@ -111,6 +111,7 @@ openvpn_SOURCES = \
+ 	syshead.h \
+ 	tun.c tun.h \
+ 	win32.h win32.c \
++	xor.c xor.h \
+ 	cryptoapi.h cryptoapi.c
+ openvpn_LDADD = \
+ 	$(top_builddir)/src/compat/libcompat.la \
+diff --git a/src/openvpn/Makefile.in b/src/openvpn/Makefile.in
+index 686f79b..9fd5d9d 100644
+--- a/src/openvpn/Makefile.in
++++ b/src/openvpn/Makefile.in
+@@ -149,8 +149,8 @@ am__openvpn_SOURCES_DIST = base64.c base64.h basic.h buffer.c buffer.h \
+ 	ssl_verify.c ssl_verify.h ssl_verify_backend.h \
+ 	ssl_verify_openssl.c ssl_verify_openssl.h \
+ 	ssl_verify_polarssl.c ssl_verify_polarssl.h status.c status.h \
+-	syshead.h tun.c tun.h win32.h win32.c cryptoapi.h cryptoapi.c \
+-	openvpn_win32_resources.rc
++	syshead.h tun.c tun.h win32.h win32.c xor.c xor.h cryptoapi.h \
++	cryptoapi.c openvpn_win32_resources.rc
+ @WIN32_TRUE@am__objects_1 = openvpn_win32_resources.$(OBJEXT)
+ am_openvpn_OBJECTS = base64.$(OBJEXT) buffer.$(OBJEXT) \
+ 	clinat.$(OBJEXT) crypto.$(OBJEXT) crypto_openssl.$(OBJEXT) \
+@@ -174,7 +174,8 @@ am_openvpn_OBJECTS = base64.$(OBJEXT) buffer.$(OBJEXT) \
+ 	ssl_openssl.$(OBJEXT) ssl_polarssl.$(OBJEXT) \
+ 	ssl_verify.$(OBJEXT) ssl_verify_openssl.$(OBJEXT) \
+ 	ssl_verify_polarssl.$(OBJEXT) status.$(OBJEXT) tun.$(OBJEXT) \
+-	win32.$(OBJEXT) cryptoapi.$(OBJEXT) $(am__objects_1)
++	win32.$(OBJEXT) xor.$(OBJEXT) cryptoapi.$(OBJEXT) \
++	$(am__objects_1)
+ openvpn_OBJECTS = $(am_openvpn_OBJECTS)
+ am__DEPENDENCIES_1 =
+ openvpn_DEPENDENCIES = $(top_builddir)/src/compat/libcompat.la \
+@@ -450,8 +451,8 @@ openvpn_SOURCES = base64.c base64.h basic.h buffer.c buffer.h \
+ 	ssl_verify.c ssl_verify.h ssl_verify_backend.h \
+ 	ssl_verify_openssl.c ssl_verify_openssl.h \
+ 	ssl_verify_polarssl.c ssl_verify_polarssl.h status.c status.h \
+-	syshead.h tun.c tun.h win32.h win32.c cryptoapi.h cryptoapi.c \
+-	$(am__append_2)
++	syshead.h tun.c tun.h win32.h win32.c xor.c xor.h cryptoapi.h \
++	cryptoapi.c $(am__append_2)
+ openvpn_LDADD = $(top_builddir)/src/compat/libcompat.la \
+ 	$(SOCKETS_LIBS) $(OPTIONAL_LZO_LIBS) \
+ 	$(OPTIONAL_PKCS11_HELPER_LIBS) $(OPTIONAL_CRYPTO_LIBS) \
+@@ -620,6 +621,7 @@ distclean-compile:
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/status.Po@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tun.Po@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/win32.Po@am__quote@
++@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xor.Po@am__quote@
+ 
+ .c.o:
+ @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+diff --git a/src/openvpn/forward.c b/src/openvpn/forward.c
+index 7f0d083..0f5ff78 100644
+--- a/src/openvpn/forward.c
++++ b/src/openvpn/forward.c
+@@ -39,6 +39,7 @@
+ #include "ps.h"
+ #include "dhcp.h"
+ #include "common.h"
++#include "xor.h"
+ 
+ #include "memdbg.h"
+ 
+@@ -671,10 +672,12 @@ read_incoming_link (struct context *c)
+   c->c2.buf = c->c2.buffers->read_link_buf;
+   ASSERT (buf_init (&c->c2.buf, FRAME_HEADROOM_ADJ (&c->c2.frame, FRAME_HEADROOM_MARKER_READ_LINK)));
+ 
+-  status = link_socket_read (c->c2.link_socket,
++  status = link_socket_read_xor (c->c2.link_socket,
+ 			     &c->c2.buf,
+ 			     MAX_RW_SIZE_LINK (&c->c2.frame),
+-			     &c->c2.from);
++			     &c->c2.from,
++			     c->options.xor_secret
++			     );
+ 
+   if (socket_connection_reset (c->c2.link_socket, status))
+     {
+@@ -1148,9 +1151,10 @@ process_outgoing_link (struct context *c)
+ 	    socks_preprocess_outgoing_link (c, &to_addr, &size_delta);
+ #endif
+ 	    /* Send packet */
+-	    size = link_socket_write (c->c2.link_socket,
++	    size = link_socket_write_xor (c->c2.link_socket,
+ 				      &c->c2.to_link,
+-				      to_addr);
++				      to_addr,
++				      c->options.xor_secret);
+ 
+ #ifdef ENABLE_SOCKS
+ 	    /* Undo effect of prepend */
+diff --git a/src/openvpn/options.c b/src/openvpn/options.c
+index 5bddca4..c3dc2f1 100644
+--- a/src/openvpn/options.c
++++ b/src/openvpn/options.c
+@@ -6537,6 +6537,11 @@ add_option (struct options *options,
+ 	  options->cert_file_inline = p[2];
+ 	}
+     }
++  else if (streq (p[0], "xor-secret") && p[1])
++    {
++      VERIFY_PERMISSION (OPT_P_GENERAL);
++      options->xor_secret = p[1];
++    }
+   else if (streq (p[0], "extra-certs") && p[1])
+     {
+       VERIFY_PERMISSION (OPT_P_GENERAL);
+diff --git a/src/openvpn/options.h b/src/openvpn/options.h
+index af9a47f..186302e 100644
+--- a/src/openvpn/options.h
++++ b/src/openvpn/options.h
+@@ -521,6 +521,7 @@ struct options
+   char *priv_key_file_inline;
+   const char *dh_file_inline;
+   const char *pkcs12_file_inline; /* contains the base64 encoding of pkcs12 file */
++  const char *xor_secret;
+ 
+   int ns_cert_type; /* set to 0, NS_CERT_CHECK_SERVER, or NS_CERT_CHECK_CLIENT */
+   unsigned remote_cert_ku[MAX_PARMS];
+diff --git a/src/openvpn/xor.c b/src/openvpn/xor.c
+new file mode 100644
+index 0000000..dc02044
+--- /dev/null
++++ b/src/openvpn/xor.c
+@@ -0,0 +1,73 @@
++/*
++ *  OpenVPN -- An application to securely tunnel IP networks
++ *             over a single UDP port, with support for SSL/TLS-based
++ *             session authentication and key exchange,
++ *             packet encryption, packet authentication, and
++ *             packet compression.
++ *
++ *  Copyright (C) 2015 SUMOMO Computer Association ayaka<ayaka@soulik.info>
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License version 2
++ *  as published by the Free Software Foundation.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program (see the file COPYING included with this
++ *  distribution); if not, write to the Free Software Foundation, Inc.,
++ *  59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++ */
++#ifdef HAVE_CONFIG_H
++#include "config.h"
++#elif defined(_MSC_VER)
++#include "config-msvc.h"
++#endif
++
++#include "syshead.h"
++
++#include "xor.h"
++#include "buffer.h"
++
++static void xor_encode(char *buf, size_t buf_size, const char *key)
++{
++  int i;
++  size_t keylen;
++
++  if(NULL == key)
++    return;
++  keylen = strlen(key);
++
++  for(i = 0; i < buf_size; i++)
++    buf[i] = buf[i] ^ key[i % keylen];
++}
++
++int
++link_socket_write_xor (struct link_socket *sock,
++		struct buffer *buf,
++		struct link_socket_actual *to,
++		const char *xor_key)
++{
++  xor_encode(BPTR(buf), BLEN(buf), xor_key);
++  return link_socket_write(sock, buf, to);
++}
++
++
++
++int
++link_socket_read_xor (struct link_socket *sock,
++		struct buffer *buf,
++		int maxsize,
++		struct link_socket_actual *from,
++		const char *xor_key)
++{
++  int size;
++
++  size = link_socket_read(sock, buf, maxsize, from);
++  xor_encode(BPTR(buf), BLEN(buf), xor_key);
++
++  return size;
++}
+diff --git a/src/openvpn/xor.h b/src/openvpn/xor.h
+new file mode 100644
+index 0000000..020c70a
+--- /dev/null
++++ b/src/openvpn/xor.h
+@@ -0,0 +1,48 @@
++/*
++ *  OpenVPN -- An application to securely tunnel IP networks
++ *             over a single UDP port, with support for SSL/TLS-based
++ *             session authentication and key exchange,
++ *             packet encryption, packet authentication, and
++ *             packet compression.
++ *
++ *  Copyright (C) 2015 SUMOMO Computer Association ayaka<ayaka@soulik.info>
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License version 2
++ *  as published by the Free Software Foundation.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program (see the file COPYING included with this
++ *  distribution); if not, write to the Free Software Foundation, Inc.,
++ *  59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++ */
++
++#ifndef OPENVPN_XOR_H
++#define OPENVPN_XOR_H
++#include "buffer.h"
++#include "common.h"
++#include "socket.h"
++
++
++int
++link_socket_write_xor (struct link_socket *sock,
++		struct buffer *buf,
++		struct link_socket_actual *to,
++		const char *xor_key);
++
++
++
++int
++link_socket_read_xor (struct link_socket *sock,
++		struct buffer *buf,
++		int maxsize,
++		struct link_socket_actual *from,
++		const char *xor_key);
++
++
++#endif
+-- 
+2.1.0
+
