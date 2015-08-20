@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI=5
 
@@ -9,13 +9,17 @@ inherit eutils git-2
 DESCRIPTION="A fast, safe VPN based on libsodium"
 HOMEPAGE="http://shadowvpn.org/"
 
-EGIT_REPO_URI="git://github.com/clowwindy/shadowvpn.git"
+EGIT_REPO_URI="https://github.com/Pentiumluyu/shadowvpn.git"
 
 LICENSE="GPL-3+"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-DEPEND="dev-libs/libsodium"
+DEPEND="
+	dev-libs/libsodium
+	net-libs/libnetfilter_queue
+"
+
 RDEPEND="${DEPEND}"
 
 src_prepare() {

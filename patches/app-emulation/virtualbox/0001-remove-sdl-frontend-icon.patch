@@ -1,0 +1,82 @@
+From 5b68f4ad5715c4498f28ece8a45e8ac1a00a5766 Mon Sep 17 00:00:00 2001
+From: stlifey joe <stlifey@gmail.com>
+Date: Sun, 24 May 2015 17:54:52 +0800
+Subject: [PATCH] remove sdl frontend icon
+
+---
+ src/VBox/Frontends/VBoxSDL/Framebuffer.cpp | 17 -----------------
+ src/VBox/Frontends/VBoxSDL/Makefile.kmk    | 16 ----------------
+ 2 files changed, 33 deletions(-)
+
+diff --git a/src/VBox/Frontends/VBoxSDL/Framebuffer.cpp b/src/VBox/Frontends/VBoxSDL/Framebuffer.cpp
+index d0a6ee7..14e5e97 100644
+--- a/src/VBox/Frontends/VBoxSDL/Framebuffer.cpp
++++ b/src/VBox/Frontends/VBoxSDL/Framebuffer.cpp
+@@ -41,7 +41,6 @@ using namespace com;
+ 
+ #include "VBoxSDL.h"
+ #include "Framebuffer.h"
+-#include "Ico64x01.h"
+ 
+ #if defined(RT_OS_WINDOWS) || defined(RT_OS_LINUX)
+ #include <SDL_syswm.h>           /* for SDL_GetWMInfo() */
+@@ -240,17 +239,6 @@ bool VBoxSDLFB::init(bool fShowSDLConfig)
+                          RTEnvGet("SDL_VIDEODRIVER"));
+     }
+ 
+-    if (12320 == g_cbIco64x01)
+-    {
+-        gWMIcon = SDL_AllocSurface(SDL_SWSURFACE, 64, 64, 24, 0xff, 0xff00, 0xff0000, 0);
+-        /** @todo make it as simple as possible. No PNM interpreter here... */
+-        if (gWMIcon)
+-        {
+-            memcpy(gWMIcon->pixels, g_abIco64x01+32, g_cbIco64x01-32);
+-            SDL_WM_SetIcon(gWMIcon, NULL);
+-        }
+-    }
+-
+     return true;
+ }
+ 
+@@ -265,11 +253,6 @@ void VBoxSDLFB::uninit()
+     {
+         AssertMsg(gSdlNativeThread == RTThreadNativeSelf(), ("Wrong thread! SDL is not threadsafe!\n"));
+         SDL_QuitSubSystem(SDL_INIT_VIDEO);
+-        if (gWMIcon)
+-        {
+-            SDL_FreeSurface(gWMIcon);
+-            gWMIcon = NULL;
+-        }
+     }
+ }
+ 
+diff --git a/src/VBox/Frontends/VBoxSDL/Makefile.kmk b/src/VBox/Frontends/VBoxSDL/Makefile.kmk
+index cd083e9..a0c23a5 100644
+--- a/src/VBox/Frontends/VBoxSDL/Makefile.kmk
++++ b/src/VBox/Frontends/VBoxSDL/Makefile.kmk
+@@ -93,22 +93,6 @@ endif
+ VBoxSDL_LDFLAGS.darwin = \
+ 	-framework Foundation -framework AppKit
+ 
+-VBoxSDL_CLEAN = $(VBoxSDL_0_OUTDIR)/Ico64x01.h
+-VBoxSDL_INTERMEDIATES = $(VBoxSDL_0_OUTDIR)/Ico64x01.h
+-
+-
+-# Convert the pnm-file to a byte array.
+-$$(VBoxSDL_0_OUTDIR)/Ico64x01.h: $(PATH_ROOT)/src/VBox/Frontends/VBoxSDL/ico64x01.pnm $(VBOX_BIN2C) | $$(dir $$@)
+-	$(call MSG_TOOL,bin2c,VBoxSDL,$<,$@)
+-	$(QUIET)$(VBOX_BIN2C) Ico64x01 $< $@
+-
+-ifdef VBOX_WITH_HARDENING
+-$(call VBOX_SET_VER_INFO_DLL,VBoxSDL,VirtualBox Pure SDL Frontend,$(VBOX_WINDOWS_ICON_FILE)) # Version info / description.
+-else
+-$(call VBOX_SET_VER_INFO_EXE,VBoxSDL,VirtualBox Pure SDL Frontend,$(VBOX_WINDOWS_ICON_FILE)) # Version info / description.
+-endif
+-
+-
+ #
+ # tstSDL
+ #
+-- 
+2.4.1
+

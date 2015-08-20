@@ -7,6 +7,7 @@
 #
 #	additional	- misc kernel patch
 #	aufs		- advanced multi layered unification filesystem
+#	cjktty		- cjk font support for tty
 #	ck		- con kolivas's high performance patchset
 #	gentoo		- gentoo linux kernel patches called genpatches
 #	reiser4		- reiser4 filesystem support
@@ -30,11 +31,12 @@ else
 fi
 
 ETYPE="sources"
-inherit kernel-2
+inherit kernel-2 versionator
 
 K_SECURITY_UNSUPPORTED="1"
 
 KMV="$(get_version_component_range 1-2)"
+KMMV="$(get_version_component_range 1)"
 KMSV="$(get_version_component_range 1).0"
 
 SLOT="${KMV}"
@@ -69,18 +71,37 @@ USE_ENABLE() {
 				"
 				if [ "${OVERRIDE_AUFS_PATCHES}" = 1 ]; then
 					AUFS_PATCHES="
-						${FILESDIR}/${PV}/aufs/aufs3-kbuild.patch
-						${FILESDIR}/${PV}/aufs/aufs3-base.patch
-						${FILESDIR}/${PV}/aufs/aufs3-mmap.patch
-						${FILESDIR}/${PV}/aufs/aufs3-standalone.patch
+						${FILESDIR}/${KMV}/aufs/aufs${KMMV}-kbuild.patch
+						${FILESDIR}/${KMV}/aufs/aufs${KMMV}-base.patch
+						${FILESDIR}/${KMV}/aufs/aufs${KMMV}-mmap.patch
+						${FILESDIR}/${KMV}/aufs/aufs${KMMV}-standalone.patch
 					"
 				else
 					AUFS_PATCHES="
-						${WORKDIR}/aufs3-kbuild.patch
-						${WORKDIR}/aufs3-base.patch
-						${WORKDIR}/aufs3-mmap.patch
-						${WORKDIR}/aufs3-standalone.patch
+						${WORKDIR}/aufs${KMMV}-kbuild.patch
+						${WORKDIR}/aufs${KMMV}-base.patch
+						${WORKDIR}/aufs${KMMV}-mmap.patch
+						${WORKDIR}/aufs${KMMV}-standalone.patch
 					"
+				fi
+			;;
+
+		cjktty)		cjktty_url="http://sourceforge.net/projects/cjktty"
+				CJKKMV="$(get_version_component_range 1-2 $cjktty_kernel_version)"
+				if [[ "${cjktty_kernel_version/$CJKKMV./}" = "0" ]]
+					then cjktty_patch="${CJKKMV}-utf8.diff"
+					else cjktty_patch="${cjktty_kernel_version}-utf8.diff"
+				fi
+				cjktty_src="https://github.com/gentoo-zh/linux-cjktty/compare/${cjktty_patch}"
+				HOMEPAGE="${HOMEPAGE} ${cjktty_url}"
+				if [ "${OVERRIDE_CJKTTY_PATCHES}" = 1 ]; then
+					CJKTTY_PATCHES="${FILESDIR}/${KMV}/${cjktty_patch}:1"
+				else
+					SRC_URI="
+						${SRC_URI}
+						cjktty?	( ${cjktty_src} )
+					"
+					CJKTTY_PATCHES="${DISTDIR}/${cjktty_patch}:1"
 				fi
 			;;
 
@@ -89,7 +110,7 @@ USE_ENABLE() {
 				ck_src="${ck_url}/${KMSV}/${KMV}/${KMV}-ck${ck_version}/${ck_patch}"
 				HOMEPAGE="${HOMEPAGE} ${ck_url}"
 				if [ "${OVERRIDE_CK_PATCHES}" = 1 ]; then
-					CK_PATCHES="${FILESDIR}/${PV}/${ck_patch}"
+					CK_PATCHES="${FILESDIR}/${KMV}/${ck_patch}"
 				else
 					SRC_URI="
 						${SRC_URI}
@@ -101,11 +122,11 @@ USE_ENABLE() {
 
 
 		reiser4) 	reiser4_url="http://sourceforge.net/projects/reiser4"
-				reiser4_patch="reiser4-for-${reiser4_kernel_version/.0/}.patch.gz"
-				reiser4_src="${reiser4_url}/files/reiser4-for-linux-3.x/${reiser4_patch}"
+				reiser4_patch="reiser4-for-${reiser4_kernel_version%.0}.patch.gz"
+				reiser4_src="${reiser4_url}/files/reiser4-for-linux-${KMMV}.x/${reiser4_patch}"
 				HOMEPAGE="${HOMEPAGE} ${reiser4_url}"
 				if [ "${OVERRIDE_REISER4_PATCHES}" = 1 ]; then
-					REISER4_PATCHES="${FILESDIR}/${PV}/${reiser4_patch}:1"
+					REISER4_PATCHES="${FILESDIR}/${KMV}/${reiser4_patch}:1"
 				else
 					SRC_URI="
 						${SRC_URI}
@@ -116,7 +137,7 @@ USE_ENABLE() {
 			;;
 
 		tuxonice)	tuxonice_url="http://tuxonice.net"
-				ICEKMV=${tuxonice_kernel_version:0:4}
+				ICEKMV="$(get_version_component_range 1-2 $tuxonice_kernel_version)"
 				if [[ "${tuxonice_kernel_version/$ICEKMV./}" = "0" ]]
 					then tuxonice_patch="tuxonice-for-linux-head-${tuxonice_kernel_version}-${tuxonice_version//./-}.patch.bz2"
 					else tuxonice_patch="tuxonice-for-linux-${tuxonice_kernel_version}-${tuxonice_version//./-}.patch.bz2"
@@ -128,7 +149,7 @@ USE_ENABLE() {
 					tuxonice?	( >=sys-apps/tuxonice-userui-1.0 ( || ( >=sys-power/hibernate-script-2.0 sys-power/pm-utils ) ) )
 				"
 				if [ "${OVERRIDE_TUXONICE_PATCHES}" = 1 ]; then
-					TUXONICE_PATCHES="${FILESDIR}/${PV}/${tuxonice_patch}:1"
+					TUXONICE_PATCHES="${FILESDIR}/${KMV}/${tuxonice_patch}:1"
 				else
 					SRC_URI="
 						${SRC_URI}
@@ -140,14 +161,22 @@ USE_ENABLE() {
 
 		uksm)		uksm_url="http://kerneldedup.org"
 				UKSMKMV=${uksm_kernel_version:0:4}
+				UKSMKMV="$(get_version_component_range 1-2 $uksm_kernel_version)"
 				if [[ "${uksm_kernel_version/$UKSMKMV./}" = "0" ]]
-					then uksm_patch="uksm-${uksm_version}-for-v${UKSMKMV}.patch"
+					then
+						if [[ $uksm_version == *beta* ]]
+							then uksm_patch="uksm-${uksm_version}-for-linux-v${UKSMKMV}.patch"
+							else uksm_patch="uksm-${uksm_version}-for-v${UKSMKMV}.patch"
+						fi
 					else uksm_patch="uksm-${uksm_version}-for-v${UKSMKMV}.ge.${uksm_kernel_version/$UKSMKMV./}.patch"
 				fi
-				uksm_src="${uksm_url}/download/uksm/${uksm_version}/${uksm_patch}"
+				if [[ $uksm_version == *beta* ]]
+					then uksm_src="${uksm_url}/download/uksm/beta/${uksm_patch}"
+					else uksm_src="${uksm_url}/download/uksm/${uksm_version}/${uksm_patch}"
+				fi
 				HOMEPAGE="${HOMEPAGE} ${uksm_url}"
 				if [ "${OVERRIDE_UKSM_PATCHES}" = 1 ]; then
-					UKSM_PATCHES="${FILESDIR}/${PV}/${uksm_patch}:1"
+					UKSM_PATCHES="${FILESDIR}/${KMV}/${uksm_patch}:1"
 				else
 					SRC_URI="
 						${SRC_URI}
@@ -170,6 +199,7 @@ PATCH_APPEND() {
 
 	case ${PATCH} in
 		aufs)		use aufs && UNIPATCH_LIST="${UNIPATCH_LIST} ${AUFS_PATCHES}" ;;
+		cjktty)		use cjktty && UNIPATCH_LIST="${UNIPATCH_LIST} ${CJKTTY_PATCHES}" ;;
 		ck)		use ck && UNIPATCH_LIST="${UNIPATCH_LIST} ${CK_PATCHES}" ;;
 		reiser4)	use reiser4 && UNIPATCH_LIST="${UNIPATCH_LIST} ${REISER4_PATCHES}" ;;
 		tuxonice)	use tuxonice && UNIPATCH_LIST="${UNIPATCH_LIST} ${TUXONICE_PATCHES}" ;;
@@ -182,6 +212,8 @@ for I in ${SUPPORTED_USE}; do
 done
 
 features gentoo && REQUIRED_USE=" experimental? ( gentoo ) "
+
+enable cjktty && UNIPATCH_EXCLUDE="${UNIPATCH_EXCLUDE} *fbcondecor*"
 
 SRC_URI="
 	${SRC_URI}

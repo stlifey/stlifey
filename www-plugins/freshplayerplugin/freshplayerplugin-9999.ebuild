@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI="5"
 
@@ -10,7 +10,8 @@ DESCRIPTION="Chromium Flash wrapper for Mozilla Firefox"
 HOMEPAGE="https://github.com/i-rinat/freshplayerplugin"
 SRC_URI=""
 EGIT_REPO_URI="https://github.com/i-rinat/${PN}.git"
-#EGIT_COMMIT="9ae7a650f4f57b09069b58d93c339dbd6d2202ac"
+#EGIT_MASTER="master"
+#EGIT_COMMIT="d1c43279020762f4d67beb1b206d6fb9e77c2289"
 
 LICENSE="MIT"
 SLOT="0"
@@ -23,6 +24,7 @@ DEPEND="
 	dev-libs/libevent[threads]
 	dev-libs/uriparser
 	dev-util/ragel
+	media-libs/libv4l
 	media-libs/alsa-lib
 	media-libs/freetype
 	media-libs/mesa[egl,gles2]
